@@ -7,11 +7,11 @@ module Fleakr
 
       it "should retrieve the values from the raw response data" do
         response = Response.new('user' => {'nsid' => '69'})
-        response.values.should == {'nsid' => '69'}
+        response.values_for(:user).should == {'nsid' => '69'}
       end
 
       it "should know if there are errors on the response" do
-        response = Response.new('err' => {'msg' => 'You are a moron'})
+        response = Response.new({'err' => {'msg' => 'You are a moron'}, 'person' => 'foo'})
         response.error?.should be(true)
       end
 

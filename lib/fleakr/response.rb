@@ -5,12 +5,12 @@ module Fleakr
       @response_data = response_data
     end
     
-    def values
-      @response_data[@response_data.keys.first]
+    def values_for(key)
+      @response_data[key.to_s]
     end
     
     def error?
-      @response_data.keys.first == 'err'
+      @response_data.keys.include?('err')
     end
     
   end
