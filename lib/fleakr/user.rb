@@ -1,24 +1,16 @@
 module Fleakr
   class User
     
-    attr_accessor :nsid, :username, :id
+    attr_accessor :id, :username
     
     def self.find_by_username(username)
-      request = Request.new('people.findByUsername', :username => username)
-      response = request.send
+      response = Fleakr::Request.new('people.findByUsername', :username => username).send
       
-      User.new(response.values_for(:user))
-    end
-    
-    def initialize(attributes = {})
-      self.set_attributes(attributes)
-    end
-    
-    def set_attributes(attributes)
-      attributes.each do |attribute, value|
-        method_name = "#{attribute}=".to_sym
-        self.send(method_name, value) if self.respond_to?(method_name)
-      end
+      user = User.new
+      user.id = (response.body/'rsp/user').attr('id')
+      user.username = (response.body/'rsp/user/username').inner_text
+      
+      user
     end
     
   end

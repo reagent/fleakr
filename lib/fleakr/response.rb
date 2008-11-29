@@ -1,16 +1,16 @@
 module Fleakr
   class Response
     
-    def initialize(response_data)
-      @response_data = response_data
+    def initialize(response_xml)
+      @response_xml = response_xml
     end
-    
-    def values_for(key)
-      @response_data[key.to_s]
+
+    def body
+      @body ||= Hpricot.XML(@response_xml)
     end
     
     def error?
-      @response_data.keys.include?('err')
+      (self.body/'rsp').attr('stat') != 'ok'
     end
     
   end

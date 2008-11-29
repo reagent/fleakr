@@ -18,7 +18,7 @@ spec = Gem::Specification.new do |s|
   s.files            = %w(README.markdown Rakefile) + Dir.glob("{lib,test}/**/*")
   # s.executables    = ['fleakr']
   
-  s.add_dependency('httparty', '~> 0.1.0')
+  s.add_dependency('hpricot', '~> 0.6.0')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
