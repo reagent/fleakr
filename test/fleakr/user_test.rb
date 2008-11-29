@@ -3,11 +3,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 module Fleakr
   class UserTest < Test::Unit::TestCase
 
-    def read_fixture(method_call)
-      fixture_path = File.dirname(__FILE__) + '/../fixtures'
-      Hpricot.XML(File.read("#{fixture_path}/#{method_call}.xml"))
-    end
-    
     describe "The User class" do
       
       it "should be able to find a user by his username" do
