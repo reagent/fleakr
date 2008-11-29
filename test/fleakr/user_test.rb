@@ -17,5 +17,29 @@ module Fleakr
       
     end
     
+    describe "An instance of User" do
+      
+      before do
+        @user_id = '1'
+        
+        @user = User.new
+        @user.stubs(:id).with().returns(@user_id)
+      end
+      
+      it "should retrieve the sets for this user" do
+        sets = [stub()]
+        Set.expects(:find_all_by_user_id).with(@user_id).returns(sets)
+        
+        @user.sets.should == sets
+      end
+      
+      it "should memoize the results returned for this user's sets" do
+        Set.expects(:find_all_by_user_id).once.returns([])
+        
+        2.times { @user.sets }
+      end
+      
+    end
+    
   end
 end

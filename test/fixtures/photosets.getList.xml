@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rsp stat="ok">
+<photosets>
+	<photoset videos="0" primary="3044180117" farm="4" photos="138" id="72157609490909659" server="3012" secret="01cd1a741d">
+		<title>Second Set</title>
+		<description>This is the second set.</description>
+	</photoset>
+	<photoset videos="0" primary="2988511085" farm="4" photos="139" id="72157608538140671" server="3241" secret="a7b90926ba">
+		<title>First Set</title>
+		<description>This is the first set.</description>
+	</photoset>
+</photosets>
+</rsp>

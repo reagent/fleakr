@@ -13,5 +13,9 @@ module Fleakr
       user
     end
     
+    def sets
+      @set ||= Set.find_all_by_user_id(self.id)
+    end
+    
   end
 end
