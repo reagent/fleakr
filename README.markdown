@@ -6,7 +6,7 @@ A teeny tiny gem to interface with Flickr photostreams
 
 ## Installation
 
-    sudo gem install reagent-fleakr
+    sudo gem install reagent-fleakr --source=http://gems.github.com
     
 Or ...
 
@@ -27,20 +27,18 @@ Then, set your API key (only need to do this once per session):
     
 Find a user by username:
 
-    >> user = Fleakr::User.find_by_username('mharmanlikli')
-    => #<Fleakr::User:0x1013c58 @id="23699283@N00", @username="mharmanlikli">
+    >> user = Fleakr::User.find_by_username('the decapitator')
+    => #<Fleakr::User:0x692648 @username="the decapitator", @id="21775151@N06">
 
 And that user's associated sets:
 
     >> user.sets
-    => [#<Fleakr::Set:0x1002980 @title="birdy", @description="">,
-        #<Fleakr::Set:0x100147c @title="every loneliness is a revolution", @description="">,
-        #<Fleakr::Set:0x71c500 @title="my eyes are window for children", @description="">]
-        
+    => [#<Fleakr::Set:0x671358 @title="The Decapitator", @description="">, 
+        #<Fleakr::Set:0x66d898 @title="londonpaper hijack", ...
+
 ## TODO
 
 * Refactor the attribute retrieval to something more reusable
-* Add better error handling for all API calls
 * Implement remaining bits of person, photoset, and photo-releated APIs
         
 ## License
