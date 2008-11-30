@@ -1,6 +1,7 @@
 $:.unshift(File.dirname(__FILE__))
 
 require 'uri'
+require 'cgi'
 require 'net/http'
 require 'hpricot'
 

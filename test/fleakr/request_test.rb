@@ -29,6 +29,11 @@ module Fleakr
           
           request.query_parameters.split('&').sort.should == expected
         end
+
+        it "should escape the keys and values in the parameter list" do
+          request = Request.new('flickr.people.findByUsername', :username => 'the decapitator')
+          request.query_parameters.split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
+        end
         
         it "should translate a shorthand API call" do
           request = Request.new('people.findByUsername')

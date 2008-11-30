@@ -16,7 +16,7 @@ module Fleakr
     end
     
     def query_parameters
-      @parameters.map {|key,value| "#{key}=#{value}" }.join('&')
+      @parameters.map {|key,value| "#{key}=#{CGI.escape(value)}" }.join('&')
     end
     
     def initialize(method, additional_parameters = {})
