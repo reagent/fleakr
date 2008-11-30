@@ -14,6 +14,15 @@ module Fleakr
         user.username.should == 'frootpantz'
       end
     
+      it "should be able to find a user by his email" do
+        mock_request_cycle :for => 'people.findByEmail', :with => {:find_email => 'frootpantz@example.com'}
+        
+        user = User.find_by_email('frootpantz@example.com')
+        
+        user.id.should       == '31066442@N69'
+        user.username.should == 'frootpantz'
+      end
+      
     end
 
     describe "An instance of User" do

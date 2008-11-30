@@ -11,6 +11,11 @@ module Fleakr
       User.new(response.body)
     end
     
+    def self.find_by_email(email)
+      response = Request.with_response!('people.findByEmail', :find_email => email)
+      User.new(response.body)
+    end
+    
     def sets
       @set ||= Set.find_all_by_user_id(self.id)
     end
