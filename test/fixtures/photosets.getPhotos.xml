@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+  <photoset id="72157609490909659" primary="3044180117" owner="31066442@N69" ownername="frootpantz" page="1" per_page="500" perpage="500" pages="1" total="138">
+  	<photo id="3044163577" secret="fa27e5a824" server="3153" farm="4" title="Photo #1" isprimary="0" />
+  	<photo id="3045001128" secret="a8c0e51b39" server="3204" farm="4" title="Photo #2" isprimary="0" />
+  </photoset>
+</rsp>
