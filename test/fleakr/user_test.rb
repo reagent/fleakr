@@ -21,7 +21,7 @@ module Fleakr
       before do
         @user_id = '1'
         
-        @user = User.new
+        @user = User.new(Hpricot.XML(read_fixture('people.findByUsername')))
         @user.stubs(:id).with().returns(@user_id)
       end
       

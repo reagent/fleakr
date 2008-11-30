@@ -5,12 +5,22 @@ module Fleakr
     
     def self.find_by_username(username)
       response = Request.with_response!('people.findByUsername', :username => username)
-      
-      user = User.new
-      user.id = (response.body/'rsp/user').attr('id')
-      user.username = (response.body/'rsp/user/username').inner_text
-      
-      user
+      User.new(response.body)
+    end
+    
+    # flickr_attribute :id, :from => 'user', :attribute => 'nsid'
+    # flickr_attribute :username, :from => 'user/username', :text => true
+    
+    def initialize(response_body)
+      @response_body = (response_body/'rsp')
+    end
+    
+    def id
+      (@response_body/'user').attr('id')
+    end
+    
+    def username
+      (@response_body/'user/username').inner_text
     end
     
     def sets
