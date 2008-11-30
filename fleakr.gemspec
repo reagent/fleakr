@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fleakr}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Patrick Reagan"]
   s.date = %q{2008-11-29}
   s.email = %q{reaganpr@gmail.com}
   s.extra_rdoc_files = ["README.markdown"]
-  s.files = ["README.markdown", "Rakefile", "lib/fleakr", "lib/fleakr/request.rb", "lib/fleakr/response.rb", "lib/fleakr/set.rb", "lib/fleakr/user.rb", "lib/fleakr/version.rb", "lib/fleakr.rb", "test/fixtures", "test/fixtures/people.findByUsername.xml", "test/fixtures/photosets.getList.xml", "test/fleakr", "test/fleakr/request_test.rb", "test/fleakr/response_test.rb", "test/fleakr/set_test.rb", "test/fleakr/user_test.rb", "test/test_helper.rb"]
+  s.files = ["README.markdown", "Rakefile", "lib/fleakr", "lib/fleakr/error.rb", "lib/fleakr/photo.rb", "lib/fleakr/request.rb", "lib/fleakr/response.rb", "lib/fleakr/set.rb", "lib/fleakr/user.rb", "lib/fleakr/version.rb", "lib/fleakr.rb", "test/fixtures", "test/fixtures/people.findByUsername.xml", "test/fixtures/photosets.getList.xml", "test/fixtures/photosets.getPhotos.xml", "test/fleakr", "test/fleakr/error_test.rb", "test/fleakr/photo_test.rb", "test/fleakr/request_test.rb", "test/fleakr/response_test.rb", "test/fleakr/set_test.rb", "test/fleakr/user_test.rb", "test/test_helper.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://sneaq.net}
   s.require_paths = ["lib"]
