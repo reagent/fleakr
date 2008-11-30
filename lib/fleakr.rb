@@ -5,4 +5,10 @@ require 'cgi'
 require 'net/http'
 require 'hpricot'
 
-Dir.glob(File.dirname(__FILE__) + '/**/*').each {|f| require f }
+require 'fleakr/object'
+require 'fleakr/photo'
+require 'fleakr/request'
+require 'fleakr/response'
+require 'fleakr/error'
+require 'fleakr/set'
+require 'fleakr/user'

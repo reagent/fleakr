@@ -14,10 +14,7 @@ module Fleakr
     end
     
     def error
-      if self.error?
-        node = (self.body/'rsp/err')
-        Error.new(node.attr('code'), node.attr('msg'))
-      end
+      Error.new(self.body) if self.error?
     end
     
   end

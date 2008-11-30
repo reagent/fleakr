@@ -1,12 +1,10 @@
 module Fleakr
   class Error
     
-    attr_accessor :code, :message
+    include Fleakr::Object
     
-    def initialize(code, message)
-      self.code = code
-      self.message = message
-    end
+    flickr_attribute :code, :from => 'rsp/err', :attribute => 'code'
+    flickr_attribute :message, :from => 'rsp/err', :attribute => 'msg'
     
   end
 end

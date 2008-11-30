@@ -35,7 +35,7 @@ module Fleakr
       context "when accessing its list of photos" do
         
         before do
-          @set = Set.new()
+          @set = Set.new(stub())
           @set.stubs(:id).with().returns('1')          
         end
 

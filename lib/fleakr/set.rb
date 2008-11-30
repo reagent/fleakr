@@ -1,19 +1,18 @@
 module Fleakr
   class Set
+
+    include Fleakr::Object
     
-    attr_accessor :id, :title, :description
+    flickr_attribute :id, :attribute => 'id'
+    flickr_attribute :title, :from => 'title'
+    flickr_attribute :description, :from => 'description'
     
     def self.find_all_by_user_id(user_id)
       response = Request.with_response!('photosets.getList', :user_id => user_id)
       
       (response.body/'rsp/photosets/photoset').map do |flickr_set|
-        set = Set.new
-        set.id = (flickr_set).attributes['id']
-        set.title = (flickr_set/'title').inner_text
-        set.description = (flickr_set/'description').inner_text
-        set
+        Set.new(flickr_set)
       end
-
     end
     
     def photos
