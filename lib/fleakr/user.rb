@@ -4,7 +4,7 @@ module Fleakr
     attr_accessor :id, :username
     
     def self.find_by_username(username)
-      response = Fleakr::Request.new('people.findByUsername', :username => username).send
+      response = Request.with_response!('people.findByUsername', :username => username)
       
       user = User.new
       user.id = (response.body/'rsp/user').attr('id')

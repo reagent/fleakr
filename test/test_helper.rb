@@ -16,7 +16,7 @@ class Test::Unit::TestCase
   
   def mock_request_cycle(options)
     response = stub(:body => Hpricot.XML(read_fixture(options[:for])))
-    Fleakr::Request.expects(:new).with(options[:for], options[:with]).returns(stub(:send => response))
+    Fleakr::Request.expects(:with_response!).with(options[:for], options[:with]).returns(response)
   end
   
 end

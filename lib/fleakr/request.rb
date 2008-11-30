@@ -1,12 +1,23 @@
 module Fleakr
   class Request
 
+    class ApiError < StandardError; end
+
     def self.api_key=(key)
       @api_key = key
     end
     
     def self.api_key
       @api_key
+    end
+    
+    def self.with_response!(method, additional_parameters = {})
+      request = Request.new(method, additional_parameters)
+      response = request.send
+      
+      raise(ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
+      
+      response
     end
     
     def endpoint_uri

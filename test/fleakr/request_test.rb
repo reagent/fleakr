@@ -76,6 +76,22 @@ module Fleakr
           request.send.should == response_stub
         end
         
+        it "should be able to make a full request and response cycle" do
+          response = stub(:error? => false)
+          Response.expects(:new).with(kind_of(String)).returns(response)
+          
+          Request.with_response!('flickr.people.findByUsername', :username => 'foobar').should == response
+        end
+        
+        it "should raise an exception when the full request / response cycle has errors" do
+          response = stub(:error? => true, :error => stub(:code => '1', :message => 'User not found'))
+          Response.stubs(:new).with(kind_of(String)).returns(response)
+          
+          lambda do
+            Request.with_response!('flickr.people.findByUsername', :username => 'foobar')
+          end.should raise_error(Fleakr::Request::ApiError)
+        end
+        
       end
 
     end
