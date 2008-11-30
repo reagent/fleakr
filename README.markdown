@@ -36,6 +36,16 @@ And that user's associated sets:
     => [#<Fleakr::Set:0x671358 @title="The Decapitator", @description="">, 
         #<Fleakr::Set:0x66d898 @title="londonpaper hijack", ...
 
+Or that user's groups:
+    
+    >> user.groups
+    => [#<Fleakr::Group:0x11f2330 ..., 
+        #<Fleakr::Group:0x11f2308 ...
+    >> user.groups.first.name
+    => "Rural Decay"
+    >> user.groups.first.id
+    => "14581414@N00"
+
 You can also grab photos for a particular set:
 
     >> user.sets.first
