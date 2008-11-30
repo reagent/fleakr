@@ -6,8 +6,7 @@ module Fleakr
     describe "The User class" do
       
       it "should be able to find a user by his username" do
-        response = stub(:body => read_fixture('people.findByUsername'))
-        Request.expects(:new).with('people.findByUsername', :username => 'frootpantz').returns(stub(:send => response))
+        mock_request_cycle :for => 'people.findByUsername', :with => {:username => 'frootpantz'}
         
         user = User.find_by_username('frootpantz')
         

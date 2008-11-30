@@ -3,11 +3,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 module Fleakr
   class SetTest < Test::Unit::TestCase
     
-    def mock_request_cycle(options)
-      response = stub(:body => read_fixture(options[:for]))
-      Request.expects(:new).with(options[:for], options[:with]).returns(stub(:send => response))
-    end
-    
     describe "The Set class" do
       
       context "When finding all sets for a user_id" do
