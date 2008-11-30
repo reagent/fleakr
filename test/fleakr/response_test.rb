@@ -29,6 +29,19 @@ module Fleakr
         
         response.error?.should be(true)
       end
+      
+      it "should not have an error if there are no errors in the XML" do
+        response = Response.new(read_fixture('people.findByUsername'))
+        response.error.should be(nil)
+      end
+      
+      it "should have an error if there is an error in the response" do
+        response_xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp stat=\"fail\">\n\t<err code=\"1\" msg=\"User not found\" />\n</rsp>\n"
+        response = Response.new(response_xml)
+        
+        response.error.code.should == '1'
+        response.error.message.should == 'User not found'
+      end
 
     end
 

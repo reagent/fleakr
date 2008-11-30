@@ -13,5 +13,12 @@ module Fleakr
       (self.body/'rsp').attr('stat') != 'ok'
     end
     
+    def error
+      if self.error?
+        node = (self.body/'rsp/err')
+        Error.new(node.attr('code'), node.attr('msg'))
+      end
+    end
+    
   end
 end
