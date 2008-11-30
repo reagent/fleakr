@@ -25,35 +25,46 @@ module Fleakr
 
     describe "An instance of User" do
 
-      it "should be able to assign attributes from the response" do
+      before do
         response_body = Hpricot.XML(read_fixture('people.findByUsername'))
-        user = User.new(response_body)
-        
-        user.id.should       == '31066442@N69'
-        user.username.should == 'frootpantz'
+        @user = User.new(response_body)
       end
 
-      context "when retrieving the associated sets" do
-        before do
-          @user_id = '1'
+      it "should have a value for :id" do
+        @user.id.should == '31066442@N69'
+      end
+      
+      it "should have a value for :username" do
+        @user.username.should == 'frootpantz'
+      end
+      
+      it "should be able to retrieve the user's associated sets" do
+        sets = [stub()]
+        @user.stubs(:id).with().returns('1')
 
-          @user = User.new(Hpricot.XML(read_fixture('people.findByUsername')))
-          @user.stubs(:id).with().returns(@user_id)
-        end
-
-        it "should retrieve the sets for this user" do
-          sets = [stub()]
-          Set.expects(:find_all_by_user_id).with(@user_id).returns(sets)
-
-          @user.sets.should == sets
-        end
-
-        it "should memoize the results returned for this user's sets" do
-          Set.expects(:find_all_by_user_id).once.returns([])
-
-          2.times { @user.sets }
-        end
-      end   
+        Set.expects(:find_all_by_user_id).with('1').returns(sets)
+        
+        @user.sets.should == sets
+      end
+      
+      it "should memoize the results returned for this user's sets" do
+        Set.expects(:find_all_by_user_id).once.returns([])
+        2.times { @user.sets }
+      end
+      
+      it "should be able to retrieve the user's associated groups" do
+        groups = [stub()]
+        @user.stubs(:id).with().returns('1')
+        
+        Group.expects(:find_all_by_user_id).with('1').returns(groups)
+        
+        @user.groups.should == groups
+      end
+      
+      it "should memoize the results returned for this user's group" do
+        Group.expects(:find_all_by_user_id).once.returns([])
+        2.times { @user.groups }
+      end
       
     end
 

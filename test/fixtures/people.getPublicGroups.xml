@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<groups>
+	<group nsid="13378274@N00" name="Group #1" admin="0" eighteenplus="0" />
+	<group nsid="52242140489@N01" name="Group #2" admin="0" eighteenplus="0" />
+</groups>
+</rsp>

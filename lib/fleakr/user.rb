@@ -20,5 +20,9 @@ module Fleakr
       @set ||= Set.find_all_by_user_id(self.id)
     end
     
+    def groups
+      @groups ||= Group.find_all_by_user_id(self.id)
+    end
+    
   end
 end
