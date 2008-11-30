@@ -6,21 +6,19 @@ module Fleakr
     describe "The User class" do
     
       it "should be able to find a user by his username" do
-        mock_request_cycle :for => 'people.findByUsername', :with => {:username => 'frootpantz'}
-    
-        user = User.find_by_username('frootpantz')
-    
-        user.id.should       == '31066442@N69'
-        user.username.should == 'frootpantz'
+        user = stub()
+        response = mock_request_cycle :for => 'people.findByUsername', :with => {:username => 'frootpantz'}
+        
+        User.expects(:new).with(response.body).returns(user)
+        User.find_by_username('frootpantz').should == user
       end
     
       it "should be able to find a user by his email" do
-        mock_request_cycle :for => 'people.findByEmail', :with => {:find_email => 'frootpantz@example.com'}
+        user = stub()
+        response = mock_request_cycle :for => 'people.findByEmail', :with => {:find_email => 'frootpantz@example.com'}
         
-        user = User.find_by_email('frootpantz@example.com')
-        
-        user.id.should       == '31066442@N69'
-        user.username.should == 'frootpantz'
+        User.expects(:new).with(response.body).returns(user)
+        User.find_by_email('frootpantz@example.com').should == user
       end
       
     end
