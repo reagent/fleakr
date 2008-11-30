@@ -36,6 +36,15 @@ And that user's associated sets:
     => [#<Fleakr::Set:0x671358 @title="The Decapitator", @description="">, 
         #<Fleakr::Set:0x66d898 @title="londonpaper hijack", ...
 
+You can also grab photos for a particular set:
+
+    >> user.sets.first
+    => #<Fleakr::Set:0x1195bbc @title="The Decapitator", @id="72157603480986566", @description="">
+    >> user.sets.first.photos.first
+    => #<Fleakr::Photo:0x1140108 ... >
+    >> user.sets.first.photos.first.title
+    => "Untitled1"
+
 ## TODO
 
 * Refactor the attribute retrieval to something more reusable
