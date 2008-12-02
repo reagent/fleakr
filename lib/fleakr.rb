@@ -6,6 +6,7 @@ require 'net/http'
 require 'hpricot'
 
 require 'fleakr/object'
+require 'fleakr/attribute'
 require 'fleakr/photo'
 require 'fleakr/request'
 require 'fleakr/response'
