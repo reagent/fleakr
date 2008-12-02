@@ -55,11 +55,18 @@ You can also grab photos for a particular set:
     >> user.sets.first.photos.first.title
     => "Untitled1"
 
-If you would prefer to just search photos, you can do that by tag for now:
+If you would prefer to just search photos, you can do that with search text:
 
-    >> search = Fleakr::Search.new(:tags => %w(macro))
-    => [#<Fleakr::Photo:0x118bc70 @title="Demure", @id="3076049945">, 
-        #<Fleakr::Photo:0x118b7d4 @title="Bark fly on Bay leaf", @id="3076052409">, ...
+    >> search = Fleakr::Search.new('ponies!!')
+    >> search.results
+    => [#<Fleakr::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">, 
+        #<Fleakr::Photo:0x11f4928 @title="PONYLOV", @id="3077360853">, ...
+    >> search.results.first.title
+    => "hiroshima atomic garden"
+
+You can also search based on tags:
+
+    >> search = Fleakr::Search.new(nil, :tags => 'macro')
     >> search.results.first.title
     => "Demure"
     >> search.results.first.id
