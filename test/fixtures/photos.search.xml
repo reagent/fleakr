@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<photos page="1" pages="385" perpage="100" total="38424">
+	<photo id="3076020861" owner="31987693@N05" secret="b956549c07" server="3278" farm="4" title="Mona and Lisa" ispublic="1" isfriend="0" isfamily="0" />
+	<photo id="3075386827" owner="9377349@N05" secret="4e40291b2d" server="3151" farm="4" title="IMG_0055 1.JPG" ispublic="1" isfriend="0" isfamily="0" />
+</photos>
+</rsp>
