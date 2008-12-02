@@ -57,7 +57,6 @@ You can also grab photos for a particular set:
 
 ## TODO
 
-* Refactor the attribute retrieval to something more reusable
 * Implement remaining bits of person, photoset, and photo-releated APIs
         
 ## License
