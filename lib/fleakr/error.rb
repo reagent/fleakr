@@ -3,8 +3,8 @@ module Fleakr
     
     include Fleakr::Object
     
-    flickr_attribute :code, :from => 'rsp/err', :attribute => 'code'
-    flickr_attribute :message, :from => 'rsp/err', :attribute => 'msg'
+    flickr_attribute :code, :xpath => 'rsp/err', :attribute => 'code'
+    flickr_attribute :message, :xpath => 'rsp/err', :attribute => 'msg'
     
   end
 end

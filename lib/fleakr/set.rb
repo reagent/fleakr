@@ -4,8 +4,8 @@ module Fleakr
     include Fleakr::Object
     
     flickr_attribute :id, :attribute => 'id'
-    flickr_attribute :title, :from => 'title'
-    flickr_attribute :description, :from => 'description'
+    flickr_attribute :title
+    flickr_attribute :description
     
     def self.find_all_by_user_id(user_id)
       response = Request.with_response!('photosets.getList', :user_id => user_id)

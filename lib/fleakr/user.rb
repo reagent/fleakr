@@ -3,8 +3,8 @@ module Fleakr
     
     include Fleakr::Object
     
-    flickr_attribute :id, :from => 'rsp/user', :attribute => 'nsid'
-    flickr_attribute :username, :from => 'rsp/user/username'
+    flickr_attribute :id, :xpath => 'rsp/user', :attribute => 'nsid'
+    flickr_attribute :username, :xpath => 'rsp/user/username'
     
     def self.find_by_username(username)
       response = Request.with_response!('people.findByUsername', :username => username)

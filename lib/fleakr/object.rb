@@ -2,23 +2,30 @@ module Fleakr
   module Object
     
     module ClassMethods
-      def flickr_attribute(name, options = {})
-        class_eval <<-CODE
-          def #{name}
-            if @#{name}.nil?
-              node = @response.at('#{options[:from]}')
-              @#{name} = #{options[:attribute].nil?} ? node.inner_text : node['#{options[:attribute]}']
-            end
-            @#{name}
-          end
-        CODE
+      
+      def attributes
+        @attributes ||= []
       end
+      
+      def flickr_attribute(name, options = {})
+        self.attributes << Attribute.new(name, options)
+        class_eval "attr_reader :#{name}"
+      end
+      
     end
     
     module InstanceMethods
-      def initialize(response)
-        @response = response
+      
+      def initialize(document = nil)
+        self.populate_from(document) unless document.nil?
       end
+      
+      def populate_from(document)
+        self.class.attributes.each do |attribute|
+          instance_variable_set("@#{attribute.name}".to_sym, attribute.value_from(document))
+        end
+      end
+      
     end
 
     def self.included(other)
