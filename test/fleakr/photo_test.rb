@@ -19,6 +19,10 @@ module Fleakr
         it "should have the proper title" do
           @photos.map {|p| p.title}.should == ['Photo #1', 'Photo #2']
         end
+        
+        it "should have the proper id" do
+          @photos.map {|p| p.id }.should == %w(3044163577 3045001128)
+        end
       
       end
       
