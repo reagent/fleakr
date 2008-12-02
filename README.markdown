@@ -57,13 +57,13 @@ You can also grab photos for a particular set:
 
 If you would prefer to just search photos, you can do that by tag for now:
 
-  >> search = Fleakr::Search.new(:tags => %w(macro))
-  => [#<Fleakr::Photo:0x118bc70 @title="Demure", @id="3076049945">, 
-      #<Fleakr::Photo:0x118b7d4 @title="Bark fly on Bay leaf", @id="3076052409">, ...
-  >> search.results.first.title
-  => "Demure"
-  >> search.results.first.id
-  => "3076049945"
+    >> search = Fleakr::Search.new(:tags => %w(macro))
+    => [#<Fleakr::Photo:0x118bc70 @title="Demure", @id="3076049945">, 
+        #<Fleakr::Photo:0x118b7d4 @title="Bark fly on Bay leaf", @id="3076052409">, ...
+    >> search.results.first.title
+    => "Demure"
+    >> search.results.first.id
+    => "3076049945"
 
 ## TODO
 
