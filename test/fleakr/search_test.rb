@@ -18,6 +18,19 @@ module Fleakr
         search.results.should == [photo_1, photo_2]
       end
       
+      should "memoize the search results" do
+        response = stub(:body => Hpricot.XML(read_fixture('photos.search')))
+        Request.expects(:with_response!).with(kind_of(String), kind_of(Hash)).once.returns(response)
+        
+        (response.body/'rsp/photos/photo').each do |doc|
+          Photo.expects(:new).with(doc).once
+        end
+        
+        search = Search.new(:tags => %w(foo))
+        
+        2.times { search.results }
+      end
+      
       
     end
     
