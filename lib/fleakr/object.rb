@@ -22,7 +22,8 @@ module Fleakr
       
       def populate_from(document)
         self.class.attributes.each do |attribute|
-          instance_variable_set("@#{attribute.name}".to_sym, attribute.value_from(document))
+          value = attribute.value_from(document)
+          instance_variable_set("@#{attribute.name}".to_sym, value) unless value.nil?
         end
       end
       

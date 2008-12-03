@@ -82,6 +82,12 @@ module Fleakr
         FlickrObject.new
       end
       
+      it "should not overwrite existing attributes when pulling in a partial new XML document" do
+        object = FlickrObject.new(Hpricot.XML('<name>Fleakr</name>'))
+        object.populate_from(Hpricot.XML('<desc>Awesome</desc>'))
+        
+        object.name.should == 'Fleakr'
+      end
       
     end
     
