@@ -9,10 +9,7 @@ module Fleakr
     
     def self.find_all_by_user_id(user_id)
       response = Request.with_response!('photosets.getList', :user_id => user_id)
-      
-      (response.body/'rsp/photosets/photoset').map do |flickr_set|
-        Set.new(flickr_set)
-      end
+      (response.body/'rsp/photosets/photoset').map {|s| Set.new(s) }
     end
     
     def photos
