@@ -30,13 +30,18 @@ Find a user by username:
     >> user = Fleakr::User.find_by_username('the decapitator')
     => #<Fleakr::User:0x692648 @username="the decapitator", @id="21775151@N06">
 
-And that user's associated sets:
+Or by email:
+
+    >> user = Fleakr::User.find_by_email('user@host.com')
+    => #<Fleakr::User:0x11f484c @username="bckspcr", @id="84481630@N00">
+
+Once you have a user, you can find his associated sets:
 
     >> user.sets
     => [#<Fleakr::Set:0x671358 @title="The Decapitator", @description="">, 
         #<Fleakr::Set:0x66d898 @title="londonpaper hijack", ...
 
-Or that user's groups:
+Or groups if you would like:
     
     >> user.groups
     => [#<Fleakr::Group:0x11f2330 ..., 
@@ -46,7 +51,7 @@ Or that user's groups:
     >> user.groups.first.id
     => "14581414@N00"
 
-You can also grab photos for a particular set:
+When accessing a set, you can also grab all the photos that are in that set:
 
     >> user.sets.first
     => #<Fleakr::Set:0x1195bbc @title="The Decapitator", @id="72157603480986566", @description="">
@@ -54,6 +59,21 @@ You can also grab photos for a particular set:
     => #<Fleakr::Photo:0x1140108 ... >
     >> user.sets.first.photos.first.title
     => "Untitled1"
+    
+If a photo interests you, save it down to a directory of your choosing:
+
+    >> user.sets.first.photos.first.small.save_to('/tmp')
+    => #<File:/tmp/2117922283_715587b2cb_m.jpg (closed)>
+    
+If you can't decide on a photo and would rather just save the whole set, specify the target directory 
+and the size of the images you're interested in:
+
+    >> user.sets.first.save_to('/tmp', :square)
+    => [#<Fleakr::Photo:0x1187a1c @secret="715587b2cb" ...
+    >> Dir["/tmp/#{user.sets.first.title}/*.jpg"].map
+    => ["/tmp/The Decapitator/2117919621_8b2d601bff_s.jpg", 
+        "/tmp/The Decapitator/2117921045_5fb15eff90_s.jpg", 
+        "/tmp/The Decapitator/2117922283_715587b2cb_s.jpg", ...
 
 If you would prefer to just search photos, you can do that with search text:
 
