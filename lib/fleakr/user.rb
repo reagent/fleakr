@@ -46,6 +46,10 @@ module Fleakr
     def groups
       @groups ||= Group.find_all_by_user_id(self.id)
     end
+    
+    def photos
+      @photos ||= Photo.find_all_by_user_id(self.id)
+    end
 
   end
 end
