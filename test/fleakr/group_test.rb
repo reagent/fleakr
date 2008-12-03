@@ -5,20 +5,8 @@ module Fleakr
 
     describe "The Group class" do
       
-      it "should be able to find all groups by user ID" do
-        user_id = 'ABC123'
-        group_1, group_2 = [stub(), stub()]
-
-        response = mock_request_cycle :for => 'people.getPublicGroups', :with => {:user_id => user_id}
-
-        group_1_doc, group_2_doc = (response.body/'rsp/groups/group').map {|doc| doc }
-
-        Group.expects(:new).with(group_1_doc).returns(group_1)
-        Group.expects(:new).with(group_2_doc).returns(group_2)
-
-        Group.find_all_by_user_id(user_id).should == [group_1, group_2]
-      end
-
+      should_find_all :groups, :by => :user_id, :call => 'people.getPublicGroups', :path => 'rsp/groups/group'
+      
     end
     
     describe "An instance of the Group class" do
