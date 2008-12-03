@@ -16,5 +16,12 @@ module Fleakr
       @photos ||= Photo.find_all_by_photoset_id(self.id)
     end
     
+    def save_to(path, size)
+      target = "#{path}/#{self.title}"
+      FileUtils.mkdir(target) unless File.exist?(target)
+      
+      self.photos.each {|p| p.send(size).save_to(target) }
+    end
+    
   end
 end

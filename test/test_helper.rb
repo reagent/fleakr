@@ -70,4 +70,11 @@ class Test::Unit::TestCase
     response
   end
   
+  def create_temp_directory
+    tmp_dir = File.dirname(__FILE__) + '/tmp'
+    FileUtils.mkdir(tmp_dir)  
+    
+    tmp_dir
+  end
+  
 end

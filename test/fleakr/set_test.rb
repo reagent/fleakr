@@ -23,7 +23,6 @@ module Fleakr
       end
       
       context "when accessing its list of photos" do
-        
         before do
           @set = Set.new
           @set.stubs(:id).with().returns('1')          
@@ -40,6 +39,41 @@ module Fleakr
         it "should memoize the list of photos retrieved" do
           Photo.expects(:find_all_by_photoset_id).once.returns([])
           2.times { @set.photos }
+        end
+      end
+      
+      context "when saving the set" do
+        before do
+          @tmp_dir = create_temp_directory
+        end
+        
+        after { FileUtils.rm_rf(@tmp_dir) }
+        
+        it "should save all files of the specified size to the specified directory" do
+          image = mock()
+          image.expects(:save_to).with("#{@tmp_dir}/set")
+          
+          photo = stub(:small => image)
+          
+          set = Set.new
+          set.stubs(:title).with().returns('set')
+          set.stubs(:photos).with().returns([photo])
+          
+          FileUtils.expects(:mkdir).with("#{@tmp_dir}/set")
+          
+          set.save_to(@tmp_dir, :small)
+        end
+        
+        it "should not create the directory if it already exists" do
+          FileUtils.mkdir("#{@tmp_dir}/set")
+          
+          set = Set.new
+          set.stubs(:title).with().returns('set')
+          set.stubs(:photos).with().returns([])
+          
+          FileUtils.expects(:mkdir).with("#{@tmp_dir}/set").never
+          
+          set.save_to(@tmp_dir, :small)
         end
         
       end

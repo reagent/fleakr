@@ -43,8 +43,7 @@ module Fleakr
       context "when saving the file" do
         
         before do
-          @tmp_dir = File.dirname(__FILE__) + '/../tmp'
-          FileUtils.mkdir(@tmp_dir)
+          @tmp_dir = create_temp_directory
           
           @url = 'http://host.com/image.jpg'
           @image_filename = 'image.jpg'
