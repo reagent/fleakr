@@ -49,25 +49,15 @@ module Fleakr
         @photo.stubs(:base_url).with().returns('url')
       end
 
-      it "should know the URL for the square image" do
-        @photo.square.should == 'url_s.jpg'
+      [:square, :thumbnail, :small, :medium, :large].each do |size|
+        it "should have a :#{size} image" do
+          image = stub()
+          Image.expects(:new).with('url', size).returns(image)
+          
+          @photo.send(size).should == image
+        end
       end
 
-      it "should know the URL for the thumbnail image" do
-        @photo.thumbnail.should == 'url_t.jpg'
-      end
-
-      it "should know the URL for the small image" do
-        @photo.small.should == 'url_m.jpg'
-      end
-
-      it "should know the URL for the medium image" do
-        @photo.medium.should == 'url.jpg'
-      end
-
-      it "should know the URL for the large image" do
-        @photo.large.should == 'url_b.jpg'
-      end
     end
   end
 

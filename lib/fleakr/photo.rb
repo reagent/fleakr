@@ -22,25 +22,11 @@ module Fleakr
     def base_url
       "http://farm#{self.farm_id}.static.flickr.com/#{self.server_id}/#{self.id}_#{self.secret}"
     end
-    
-    def square
-      "#{self.base_url}_s.jpg"
-    end
-    
-    def thumbnail
-      "#{self.base_url}_t.jpg"
-    end
-    
-    def small
-      "#{self.base_url}_m.jpg"
-    end
-    
-    def medium
-      "#{self.base_url}.jpg"
-    end
-    
-    def large
-      "#{self.base_url}_b.jpg"
+
+    [:square, :thumbnail, :small, :medium, :large].each do |size|
+      define_method(size) do
+        Image.new(self.base_url, size)
+      end
     end
     
   end
