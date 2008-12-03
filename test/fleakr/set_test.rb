@@ -10,6 +10,18 @@ module Fleakr
     end
 
     describe "An instance of the Set class" do
+      
+      context "when populating from an XML document" do
+        before do
+          @object = Set.new(Hpricot.XML(read_fixture('photosets.getList')).at('rsp/photosets/photoset'))
+        end
+        
+        should_have_a_value_for :id          => '72157609490909659'
+        should_have_a_value_for :title       => 'Second Set'
+        should_have_a_value_for :description => 'This is the second set.'
+        
+      end
+      
       context "when accessing its list of photos" do
         
         before do

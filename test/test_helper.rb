@@ -10,6 +10,12 @@ require File.dirname(__FILE__) + '/../lib/fleakr'
 
 class Test::Unit::TestCase
 
+  def self.should_have_a_value_for(attribute_test)
+    it "should have a value for :#{attribute_test.keys.first}" do
+      @object.send(attribute_test.keys.first).should == attribute_test.values.first
+    end
+  end
+
   def self.should_find_one(thing, options)
     class_name  = thing.to_s.singularize.camelcase
     klass       = "Fleakr::#{class_name}".constantize

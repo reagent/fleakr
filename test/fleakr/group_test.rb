@@ -13,17 +13,12 @@ module Fleakr
       context "when initializing from an Hpricot document" do
         
         before do
-          doc = (Hpricot.XML(read_fixture('people.getPublicGroups'))/'rsp/groups/group').first
-          @group = Group.new(doc)
-        end
-      
-        it "should have a value for :id" do
-          @group.id.should == '13378274@N00'
+          doc = Hpricot.XML(read_fixture('people.getPublicGroups')).at('rsp/groups/group')
+          @object = Group.new(doc)
         end
         
-        it "should have a value for :name" do
-          @group.name.should == 'Group #1'
-        end
+        should_have_a_value_for :id   => '13378274@N00'
+        should_have_a_value_for :name => 'Group #1'
         
       end
     end
