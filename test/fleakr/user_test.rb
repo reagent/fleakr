@@ -5,22 +5,9 @@ module Fleakr
 
     describe "The User class" do
     
-      it "should be able to find a user by his username" do
-        user = stub()
-        response = mock_request_cycle :for => 'people.findByUsername', :with => {:username => 'frootpantz'}
-        
-        User.expects(:new).with(response.body).returns(user)
-        User.find_by_username('frootpantz').should == user
-      end
+      should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
+      should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user'
     
-      it "should be able to find a user by his email" do
-        user = stub()
-        response = mock_request_cycle :for => 'people.findByEmail', :with => {:find_email => 'frootpantz@example.com'}
-        
-        User.expects(:new).with(response.body).returns(user)
-        User.find_by_email('frootpantz@example.com').should == user
-      end
-      
     end
 
     describe "An instance of User" do

@@ -10,6 +10,23 @@ require File.dirname(__FILE__) + '/../lib/fleakr'
 
 class Test::Unit::TestCase
 
+  def self.should_find_one(thing, options)
+    class_name  = thing.to_s.singularize.camelcase
+    klass       = "Fleakr::#{class_name}".constantize
+    object_type = class_name.downcase    
+
+    options[:with] = options[:by] if options[:with].nil?
+
+    it "should be able to find a #{thing} by #{options[:by]}" do
+      condition_value = '1'
+      stub = stub()
+      response = mock_request_cycle :for => options[:call], :with => {options[:with] => condition_value}
+
+      klass.expects(:new).with(response.body).returns(stub)
+      klass.send("find_by_#{options[:by]}".to_sym, condition_value).should == stub
+    end
+  end
+
   def self.should_find_all(thing, options)
     class_name  = thing.to_s.singularize.camelcase
     klass       = "Fleakr::#{class_name}".constantize
