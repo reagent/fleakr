@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+  <person id="31066442@N69" nsid="31066442@N69" isadmin="0" ispro="1" iconserver="30" iconfarm="1">
+  	<username>frootpantz</username>
+  	<realname />
+  	<mbox_sha1sum>e52ed1e5b91c763694995460e9796fc2adc02019</mbox_sha1sum>
+  	<location />
+  	<photosurl>http://www.flickr.com/photos/frootpantz/</photosurl>
+  	<profileurl>http://www.flickr.com/people/frootpantz/</profileurl>
+  	<mobileurl>http://m.flickr.com/photostream.gne?id=34225</mobileurl>
+  	<photos>
+  		<firstdatetaken>2006-10-11 08:19:57</firstdatetaken>
+  		<firstdate>1160612247</firstdate>
+  		<count>3907</count>
+  		<views>9002</views>
+  	</photos>
+  </person>
+</rsp>
