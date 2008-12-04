@@ -12,6 +12,9 @@ module Fleakr
     flickr_attribute :icon_farm, :xpath => 'rsp/person', :attribute => 'iconfarm'
     
     has_many :sets, :groups, :photos
+    
+    # find_one :by_username, :using => :username, :call => 'people.findByUsername'
+    # find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
 
     def self.find_by_username(username)
       response = Request.with_response!('people.findByUsername', :username => username)

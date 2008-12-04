@@ -9,8 +9,8 @@ module Fleakr
     flickr_attribute :server_id, :attribute => 'server'
     flickr_attribute :secret, :attribute => 'secret'
     
-    finder :multiple, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
-    finder :multiple, :using => :user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
+    find_multiple :by_photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
+    find_multiple :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
     
     def base_url
       "http://farm#{self.farm_id}.static.flickr.com/#{self.server_id}/#{self.id}_#{self.secret}"

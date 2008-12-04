@@ -27,11 +27,12 @@ module Fleakr
         end
       end
       
-      def finder(type, options)
-        method_name = "find_all_by_#{options[:using]}"
+      def find_multiple(condition, options)
+        attribute = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
+        
         class_eval <<-CODE
-          def self.#{method_name}(value)
-            response = Request.with_response!('#{options[:call]}', :#{options[:using]} => value)
+          def self.find_all_#{condition}(value)
+            response = Request.with_response!('#{options[:call]}', :#{attribute} => value)
             (response.body/'rsp/#{options[:path]}').map {|e| #{self.name}.new(e) }
           end
         CODE
