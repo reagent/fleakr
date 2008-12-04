@@ -11,11 +11,6 @@ module Fleakr
     flickr_attribute :icon_server, :xpath => 'rsp/person', :attribute => 'iconserver'
     flickr_attribute :icon_farm, :xpath => 'rsp/person', :attribute => 'iconfarm'
 
-    def icon_farm_with_load
-      retrieve_additional_information
-      icon_farm_without_load
-    end
-
     def self.find_by_username(username)
       response = Request.with_response!('people.findByUsername', :username => username)
       User.new(response.body)
