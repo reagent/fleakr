@@ -10,6 +10,8 @@ module Fleakr
     flickr_attribute :photos_count, :xpath => 'rsp/person/photos/count'
     flickr_attribute :icon_server, :xpath => 'rsp/person', :attribute => 'iconserver'
     flickr_attribute :icon_farm, :xpath => 'rsp/person', :attribute => 'iconfarm'
+    
+    has_many :sets, :groups, :photos
 
     def self.find_by_username(username)
       response = Request.with_response!('people.findByUsername', :username => username)
@@ -32,18 +34,6 @@ module Fleakr
       else
         'http://www.flickr.com/images/buddyicon.jpg'
       end
-    end
-
-    def sets
-      @set ||= Set.find_all_by_user_id(self.id)
-    end
-
-    def groups
-      @groups ||= Group.find_all_by_user_id(self.id)
-    end
-    
-    def photos
-      @photos ||= Photo.find_all_by_user_id(self.id)
     end
 
   end

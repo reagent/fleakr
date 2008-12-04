@@ -2,6 +2,8 @@ module Fleakr
   class Set
 
     include Fleakr::Object
+
+    has_many :photos, :using => :photoset_id
     
     flickr_attribute :id, :attribute => 'id'
     flickr_attribute :title
@@ -10,10 +12,6 @@ module Fleakr
     def self.find_all_by_user_id(user_id)
       response = Request.with_response!('photosets.getList', :user_id => user_id)
       (response.body/'rsp/photosets/photoset').map {|s| Set.new(s) }
-    end
-    
-    def photos
-      @photos ||= Photo.find_all_by_photoset_id(self.id)
     end
     
     def save_to(path, size)
