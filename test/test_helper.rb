@@ -16,6 +16,35 @@ class Test::Unit::TestCase
     end
   end
 
+  def self.should_have_many(*attributes)
+    class_name = self.name.demodulize.sub(/Test$/, '')
+    this_klass = "Fleakr::#{class_name}".constantize
+
+    options = attributes.extract_options!
+    finder_attribute = options[:using].nil? ? "#{class_name.downcase}_id" : options[:using]
+    
+    attributes.each do |attribute|
+      target_klass = "Fleakr::#{attribute.to_s.singularize.classify}".constantize
+    
+      it "should be able to retrieve the #{class_name.downcase}'s #{attribute}" do
+        results = [stub()]
+        object = this_klass.new
+        object.stubs(:id).with().returns('1')
+
+        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).with('1').returns(results)
+        object.send(attribute).should == results
+      end
+      
+      it "should memoize the results for the #{class_name.downcase}'s #{attribute}" do
+        object = this_klass.new
+        
+        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
+        2.times { object.send(attribute) }
+      end
+      
+    end
+  end
+
   def self.should_find_one(thing, options)
     class_name  = thing.to_s.singularize.camelcase
     klass       = "Fleakr::#{class_name}".constantize

@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 module Fleakr
   class UserTest < Test::Unit::TestCase
 
+    should_have_many :photos, :groups, :sets
+
     describe "The User class" do
 
       should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
@@ -28,50 +30,7 @@ module Fleakr
 
       context "in general" do
 
-        before do
-          @user = User.new
-        end
-
-        it "should be able to retrieve the user's associated sets" do
-          sets = [stub()]
-          @user.stubs(:id).with().returns('1')
-
-          Set.expects(:find_all_by_user_id).with('1').returns(sets)
-
-          @user.sets.should == sets
-        end
-
-        it "should memoize the results returned for this user's sets" do
-          Set.expects(:find_all_by_user_id).once.returns([])
-          2.times { @user.sets }
-        end
-
-        it "should be able to retrieve the user's associated groups" do
-          groups = [stub()]
-          @user.stubs(:id).with().returns('1')
-
-          Group.expects(:find_all_by_user_id).with('1').returns(groups)
-
-          @user.groups.should == groups
-        end
-
-        it "should memoize the results returned for this user's group" do
-          Group.expects(:find_all_by_user_id).once.returns([])
-          2.times { @user.groups }
-        end
-
-        it "should be able to retrieve the user's photos" do
-          photos = [stub()]
-          @user.stubs(:id).with().returns('1')
-
-          Photo.expects(:find_all_by_user_id).with('1').returns(photos)
-          @user.photos.should == photos
-        end
-
-        it "should memoize the results returned for this user's photos" do
-          Photo.expects(:find_all_by_user_id).once.returns([])
-          2.times { @user.photos }
-        end
+        before { @user = User.new }
 
         it "should be able to retrieve additional information about the current user" do
           response = mock_request_cycle :for => 'people.getInfo', :with => {:user_id => @user.id}
