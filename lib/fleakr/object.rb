@@ -27,7 +27,7 @@ module Fleakr
         end
       end
       
-      def find_multiple(condition, options)
+      def find_all(condition, options)
         attribute = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
         
         class_eval <<-CODE

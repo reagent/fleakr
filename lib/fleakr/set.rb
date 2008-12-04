@@ -9,7 +9,7 @@ module Fleakr
     flickr_attribute :title
     flickr_attribute :description
     
-    find_multiple :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
+    find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
     
     def save_to(path, size)
       target = "#{path}/#{self.title}"
