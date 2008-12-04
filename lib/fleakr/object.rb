@@ -27,6 +27,16 @@ module Fleakr
         end
       end
       
+      def finder(type, options)
+        method_name = "find_all_by_#{options[:using]}"
+        class_eval <<-CODE
+          def self.#{method_name}(value)
+            response = Request.with_response!('#{options[:call]}', :#{options[:using]} => value)
+            (response.body/'rsp/#{options[:path]}').map {|e| #{self.name}.new(e) }
+          end
+        CODE
+      end
+      
     end
     
     module InstanceMethods

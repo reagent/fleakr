@@ -9,10 +9,7 @@ module Fleakr
     flickr_attribute :title
     flickr_attribute :description
     
-    def self.find_all_by_user_id(user_id)
-      response = Request.with_response!('photosets.getList', :user_id => user_id)
-      (response.body/'rsp/photosets/photoset').map {|s| Set.new(s) }
-    end
+    finder :multiple, :call => 'photosets.getList', :using => :user_id, :path => 'photosets/photoset'
     
     def save_to(path, size)
       target = "#{path}/#{self.title}"
