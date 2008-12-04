@@ -1,8 +1,6 @@
 module Fleakr
   class Search
 
-    attr_reader :tags
-
     def initialize(text = nil, search_options = {})
       @text = text
       @search_options = search_options
