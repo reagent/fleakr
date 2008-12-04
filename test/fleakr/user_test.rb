@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 module Fleakr
   class UserTest < Test::Unit::TestCase
 
-    should_have_many :photos, :groups, :sets
+    should_have_many :photos, :groups, :sets, :contacts
 
     describe "The User class" do
 

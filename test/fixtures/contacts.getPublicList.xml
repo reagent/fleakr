@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<contacts page="1" pages="1" per_page="1000" perpage="1000" total="17">
+	<contact nsid="9302864@N42" username="blinky" iconserver="2263" iconfarm="3" ignored="0" />
+	<contact nsid="63204625@N20" username="inky" iconserver="53" iconfarm="1" ignored="0" />
+</contacts>
+</rsp>

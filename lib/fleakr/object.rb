@@ -9,7 +9,7 @@ module Fleakr
       
       def flickr_attribute(name, options = {})
         self.attributes << Attribute.new(name, options)
-        class_eval "attr_reader :#{name}"
+        class_eval "attr_accessor :#{name}"
       end
       
       def has_many(*attributes)
@@ -28,12 +28,13 @@ module Fleakr
       end
       
       def find_all(condition, options)
-        attribute = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
+        attribute    = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
+        target_class = options[:class_name].nil? ? self.name : "Fleakr::#{options[:class_name]}"
         
         class_eval <<-CODE
           def self.find_all_#{condition}(value)
             response = Request.with_response!('#{options[:call]}', :#{attribute} => value)
-            (response.body/'rsp/#{options[:path]}').map {|e| #{self.name}.new(e) }
+            (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e) }
           end
         CODE
       end
@@ -60,7 +61,7 @@ module Fleakr
       def populate_from(document)
         self.class.attributes.each do |attribute|
           value = attribute.value_from(document)
-          instance_variable_set("@#{attribute.name}".to_sym, value) unless value.nil?
+          self.send("#{attribute.name}=".to_sym, value) unless value.nil?
         end
       end
       

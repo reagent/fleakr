@@ -11,7 +11,7 @@ module Fleakr
     flickr_attribute :icon_server, :xpath => 'rsp/person', :attribute => 'iconserver'
     flickr_attribute :icon_farm, :xpath => 'rsp/person', :attribute => 'iconfarm'
     
-    has_many :sets, :groups, :photos
+    has_many :sets, :groups, :photos, :contacts
     
     find_one :by_username, :call => 'people.findByUsername'
     find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
