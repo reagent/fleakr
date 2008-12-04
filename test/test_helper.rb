@@ -4,7 +4,6 @@ require 'rubygems'
 require 'matchy'
 require 'context'
 require 'mocha'
-require 'activesupport'
 
 require File.dirname(__FILE__) + '/../lib/fleakr'
 

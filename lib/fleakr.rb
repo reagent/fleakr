@@ -4,6 +4,7 @@ require 'uri'
 require 'cgi'
 require 'net/http'
 require 'hpricot'
+require 'activesupport'
 
 require 'fleakr/object'
 require 'fleakr/attribute'
