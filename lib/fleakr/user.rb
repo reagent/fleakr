@@ -13,18 +13,8 @@ module Fleakr
     
     has_many :sets, :groups, :photos
     
-    # find_one :by_username, :using => :username, :call => 'people.findByUsername'
-    # find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
-
-    def self.find_by_username(username)
-      response = Request.with_response!('people.findByUsername', :username => username)
-      User.new(response.body)
-    end
-
-    def self.find_by_email(email)
-      response = Request.with_response!('people.findByEmail', :find_email => email)
-      User.new(response.body)
-    end
+    find_one :by_username, :call => 'people.findByUsername'
+    find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
 
     def load_info
       response = Request.with_response!('people.getInfo', :user_id => self.id)

@@ -38,6 +38,17 @@ module Fleakr
         CODE
       end
       
+      def find_one(condition, options)
+        attribute = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
+        
+        class_eval <<-CODE
+          def self.find_#{condition}(value)
+            response = Request.with_response!('#{options[:call]}', :#{attribute} => value)
+            #{self.name}.new(response.body)
+          end
+        CODE
+      end
+      
     end
     
     module InstanceMethods
