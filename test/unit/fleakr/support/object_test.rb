@@ -1,12 +1,12 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
 class EmptyObject
-  include Fleakr::Object
+  include Fleakr::Support::Object
 end
 
 class FlickrObject
   
-  include Fleakr::Object
+  include Fleakr::Support::Object
   
   flickr_attribute :name
   flickr_attribute :description, :xpath => 'desc'

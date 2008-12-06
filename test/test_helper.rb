@@ -17,14 +17,13 @@ class Test::Unit::TestCase
 
   def self.should_have_many(*attributes)
     class_name = self.name.demodulize.sub(/Test$/, '')
-    this_klass = "Fleakr::#{class_name}".constantize
+    this_klass = "Fleakr::Objects::#{class_name}".constantize
 
     options = attributes.extract_options!
     finder_attribute = options[:using].nil? ? "#{class_name.downcase}_id" : options[:using]
     
     attributes.each do |attribute|
-      target_klass = "Fleakr::#{attribute.to_s.singularize.classify}".constantize
-    
+      target_klass = "Fleakr::Objects::#{attribute.to_s.singularize.classify}".constantize
       it "should be able to retrieve the #{class_name.downcase}'s #{attribute}" do
         results = [stub()]
         object = this_klass.new
@@ -46,7 +45,7 @@ class Test::Unit::TestCase
 
   def self.should_find_one(thing, options)
     class_name  = thing.to_s.singularize.camelcase
-    klass       = "Fleakr::#{class_name}".constantize
+    klass       = "Fleakr::Objects::#{class_name}".constantize
     object_type = class_name.downcase    
 
     options[:with] = options[:by] if options[:with].nil?
@@ -63,7 +62,7 @@ class Test::Unit::TestCase
 
   def self.should_find_all(thing, options)
     class_name  = thing.to_s.singularize.camelcase
-    klass       = "Fleakr::#{class_name}".constantize
+    klass       = "Fleakr::Objects::#{class_name}".constantize
     object_type = class_name.downcase
     
     it "should be able to find all #{thing} by #{options[:by]}" do
@@ -93,7 +92,7 @@ class Test::Unit::TestCase
   
   def mock_request_cycle(options)
     response = stub(:body => Hpricot.XML(read_fixture(options[:for])))
-    Fleakr::Request.expects(:with_response!).with(options[:for], options[:with]).returns(response)
+    Fleakr::Api::Request.expects(:with_response!).with(options[:for], options[:with]).returns(response)
     
     response
   end

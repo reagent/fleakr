@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Objects
   class GroupTest < Test::Unit::TestCase
 
     describe "The Group class" do

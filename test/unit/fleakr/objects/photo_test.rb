@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Objects
   class PhotoTest < Test::Unit::TestCase
 
     describe "The Photo class" do

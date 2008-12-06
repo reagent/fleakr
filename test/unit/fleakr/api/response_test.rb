@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Api
   class ResponseTest < Test::Unit::TestCase
 
     describe "An instance of Response" do

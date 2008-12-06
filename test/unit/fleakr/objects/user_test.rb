@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Objects
   class UserTest < Test::Unit::TestCase
 
     should_have_many :photos, :groups, :sets, :contacts

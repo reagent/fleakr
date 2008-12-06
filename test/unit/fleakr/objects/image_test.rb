@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Objects
   class ImageTest < Test::Unit::TestCase
 
     def self.should_know_the_suffix_for(options)

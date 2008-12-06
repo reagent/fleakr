@@ -6,15 +6,7 @@ require 'net/http'
 require 'hpricot'
 require 'activesupport'
 
-require 'fleakr/object'
-require 'fleakr/attribute'
-require 'fleakr/photo'
-require 'fleakr/request'
-require 'fleakr/response'
-require 'fleakr/error'
-require 'fleakr/set'
-require 'fleakr/user'
-require 'fleakr/group'
-require 'fleakr/search'
-require 'fleakr/image'
-require 'fleakr/contact'
+%w(support api objects).each do |path|
+  full_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr/#{path}"
+  Dir["#{full_path}/*.rb"].each {|f| require f }
+end

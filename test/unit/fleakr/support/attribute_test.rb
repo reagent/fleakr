@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr
+module Fleakr::Support
   class AttributeTest < Test::Unit::TestCase
     describe "An instance of the Attribute class" do
 
