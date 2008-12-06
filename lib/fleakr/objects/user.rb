@@ -1,5 +1,5 @@
 module Fleakr
-  module Objects
+  module Objects # :nodoc:
     class User
 
       include Fleakr::Support::Object
@@ -20,25 +20,28 @@ module Fleakr
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
 
+      # Is this a pro account?
       def pro?
         (self.pro.to_i == 0) ? false : true
       end
 
+      # Is this user an admin?
       def admin?
         (self.admin.to_i == 0) ? false : true
       end
 
-      def load_info
-        response = Fleakr::Api::Request.with_response!('people.getInfo', :user_id => self.id)
-        self.populate_from(response.body)
-      end
-
+      # This user's buddy icon
       def icon_url
         if self.icon_server.to_i > 0
           "http://farm#{self.icon_farm}.static.flickr.com/#{self.icon_server}/buddyicons/#{self.id}.jpg"
         else
           'http://www.flickr.com/images/buddyicon.jpg'
         end
+      end
+      
+      def load_info # :nodoc:
+        response = Fleakr::Api::Request.with_response!('people.getInfo', :user_id => self.id)
+        self.populate_from(response.body)
       end
 
     end

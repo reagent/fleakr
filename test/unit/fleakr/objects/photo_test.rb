@@ -37,7 +37,7 @@ module Fleakr::Objects
       end
 
       it "should know the base URL to retrieve images" do
-        @photo.base_url.should == "http://farm2.static.flickr.com/3/1_secret"
+        @photo.send(:base_url).should == "http://farm2.static.flickr.com/3/1_secret"
       end
 
     end

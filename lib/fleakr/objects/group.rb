@@ -1,5 +1,5 @@
 module Fleakr
-  module Objects
+  module Objects # :nodoc:
     class Group
 
       include Fleakr::Support::Object

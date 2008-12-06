@@ -1,5 +1,5 @@
 module Fleakr
-  module Version
+  module Version # :nodoc:
     
     MAJOR = 0
     MINOR = 2

@@ -1,6 +1,6 @@
 module Fleakr
-  module Objects
-    class Photo
+  module Objects # :nodoc:
+    class Photo # :nodoc:
 
       include Fleakr::Support::Object
 
@@ -13,14 +13,15 @@ module Fleakr
       find_all :by_photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
 
-      def base_url
-        "http://farm#{self.farm_id}.static.flickr.com/#{self.server_id}/#{self.id}_#{self.secret}"
-      end
-
       [:square, :thumbnail, :small, :medium, :large].each do |size|
         define_method(size) do
           Image.new(self.base_url, size)
         end
+      end
+
+      private
+      def base_url
+        "http://farm#{self.farm_id}.static.flickr.com/#{self.server_id}/#{self.id}_#{self.secret}"
       end
 
     end

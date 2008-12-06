@@ -10,13 +10,13 @@ spec = Gem::Specification.new do |s|
   s.name             = 'fleakr'
   s.version          = Fleakr::Version.to_s
   s.has_rdoc         = true
-  s.extra_rdoc_files = %w(README.markdown)
+  s.extra_rdoc_files = %w(README.rdoc)
+  s.rdoc_options     = %w(--main README.rdoc)
   s.summary          = "A teeny tiny gem to interface with Flickr photostreams"
   s.author           = 'Patrick Reagan'
   s.email            = 'reaganpr@gmail.com'
   s.homepage         = 'http://sneaq.net'
-  s.files            = %w(README.markdown Rakefile) + Dir.glob("{lib,test}/**/*")
-  # s.executables    = ['fleakr']
+  s.files            = %w(README.rdoc Rakefile) + Dir.glob("{lib,test}/**/*")
   
   s.add_dependency('hpricot', '~> 0.6.0')
   s.add_dependency('activesupport', '~> 2.2.0')

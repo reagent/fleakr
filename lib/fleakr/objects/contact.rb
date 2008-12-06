@@ -1,5 +1,5 @@
 module Fleakr
-  module Objects
+  module Objects # :nodoc:
     class Contact
 
       include Fleakr::Support::Object
@@ -9,14 +9,16 @@ module Fleakr
       flickr_attribute :icon_server, :attribute => 'iconserver'
       flickr_attribute :icon_farm, :attribute => 'iconfarm'
 
+      # Retrieve a list of contacts for the specified user ID and return an initialized
+      # collection of #User objects
       def self.find_all_by_user_id(user_id)
         response = Fleakr::Api::Request.with_response!('contacts.getPublicList', :user_id => user_id)
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
       # 
       # find_all :by_user_id, :call => 'contacts.getPublicList', :path => 'contacts/contact', :class_name => 'User'
-
-      def to_user
+      
+      def to_user # :nodoc:
         user = User.new
         self.class.attributes.each do |attribute|
           attribute_name = attribute.name
