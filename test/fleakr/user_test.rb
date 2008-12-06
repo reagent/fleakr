@@ -21,11 +21,15 @@ module Fleakr
 
         should_have_a_value_for :id           => '31066442@N69'
         should_have_a_value_for :username     => 'frootpantz'
+        should_have_a_value_for :name         => 'Sir Froot Pantz'
         should_have_a_value_for :photos_url   => 'http://www.flickr.com/photos/frootpantz/'
         should_have_a_value_for :profile_url  => 'http://www.flickr.com/people/frootpantz/'
         should_have_a_value_for :photos_count => '3907'
         should_have_a_value_for :icon_server  => '30'
         should_have_a_value_for :icon_farm    => '1'
+        should_have_a_value_for :pro          => '1'
+        should_have_a_value_for :admin        => '0'
+        
       end
 
       context "in general" do
@@ -56,6 +60,23 @@ module Fleakr
           @user.stubs(:icon_server).with().returns(nil)
           @user.icon_url.should == 'http://www.flickr.com/images/buddyicon.jpg'
         end
+        
+        it "should return a boolean value for :pro?" do
+          @user.stubs(:pro).with().returns('0')
+          @user.pro?.should be(false)
+          
+          @user.stubs(:pro).with().returns('1')
+          @user.pro?.should be(true)
+        end
+        
+        it "should return a boolean value for :admin?" do
+          @user.stubs(:admin).with().returns('0')
+          @user.admin?.should be(false)
+          
+          @user.stubs(:admin).with().returns('1')
+          @user.admin?.should be(true)
+        end
+        
       end
     end
 
