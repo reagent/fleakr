@@ -23,29 +23,29 @@ Before doing anything, require the library:
 
 Then, set your API key (only need to do this once per session):
 
-    >> Fleakr::Request.api_key = '<your api key here>'
+    >> Fleakr.api_key = '<your api key here>'
     
 Find a user by username:
 
-    >> user = Fleakr::User.find_by_username('the decapitator')
-    => #<Fleakr::User:0x692648 @username="the decapitator", @id="21775151@N06">
+    >> user = Fleakr.user('the decapitator')
+    => #<Fleakr::Objects::User:0x692648 @username="the decapitator", @id="21775151@N06">
 
 Or by email:
 
-    >> user = Fleakr::User.find_by_email('user@host.com')
-    => #<Fleakr::User:0x11f484c @username="bckspcr", @id="84481630@N00">
+    >> user = Fleakr.user('user@host.com')
+    => #<Fleakr::Objects::User:0x11f484c @username="bckspcr", @id="84481630@N00">
 
 Once you have a user, you can find his associated sets:
 
     >> user.sets
-    => [#<Fleakr::Set:0x671358 @title="The Decapitator", @description="">, 
-        #<Fleakr::Set:0x66d898 @title="londonpaper hijack", ...
+    => [#<Fleakr::Objects::Set:0x671358 @title="The Decapitator", @description="">, 
+        #<Fleakr::Objects::Set:0x66d898 @title="londonpaper hijack", ...
 
 Or groups if you would like:
     
     >> user.groups
-    => [#<Fleakr::Group:0x11f2330 ..., 
-        #<Fleakr::Group:0x11f2308 ...
+    => [#<Fleakr::Objects::Group:0x11f2330 ..., 
+        #<Fleakr::Objects::Group:0x11f2308 ...
     >> user.groups.first.name
     => "Rural Decay"
     >> user.groups.first.id
@@ -54,9 +54,9 @@ Or groups if you would like:
 When accessing a set, you can also grab all the photos that are in that set:
 
     >> user.sets.first
-    => #<Fleakr::Set:0x1195bbc @title="The Decapitator", @id="72157603480986566", @description="">
+    => #<Fleakr::Objects::Set:0x1195bbc @title="The Decapitator", @id="72157603480986566", @description="">
     >> user.sets.first.photos.first
-    => #<Fleakr::Photo:0x1140108 ... >
+    => #<Fleakr::Objects::Photo:0x1140108 ... >
     >> user.sets.first.photos.first.title
     => "Untitled1"
     
@@ -69,7 +69,7 @@ If you can't decide on a photo and would rather just save the whole set, specify
 and the size of the images you're interested in:
 
     >> user.sets.first.save_to('/tmp', :square)
-    => [#<Fleakr::Photo:0x1187a1c @secret="715587b2cb" ...
+    => [#<Fleakr::Objects::Photo:0x1187a1c @secret="715587b2cb" ...
     >> Dir["/tmp/#{user.sets.first.title}/*.jpg"].map
     => ["/tmp/The Decapitator/2117919621_8b2d601bff_s.jpg", 
         "/tmp/The Decapitator/2117921045_5fb15eff90_s.jpg", 
@@ -77,16 +77,16 @@ and the size of the images you're interested in:
 
 If you would prefer to just search photos, you can do that with search text:
 
-    >> search = Fleakr::Search.new('ponies!!')
+    >> search = Fleakr::Objects::Search.new('ponies!!')
     >> search.results
-    => [#<Fleakr::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">, 
-        #<Fleakr::Photo:0x11f4928 @title="PONYLOV", @id="3077360853">, ...
+    => [#<Fleakr::Objects::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">, 
+        #<Fleakr::Objects::Photo:0x11f4928 @title="PONYLOV", @id="3077360853">, ...
     >> search.results.first.title
     => "hiroshima atomic garden"
 
 You can also search based on tags:
 
-    >> search = Fleakr::Search.new(nil, :tags => 'macro')
+    >> search = Fleakr::Objects::Search.new(nil, :tags => 'macro')
     >> search.results.first.title
     => "Demure"
     >> search.results.first.id
@@ -95,6 +95,8 @@ You can also search based on tags:
 ## TODO
 
 * Implement remaining bits of person, photoset, and photo-releated APIs
+* Provide a better searching interface
+* Lazily load attributes for objects that need to be accessed via secondary API call
         
 ## License
 
