@@ -5,17 +5,11 @@ module Fleakr::Api
 
       describe "A Request instance" do
 
-        it "should be able to set an API key" do
-          key = 'f00b4r'
-          Request.api_key = key
-          key.should == Request.api_key
-        end
-
         context "with an API key" do
 
           before do
             @api_key = 'f00b4r'
-            Request.stubs(:api_key).with().returns(@api_key)
+            Fleakr.stubs(:api_key).with().returns(@api_key)
           end
 
           it "should know the full query parameters" do

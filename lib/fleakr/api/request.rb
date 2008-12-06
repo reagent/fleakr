@@ -4,14 +4,6 @@ module Fleakr
 
       class ApiError < StandardError; end
 
-      def self.api_key=(key)
-        @api_key = key
-      end
-
-      def self.api_key
-        @api_key
-      end
-
       def self.with_response!(method, additional_parameters = {})
         request = Request.new(method, additional_parameters)
         response = request.send
@@ -34,7 +26,7 @@ module Fleakr
       def initialize(method, additional_parameters = {})
         method = method.sub(/^(flickr\.)?/, 'flickr.')
 
-        default_parameters = {:api_key => self.class.api_key, :method => method}
+        default_parameters = {:api_key => Fleakr.api_key, :method => method}
         @parameters = default_parameters.merge(additional_parameters)
       end
 
