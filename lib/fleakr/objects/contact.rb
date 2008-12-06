@@ -15,8 +15,6 @@ module Fleakr
         response = Fleakr::Api::Request.with_response!('contacts.getPublicList', :user_id => user_id)
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
-      # 
-      # find_all :by_user_id, :call => 'contacts.getPublicList', :path => 'contacts/contact', :class_name => 'User'
       
       def to_user # :nodoc:
         user = User.new
