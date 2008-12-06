@@ -20,7 +20,7 @@ module Fleakr
 
       def results
         if @results.nil?
-          response = Request.with_response!('photos.search', self.parameters)
+          response = Fleakr::Api::Request.with_response!('photos.search', self.parameters)
           @results = (response.body/'rsp/photos/photo').map do |flickr_photo|
             Photo.new(flickr_photo)
           end
