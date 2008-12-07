@@ -36,10 +36,14 @@ module Fleakr
         @parameters = default_parameters.merge(additional_parameters)
       end
 
+      def send # :nodoc:
+        Response.new(Net::HTTP.get(endpoint_uri))
+      end
+
       private
       def endpoint_uri
         uri = URI.parse('http://api.flickr.com/services/rest/')
-        uri.query = self.query_parameters
+        uri.query = query_parameters
         uri
       end
 
@@ -47,9 +51,7 @@ module Fleakr
         @parameters.map {|key,value| "#{key}=#{CGI.escape(value)}" }.join('&')
       end
 
-      def send
-        Response.new(Net::HTTP.get(self.endpoint_uri))
-      end
+
 
     end
   end

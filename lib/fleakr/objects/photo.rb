@@ -28,7 +28,7 @@ module Fleakr
 
       [:square, :thumbnail, :small, :medium, :large].each do |size|
         define_method(size) do
-          Image.new(self.base_url, size)
+          Image.new(base_url, size)
         end
       end
 

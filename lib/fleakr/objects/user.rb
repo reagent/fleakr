@@ -42,6 +42,20 @@ module Fleakr
 
       include Fleakr::Support::Object
 
+      def self.lazily_load(*attributes)
+        options = attributes.extract_options!
+
+        attributes.each do |attribute|
+          class_eval <<-CODE
+            def #{attribute}_with_loading
+              self.send(:#{options[:with]}) if @#{attribute}.nil?
+              #{attribute}_without_loading
+            end
+            alias_method_chain :#{attribute}, :loading
+          CODE
+        end
+      end
+
       flickr_attribute :id, :xpath => 'rsp/user', :attribute => 'nsid'
       flickr_attribute :username, :xpath => 'rsp/user/username'
       flickr_attribute :name, :xpath => 'rsp/person/realname'
@@ -58,6 +72,9 @@ module Fleakr
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
 
+      lazily_load :name, :photos_url, :profile_url, :photos_count, :with => :load_info
+      lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
+      
       # Is this a pro account?
       def pro?
         (self.pro.to_i == 0) ? false : true
