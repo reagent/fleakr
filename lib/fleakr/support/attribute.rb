@@ -1,5 +1,5 @@
 module Fleakr
-  module Support # :ndoc:all
+  module Support # :nodoc:all
     class Attribute
 
       attr_reader :name, :xpath, :attribute

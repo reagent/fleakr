@@ -1,5 +1,17 @@
 module Fleakr
   module Objects
+    
+    # = Image
+    #
+    # This class wraps the functionality for saving remote images to disk. It's called
+    # by the Fleakr::Objects::Photo class to save an image with a specific size and would 
+    # typically never be called directly.
+    # 
+    # Example:
+    # 
+    #  user = Fleakr.user('brownout')
+    #  user.photos.first.small.save_to('/tmp')
+    #
     class Image
 
       SUFFIXES = {

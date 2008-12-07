@@ -11,12 +11,33 @@ require 'activesupport'
   Dir["#{full_path}/*.rb"].each {|f| require f }
 end
 
+# = Fleakr: A teeny tiny gem to interface with Flickr
+#
+# Getting started is easy, just make sure you have a valid API key from Flickr and you can
+# then start making any non-authenticated request to pull back data for yours and others' 
+# photostreams, sets, contacts, groups, etc...
+#
+# For now, all activity originates from a single user which you can find by username or
+# email address.
+#
+# Example:
+#
+#  require 'rubygems'
+#  require 'fleakr'
+#
+#  # Our API key is ABC123 (http://www.flickr.com/services/api/keys/apply/)
+#  Fleakr.api_key = 'ABC123'
+#  user = Fleakr.user('bees')
+#  user = Fleakr.user('user@host.com')
+#  # Grab a list of sets
+#  user.sets
+#  # Grab a list of the user's public groups
+#  user.groups
+#
+# To see what other associations and attributes are available, see the Fleakr::Objects::User class
+#
 module Fleakr
 
-  # Set the API key for all requests. Example:
-  #
-  #  Fleakr.api_key = 'ABC123'
-  #
   mattr_accessor :api_key
 
   # Find a user based on some unique user data.  This method will try to find

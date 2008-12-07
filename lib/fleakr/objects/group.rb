@@ -1,5 +1,13 @@
 module Fleakr
   module Objects # :nodoc:
+    
+    # = Group
+    # 
+    # == Accessors
+    #
+    # [id] This group's ID
+    # [name] The name of the group
+    #
     class Group
 
       include Fleakr::Support::Object

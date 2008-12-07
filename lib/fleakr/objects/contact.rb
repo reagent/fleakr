@@ -1,6 +1,6 @@
 module Fleakr
   module Objects # :nodoc:
-    class Contact
+    class Contact # :nodoc:
 
       include Fleakr::Support::Object
 
@@ -16,7 +16,7 @@ module Fleakr
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
       
-      def to_user # :nodoc:
+      def to_user
         user = User.new
         self.class.attributes.each do |attribute|
           attribute_name = attribute.name

@@ -1,5 +1,12 @@
 module Fleakr
   module Api # :nodoc:
+    
+    # = Request
+    #
+    # Performs requests against the Flickr API and returns response objects (Flickr::Api::Response)
+    # that contain Hpricot documents for further parsing and inspection.  This class is used internally
+    # in all the defined model objects.
+    #
     class Request
 
       # Generic catch-all exception for any API errors

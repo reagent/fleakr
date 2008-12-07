@@ -1,5 +1,18 @@
 module Fleakr
   module Objects # :nodoc:
+    
+    # = Set
+    #
+    # == Attributes
+    # 
+    # [id] The ID for this photoset
+    # [title] The title of this photoset
+    # [description] The description of this set
+    # 
+    # == Associations
+    # 
+    # [photos] The collection of photos for this set. See Fleakr::Objects::Photo
+    #
     class Set
 
       include Fleakr::Support::Object

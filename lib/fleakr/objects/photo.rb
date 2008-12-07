@@ -1,6 +1,19 @@
 module Fleakr
   module Objects # :nodoc:
-    class Photo # :nodoc:
+    
+    # = Photo
+    #
+    # == Attributes
+    #
+    # [id] The ID for this photo
+    # [title] The title of this photo
+    # [square] The tiny square representation of this photo
+    # [thumbnail] The thumbnail for this photo
+    # [small] The small representation of this photo
+    # [medium] The medium representation of this photo
+    # [large] The large representation of this photo
+    #
+    class Photo
 
       include Fleakr::Support::Object
 

@@ -1,5 +1,43 @@
 module Fleakr
   module Objects # :nodoc:
+    
+    # = User
+    #
+    # == Accessors
+    # 
+    # This class maps directly onto the flickr.people.* API methods and provides the following attributes
+    # for a user:
+    #
+    # [id] The ID for this user (also referred to as the NSID in the API docs)
+    # [username] This user's username
+    # [name] This user's full name (if entered)
+    # [photos_url] The direct URL to this user's photostream
+    # [profile_url] The direct URL to this user's profile
+    # [photos_count] The number of photos that this user has uploaded
+    # [icon_url] This user's buddy icon (or a default one if an icon wasn't uploaded)
+    # [pro?] Does this user have a pro account?
+    # [admin?] Is this user an admin?
+    #
+    # == Associations
+    #
+    # The User class is pretty central to many of the other data available across the system, so there are a
+    # few associations available to a user:
+    # 
+    # [sets] A list of this user's public sets (newest first). See Fleakr::Objects::Set for more information.
+    # [groups] A list of this user's public groups. See Fleakr::Objects::Group.
+    # [photos] A list of this user's public photos (newest first).  See Fleakr::Objects::Photo.
+    # [contacts] A list of this user's contacts - these are simply User objects
+    #
+    # == Examples
+    #
+    # Access to a specific user is typically done through the Fleakr.user method:
+    #
+    #  user = Fleakr.user('brownout')
+    #  user.id
+    #  user.username
+    #  user.sets
+    #  user.contacts
+    #
     class User
 
       include Fleakr::Support::Object
