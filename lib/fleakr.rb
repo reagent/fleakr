@@ -56,4 +56,19 @@ module Fleakr
     end
   end
   
+  # Search all photos on the Flickr site.  By default, this searches based on text, but you can pass
+  # different search parameters (passed as hash keys):
+  #
+  # [tags] The list of tags to search on (either as an array or comma-separated)
+  # [user_id] Scope the search to this user
+  # [group_id] Scope the search to this group
+  #
+  # If you're interested in User- and Group-scoped searches, you may want to use User#search and Group#search
+  # instead.
+  #
+  def self.search(params)
+    params = {:text => params} unless params.is_a?(Hash)
+    Objects::Search.new(params).results
+  end
+  
 end

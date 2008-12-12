@@ -27,6 +27,18 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.user(email).should == user
     end
     
+    it "should be able to perform text searches" do
+      photos = [stub()]
+      
+      Fleakr::Objects::Search.expects(:new).with(:text => 'foo').returns(stub(:results => photos))
+      Fleakr.search('foo').should == photos
+    end
+    
+    it "should be able to perform searches based on tags" do
+      Fleakr::Objects::Search.expects(:new).with(:tags => %w(one two)).returns(stub(:results => []))
+      Fleakr.search(:tags => %w(one two))
+    end
+    
   end
   
 end
