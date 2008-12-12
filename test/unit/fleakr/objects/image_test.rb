@@ -29,7 +29,7 @@ module Fleakr::Objects
 
         it "should know its filename" do
           image = Image.new
-          image.stubs(:source).with().returns('http://flickr.com/photos/foobar.jpg')
+          image.stubs(:url).with().returns('http://flickr.com/photos/foobar.jpg')
 
           image.filename.should == 'foobar.jpg'
         end
@@ -43,7 +43,7 @@ module Fleakr::Objects
             @image_filename = 'image.jpg'
 
             @image = Image.new
-            @image.stubs(:source).with().returns(@url)
+            @image.stubs(:url).with().returns(@url)
             @image.stubs(:filename).with().returns(@image_filename)
           end
 

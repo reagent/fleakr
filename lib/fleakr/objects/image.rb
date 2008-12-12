@@ -26,7 +26,7 @@ module Fleakr
 
       # The filename portion of the image (without the full URL)
       def filename
-        self.source.match(/([^\/]+)$/)[1]
+        self.url.match(/([^\/]+)$/)[1]
       end
     
       # Save this image to the specified directory or file. If the target is a
@@ -35,7 +35,7 @@ module Fleakr
       # case that the target file already exists, this method will overwrite it.
       def save_to(target)
         destination = File.directory?(target) ? "#{target}/#{self.filename}" : "#{target}"
-        File.open(destination, 'w') {|f| f << Net::HTTP.get(URI.parse(self.source)) }
+        File.open(destination, 'w') {|f| f << Net::HTTP.get(URI.parse(self.url)) }
       end
     
     end
