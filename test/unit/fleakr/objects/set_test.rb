@@ -27,6 +27,10 @@ module Fleakr::Objects
       context "when saving the set" do
         before do
           @tmp_dir = create_temp_directory
+          @set_title = 'set'
+          
+          @set = Set.new
+          @set.stubs(:title).with().returns(@set_title)
         end
         
         after { FileUtils.rm_rf(@tmp_dir) }
@@ -36,26 +40,27 @@ module Fleakr::Objects
           image.expects(:save_to).with("#{@tmp_dir}/set")
           
           photo = stub(:small => image)
-          
-          set = Set.new
-          set.stubs(:title).with().returns('set')
-          set.stubs(:photos).with().returns([photo])
+
+          @set.stubs(:photos).with().returns([photo])
           
           FileUtils.expects(:mkdir).with("#{@tmp_dir}/set")
           
-          set.save_to(@tmp_dir, :small)
+          @set.save_to(@tmp_dir, :small)
         end
         
         it "should not create the directory if it already exists" do
           FileUtils.mkdir("#{@tmp_dir}/set")
-          
-          set = Set.new
-          set.stubs(:title).with().returns('set')
-          set.stubs(:photos).with().returns([])
+
+          @set.stubs(:photos).with().returns([])
           
           FileUtils.expects(:mkdir).with("#{@tmp_dir}/set").never
           
-          set.save_to(@tmp_dir, :small)
+          @set.save_to(@tmp_dir, :small)
+        end
+        
+        it "should not raise errors when saving an image size that doesn't exist" do
+          @set.stubs(:photos).with().returns([stub(:large => nil)])
+          lambda { @set.save_to(@tmp_dir, :large) }.should_not raise_error
         end
         
       end

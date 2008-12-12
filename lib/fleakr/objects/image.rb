@@ -14,31 +14,19 @@ module Fleakr
     #
     class Image
 
-      SUFFIXES = {
-        :square    => '_s.jpg',
-        :thumbnail => '_t.jpg',
-        :small     => '_m.jpg',
-        :medium    => '.jpg',
-        :large     => '_b.jpg',
-      }.freeze
-    
-      def self.suffix_for(size)
-        self::SUFFIXES[size]
-      end
-    
-      def initialize(base_url, size)
-        @base_url = base_url
-        @size = size
-      end
-    
-      # Retrieve the URL for this image using the specified size
-      def url
-        "#{@base_url}#{Image.suffix_for(@size)}"
-      end
-    
+      include Fleakr::Support::Object
+
+      flickr_attribute :size,   :attribute => :label
+      flickr_attribute :width,  :attribute => :width
+      flickr_attribute :height, :attribute => :height
+      flickr_attribute :url,    :attribute => :source
+      flickr_attribute :page,   :attribute => :url
+
+      find_all :by_photo_id, :call => 'photos.getSizes', :path => 'sizes/size'
+
       # The filename portion of the image (without the full URL)
       def filename
-        self.url.match(/([^\/]+)$/)[1]
+        self.source.match(/([^\/]+)$/)[1]
       end
     
       # Save this image to the specified directory or file. If the target is a
@@ -47,7 +35,7 @@ module Fleakr
       # case that the target file already exists, this method will overwrite it.
       def save_to(target)
         destination = File.directory?(target) ? "#{target}/#{self.filename}" : "#{target}"
-        File.open(destination, 'w') {|f| f << Net::HTTP.get(URI.parse(self.url)) }
+        File.open(destination, 'w') {|f| f << Net::HTTP.get(URI.parse(self.source)) }
       end
     
     end
