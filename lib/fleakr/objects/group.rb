@@ -17,6 +17,8 @@ module Fleakr
 
       find_all :by_user_id, :call => 'people.getPublicGroups', :path => 'groups/group'
 
+      has_many :photos
+
     end
   end
 end

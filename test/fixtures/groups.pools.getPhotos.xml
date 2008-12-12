@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<photos page="1" pages="796" perpage="100" total="79509">
+	<photo id="3101830908" owner="64008250@N00" secret="e85e249e72" server="3042" farm="4" title="Canal Gate" ispublic="1" isfriend="0" isfamily="0" ownername="oakraidr" dateadded="1229049777" />
+	<photo id="3100780049" owner="98821864@N00" secret="f46fbe211b" server="3274" farm="4" title="2alarm" ispublic="1" isfriend="0" isfamily="0" ownername="LooknFeel" dateadded="1229042651" />
+</photos>
+</rsp>

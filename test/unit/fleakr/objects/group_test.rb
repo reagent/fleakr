@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class GroupTest < Test::Unit::TestCase
 
+    should_have_many :photos
+
     describe "The Group class" do
       
       should_find_all :groups, :by => :user_id, :call => 'people.getPublicGroups', :path => 'rsp/groups/group'
