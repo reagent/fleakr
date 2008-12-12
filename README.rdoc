@@ -65,7 +65,7 @@ Or groups if you would like:
 
 Groups also contain photos:
 
-    >> u.groups.last.photos.first.title
+    >> user.groups.last.photos.first.title
     => "Welcome To The Machine"
 
 When accessing a set, you can also grab all the photos that are in that set:
