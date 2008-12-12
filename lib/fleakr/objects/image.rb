@@ -12,6 +12,14 @@ module Fleakr
     #  user = Fleakr.user('brownout')
     #  user.photos.first.small.save_to('/tmp')
     #
+    # == Attributes
+    # 
+    # [size] The name of this image's size (e.g. Square, Large, etc...)
+    # [width] The width of this image
+    # [height] The height of this image
+    # [url] The direct URL for this image
+    # [page] The page on Flickr that represents this photo
+    # 
     class Image
 
       include Fleakr::Support::Object

@@ -6,6 +6,12 @@ A teeny tiny gem to interface with Flickr photostreams
 
 == Installation
 
+=== Stable
+
+    sudo gem install fleakr
+
+=== Bleeding Edge
+
     sudo gem install reagent-fleakr --source=http://gems.github.com
     
 Or ...
@@ -41,6 +47,12 @@ Once you have a user, you can find his associated sets:
     => [#<Fleakr::Objects::Set:0x671358 @title="The Decapitator", @description="">, 
         #<Fleakr::Objects::Set:0x66d898 @title="londonpaper hijack", ...
 
+Or contacts:
+
+    >> user.contacts.first
+    => #<Fleakr::Objects::User:0x19039bc @username=".schill",
+        @id="12289718@N00", @icon_farm="1", @icon_server="4">
+
 Or groups if you would like:
     
     >> user.groups
@@ -50,6 +62,11 @@ Or groups if you would like:
     => "Rural Decay"
     >> user.groups.first.id
     => "14581414@N00"
+
+Groups also contain photos:
+
+    >> u.groups.last.photos.first.title
+    => "Welcome To The Machine"
 
 When accessing a set, you can also grab all the photos that are in that set:
 
@@ -77,21 +94,29 @@ and the size of the images you're interested in:
 
 If you would prefer to just search photos, you can do that with search text:
 
-    >> search = Fleakr::Objects::Search.new('ponies!!')
-    >> search.results
+    >> photos = Fleakr.search('ponies!!')
     => [#<Fleakr::Objects::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">, 
         #<Fleakr::Objects::Photo:0x11f4928 @title="PONYLOV", @id="3077360853">, ...
-    >> search.results.first.title
+    >> photos.first.title
     => "hiroshima atomic garden"
 
 You can also search based on tags:
 
-    >> search = Fleakr::Objects::Search.new(nil, :tags => 'macro')
-    >> search.results.first.title
+    >> photos = Fleakr.search(:tags => 'macro')
+    >> photos.first.title
     => "Demure"
-    >> search.results.first.id
+    >> photos.first.id
     => "3076049945"
 
+Searches can also be scoped to other entities in the system (namely Users and Groups):
+
+    >> user.groups.first.search('awesome')
+    => [#<Fleakr::Objects::Photo:0x18cb4cc @server_id="2012", @id="2181921273",
+         @farm_id="3", @title="", @secret="634eda7521">, ... 
+    >> user.search('serpent')
+    => [#<Fleakr::Objects::Photo:0x18a6960 @server_id="41", @id="81370156",
+        @farm_id="1", @title="Clear and Serpent Danger", @secret="013091582a">]
+        
 == TODO
 
 * Implement remaining bits of person, photoset, and photo-releated APIs
