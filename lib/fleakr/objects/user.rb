@@ -74,6 +74,8 @@ module Fleakr
 
       lazily_load :name, :photos_url, :profile_url, :photos_count, :with => :load_info
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
+
+      scoped_search
       
       # Is this a pro account?
       def pro?

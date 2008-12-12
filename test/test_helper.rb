@@ -15,6 +15,22 @@ class Test::Unit::TestCase
     end
   end
 
+  def self.should_search_by(key)
+    it "should be able to perform a scoped search by :#{key}" do
+      photos = [stub()]
+      search = stub(:results => photos)
+      
+      klass = self.class.name.sub(/Test$/, '').constantize
+      
+      instance = klass.new
+      instance.stubs(:id).with().returns('1')
+      
+      Fleakr::Objects::Search.expects(:new).with(:text => 'foo', key => '1').returns(search)
+      
+      instance.search('foo').should == photos
+    end
+  end
+
   def self.should_have_many(*attributes)
     class_name = self.name.demodulize.sub(/Test$/, '')
     this_klass = "Fleakr::Objects::#{class_name}".constantize

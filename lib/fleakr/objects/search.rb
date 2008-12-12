@@ -3,8 +3,7 @@ module Fleakr
     class Search
 
       # Create a new search
-      def initialize(text = nil, search_options = {})
-        @text = text
+      def initialize(search_options)
         @search_options = search_options
       end
 
@@ -25,10 +24,8 @@ module Fleakr
       end
 
       def parameters
-        parameters = {}
-        parameters.merge!(:text => @text) if @text
-        parameters.merge!(:tags => tag_list) if tag_list.length > 0
-        parameters
+        @search_options.merge!(:tags => tag_list) if tag_list.length > 0
+        @search_options
       end
 
     end

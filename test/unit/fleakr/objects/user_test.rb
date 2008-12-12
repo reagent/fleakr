@@ -13,6 +13,8 @@ module Fleakr::Objects
         end
       end
     end
+    
+    should_search_by :user_id
 
     should_have_many :photos, :groups, :sets, :contacts
     
@@ -90,6 +92,8 @@ module Fleakr::Objects
           @user.stubs(:admin).with().returns('1')
           @user.admin?.should be(true)
         end
+        
+        
         
 
         

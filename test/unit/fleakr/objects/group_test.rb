@@ -4,6 +4,8 @@ module Fleakr::Objects
   class GroupTest < Test::Unit::TestCase
 
     should_have_many :photos
+    
+    should_search_by :group_id
 
     describe "The Group class" do
       

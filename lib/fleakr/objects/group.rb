@@ -18,6 +18,8 @@ module Fleakr
       find_all :by_user_id, :call => 'people.getPublicGroups', :path => 'groups/group'
 
       has_many :photos
+      
+      scoped_search
 
     end
   end

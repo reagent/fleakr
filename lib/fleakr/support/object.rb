@@ -50,6 +50,21 @@ module Fleakr
             end
           CODE
         end
+        
+        def scoped_search
+          key = "#{self.name.demodulize.underscore.downcase}_id".to_sym
+          puts key
+          class_eval <<-CODE
+            def search(search_text)
+              Fleakr::Objects::Search.new(:text => search_text, :#{key} => self.id).results
+            end
+          CODE
+        end
+        #   def search(search_text)
+        #     search = Search.new(:text => search_text, :user_id => self.id)
+        #     search.results
+        #   end
+        # end
       
       end
     
