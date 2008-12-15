@@ -22,6 +22,7 @@ module Fleakr
       flickr_attribute :id, :attribute => 'id'
       flickr_attribute :title
       flickr_attribute :description
+      flickr_attribute :count, :attribute => :photos
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
 
@@ -34,10 +35,14 @@ module Fleakr
         target = "#{path}/#{self.title}"
         FileUtils.mkdir(target) unless File.exist?(target)
 
-        self.photos.each do |photo|
+        self.photos.each_with_index do |photo, index|
           image = photo.send(size)
-          image.save_to(target) unless image.nil?
+          image.save_to(target, file_prefix(index)) unless image.nil?
         end
+      end
+      
+      def file_prefix(index) # :nodoc:
+        sprintf("%0#{self.count.length}d_", (index + 1))
       end
 
     end

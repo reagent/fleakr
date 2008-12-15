@@ -41,8 +41,8 @@ module Fleakr
       # directory, the file will be created with the original filename from Flickr.  
       # If the target is a file, it will be saved with the specified name.  In the
       # case that the target file already exists, this method will overwrite it.
-      def save_to(target)
-        destination = File.directory?(target) ? "#{target}/#{self.filename}" : "#{target}"
+      def save_to(target, prefix = nil)
+        destination = File.directory?(target) ? "#{target}/#{prefix}#{self.filename}" : "#{target}"
         File.open(destination, 'w') {|f| f << Net::HTTP.get(URI.parse(self.url)) }
       end
     

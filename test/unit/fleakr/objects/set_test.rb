@@ -21,6 +21,7 @@ module Fleakr::Objects
         should_have_a_value_for :id          => '72157609490909659'
         should_have_a_value_for :title       => 'Second Set'
         should_have_a_value_for :description => 'This is the second set.'
+        should_have_a_value_for :count       => '138'
         
       end
       
@@ -34,14 +35,24 @@ module Fleakr::Objects
         end
         
         after { FileUtils.rm_rf(@tmp_dir) }
+
+        it "should know the prefix string based on the number of photos in the set" do
+          set = Set.new
+          set.stubs(:count).with().returns('5')
+          set.file_prefix(0).should == '1_'
+          
+          set.stubs(:count).with().returns('99')
+          set.file_prefix(0).should == '01_'
+        end
         
         it "should save all files of the specified size to the specified directory" do
           image = mock()
-          image.expects(:save_to).with("#{@tmp_dir}/set")
+          image.expects(:save_to).with("#{@tmp_dir}/set", '1_')
           
           photo = stub(:small => image)
 
           @set.stubs(:photos).with().returns([photo])
+          @set.stubs(:file_prefix).with(0).returns('1_')
           
           FileUtils.expects(:mkdir).with("#{@tmp_dir}/set")
           
