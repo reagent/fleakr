@@ -23,15 +23,58 @@ module Fleakr::Api
 
           request.__send__(:query_parameters).split('&').sort.should == expected
         end
-
+        
         it "should escape the keys and values in the parameter list" do
           request = Request.new('flickr.people.findByUsername', :username => 'the decapitator')
           request.__send__(:query_parameters).split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
+        end
+        
+        it "should include the signature in the query parameters when the call is to be signed" do
+          request = Request.new('auth.getFullToken', :sign? => true)
+          request.stubs(:signature).with().returns('sig')
+          
+          params = request.__send__(:query_parameters).split('&')
+
+          params.include?('api_sig=sig').should be(true)
         end
 
         it "should translate a shorthand API call" do
           request = Request.new('people.findByUsername')
           request.__send__(:query_parameters).split('&').include?('method=flickr.people.findByUsername').should be(true)
+        end
+
+        it "should know that it doesn't need to sign the request" do
+          request = Request.new('people.findByUsername')
+          request.sign?.should be(false)
+        end
+        
+        it "should know that it needs to sign the request" do
+          request = Request.new('people.findByUsername', :sign? => true)
+          request.sign?.should be(true)
+        end
+        
+        it "should be able to calculate the correct signature" do
+          Fleakr.stubs(:secret).with().returns('secret')
+          
+          request = Request.new('people.findByUsername', :sign? => true)
+          sig = Digest::MD5.hexdigest("secretapi_key#{@api_key}methodflickr.people.findByUsername")
+          
+          request.__send__(:signature).should == sig
+        end
+        
+        it "should return the default parameters when the call doesn't need to be signed" do
+          request = Request.new('people.findByUsername')
+          request.parameters.should == {
+            :api_key => @api_key,
+            :method  => 'flickr.people.findByUsername'
+          }
+        end
+        
+        it "should return the :api_sig parameter when the call needs to be signed" do
+          request = Request.new('people.findByUsername', :sign? => true)
+          request.stubs(:signature).returns('sig')
+          
+          request.parameters[:api_sig].should == 'sig'
         end
 
         it "should know the endpoint with full parameters" do

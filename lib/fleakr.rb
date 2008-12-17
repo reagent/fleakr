@@ -6,6 +6,7 @@ require 'net/http'
 require 'rubygems'
 require 'hpricot'
 require 'activesupport'
+require 'md5'
 
 %w(support api objects).each do |path|
   full_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr/#{path}"
@@ -39,7 +40,7 @@ end
 #
 module Fleakr
 
-  mattr_accessor :api_key
+  mattr_accessor :api_key, :secret
 
   # Find a user based on some unique user data.  This method will try to find
   # the user based on username and will fall back to email if that fails.  Example:

@@ -11,6 +11,13 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.api_key.should == key
     end
     
+    it "should be able to set the secret" do
+      secret = 'ssssshhhh'
+      
+      Fleakr.secret = secret
+      Fleakr.secret.should == secret
+    end
+    
     it "should provide a means to find a user by his username" do
       user = stub()
       Fleakr::Objects::User.expects(:find_by_username).with('username').returns(user)
