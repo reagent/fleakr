@@ -21,17 +21,17 @@ module Fleakr::Api
               "username=foobar"
             ]
 
-            request.query_parameters.split('&').sort.should == expected
+            request.__send__(:query_parameters).split('&').sort.should == expected
           end
 
           it "should escape the keys and values in the parameter list" do
             request = Request.new('flickr.people.findByUsername', :username => 'the decapitator')
-            request.query_parameters.split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
+            request.__send__(:query_parameters).split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
           end
 
           it "should translate a shorthand API call" do
             request = Request.new('people.findByUsername')
-            request.query_parameters.split('&').include?('method=flickr.people.findByUsername').should be(true)
+            request.__send__(:query_parameters).split('&').include?('method=flickr.people.findByUsername').should be(true)
           end
 
           it "should know the endpoint with full parameters" do
@@ -44,7 +44,7 @@ module Fleakr::Api
 
             URI.expects(:parse).with("http://api.flickr.com/services/rest/").returns(uri_mock)
 
-            request.endpoint_uri.should == uri_mock
+            request.__send__(:endpoint_uri).should == uri_mock
           end
 
           it "should be able to make a request" do
