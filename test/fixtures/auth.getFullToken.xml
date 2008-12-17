@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rsp stat="ok">
+<auth>
+	<token>abc-123</token>
+	<perms>delete</perms>
+	<user nsid="31066442@N69" fullname="Sir Froot Pants" username="frootpantz"></user>
+</auth>
+</rsp>
