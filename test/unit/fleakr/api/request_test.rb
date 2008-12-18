@@ -96,6 +96,21 @@ module Fleakr::Api
           request = Request.new('people.findByUsername', :sign? => true)
           request.sign?.should be(true)
         end
+
+        it "should know that it doesn't need to authenticate by default" do
+          request = Request.new('people.findByUsername')
+          request.authenticate?.should be(false)
+        end
+        
+        it "should know that it needs to authenticate the request" do
+          request = Request.new('activity.userPhotos', :authenticate? => true)
+          request.authenticate?.should be(true)
+        end
+        
+        it "should know that it needs to sign the request if it is using authentication" do
+          request = Request.new('activity.userPhotos', :authenticate? => true)
+          request.sign?.should be(true)
+        end
         
         it "should be able to calculate the correct signature" do
           Fleakr.stubs(:shared_secret).with().returns('secret')
@@ -111,6 +126,17 @@ module Fleakr::Api
           request.parameters.should == {
             :api_key => @api_key,
             :method  => 'flickr.people.findByUsername'
+          }
+        end
+        
+        it "should return the :auth_token when the call needs to be authenticated" do
+          Request.expects(:token).with().returns(stub(:value => 'toke'))
+          
+          request = Request.new('activity.userPhotos', :authenticate? => true)
+          request.parameters.should == {
+            :api_key    => @api_key,
+            :method     => 'flickr.activity.userPhotos',
+            :auth_token => 'toke'
           }
         end
         

@@ -9,8 +9,6 @@ module Fleakr
     #
     class Request
 
-      attr_reader :parameters
-
       # Generic catch-all exception for any API errors
       class ApiError < StandardError; end
 
@@ -52,7 +50,8 @@ module Fleakr
       def initialize(method, additional_parameters = {})
         method = method.sub(/^(flickr\.)?/, 'flickr.')
         
-        @sign = additional_parameters.delete(:sign?)
+        @sign         = additional_parameters.delete(:sign?)
+        @authenticate = additional_parameters.delete(:authenticate?)
 
         default_parameters = {:api_key => Fleakr.api_key, :method => method}
         @parameters = default_parameters.merge(additional_parameters)
@@ -61,7 +60,21 @@ module Fleakr
       # Should this call be signed?
       #
       def sign?
-        (@sign == true) ? true : false
+        (authenticate? || @sign == true) ? true : false
+      end
+      
+      # Should this call be authenticated?
+      #
+      def authenticate?
+        (@authenticate == true) ? true : false 
+      end
+
+      # The list of parameters that should be sent to the Flickr API.  If this call
+      # should be signed (e.g. sign? returns true), then this method will add the
+      # necessary <tt>:api_sig</tt> name/value pair
+      #
+      def parameters
+        self.authenticate? ? @parameters.merge(:auth_token => self.class.token.value) : @parameters
       end
 
       def send # :nodoc:
