@@ -70,8 +70,8 @@ module Fleakr
       end
 
       # The list of parameters that should be sent to the Flickr API.  If this call
-      # should be signed (e.g. sign? returns true), then this method will add the
-      # necessary <tt>:api_sig</tt> name/value pair
+      # should be authenticated (e.g. authenticate? returns true), then this method will add the
+      # necessary <tt>:auth_token</tt> name/value pair
       #
       def parameters
         self.authenticate? ? @parameters.merge(:auth_token => self.class.token.value) : @parameters
