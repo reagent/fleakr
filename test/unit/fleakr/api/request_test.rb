@@ -114,13 +114,6 @@ module Fleakr::Api
           }
         end
         
-        it "should return the :api_sig parameter when the call needs to be signed" do
-          request = Request.new('people.findByUsername', :sign? => true)
-          request.stubs(:signature).returns('sig')
-          
-          request.parameters[:api_sig].should == 'sig'
-        end
-
         it "should know the endpoint with full parameters" do
           query_parameters = 'foo=bar'
 

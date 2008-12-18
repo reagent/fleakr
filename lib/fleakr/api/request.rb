@@ -9,6 +9,8 @@ module Fleakr
     #
     class Request
 
+      attr_reader :parameters
+
       # Generic catch-all exception for any API errors
       class ApiError < StandardError; end
 
@@ -66,14 +68,6 @@ module Fleakr
         Response.new(Net::HTTP.get(endpoint_uri))
       end
 
-      # The list of parameters that should be sent to the Flickr API.  If this call
-      # should be signed (e.g. sign? returns true), then this method will add the
-      # necessary <tt>:api_sig</tt> name/value pair
-      #
-      def parameters
-        self.sign? ? @parameters.merge(:api_sig => signature) : @parameters
-      end
-
       private
       def endpoint_uri
         uri = URI.parse('http://api.flickr.com/services/rest/')
@@ -82,12 +76,16 @@ module Fleakr
       end
 
       def query_parameters
-        self.parameters.map {|key,value| "#{key}=#{CGI.escape(value)}" }.join('&')
+        parameters = self.parameters
+        parameters.merge!(:api_sig => signature) if self.sign?
+        
+        parameters.map {|key,value| "#{key}=#{CGI.escape(value)}" }.join('&')
       end
 
       def signature
-        sorted_pairs = @parameters.sort {|a,b| a.to_s <=> b.to_s }.flatten.join
-        Digest::MD5.hexdigest("#{Fleakr.shared_secret}#{sorted_pairs}")
+        signature_params = self.parameters.reject {|k,v| k == :api_sig }
+        sorted_pairs = signature_params.sort {|a,b| a.to_s <=> b.to_s }.flatten
+        Digest::MD5.hexdigest("#{Fleakr.shared_secret}#{sorted_pairs.join}")
       end
 
     end
