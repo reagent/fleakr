@@ -54,7 +54,7 @@ module Fleakr::Api
         end
         
         it "should be able to calculate the correct signature" do
-          Fleakr.stubs(:secret).with().returns('secret')
+          Fleakr.stubs(:shared_secret).with().returns('secret')
           
           request = Request.new('people.findByUsername', :sign? => true)
           sig = Digest::MD5.hexdigest("secretapi_key#{@api_key}methodflickr.people.findByUsername")

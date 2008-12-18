@@ -11,11 +11,11 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.api_key.should == key
     end
     
-    it "should be able to set the secret" do
+    it "should be able to set the shared secret" do
       secret = 'ssssshhhh'
       
-      Fleakr.secret = secret
-      Fleakr.secret.should == secret
+      Fleakr.shared_secret = secret
+      Fleakr.shared_secret.should == secret
     end
     
     it "should provide a means to find a user by his username" do

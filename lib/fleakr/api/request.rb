@@ -76,7 +76,7 @@ module Fleakr
 
       def signature
         sorted_pairs = @parameters.sort {|a,b| a.to_s <=> b.to_s }.flatten.join
-        Digest::MD5.hexdigest("#{Fleakr.secret}#{sorted_pairs}")
+        Digest::MD5.hexdigest("#{Fleakr.shared_secret}#{sorted_pairs}")
       end
 
     end
