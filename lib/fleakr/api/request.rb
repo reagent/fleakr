@@ -12,6 +12,17 @@ module Fleakr
       # Generic catch-all exception for any API errors
       class ApiError < StandardError; end
 
+      def self.token
+        if @token.nil?
+          if !Fleakr.auth_token.nil?
+            @token = Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
+          else
+            @token = Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
+          end
+        end
+        @token
+      end
+      
       # Makes a request to the Flickr API and returns a valid Response object.  If
       # there are errors on the response it will raise an ApiError exception.  See 
       # #Fleakr::Api::Request.new for details about the additional parameters

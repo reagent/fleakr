@@ -27,6 +27,16 @@ module Fleakr
         self.new(response.body)
       end
       
+      # Retrieve a full authentication token from the supplied auth_token string
+      # (e.g. 45-76598454353455)
+      # 
+      def self.from_auth_token(token)
+        parameters = {:auth_token => token, :sign? => true}
+        response = Fleakr::Api::Request.with_response!('auth.checkToken', parameters)
+        
+        self.new(response.body)
+      end
+      
     end
     
   end

@@ -4,18 +4,13 @@ class FleakrTest < Test::Unit::TestCase
   
   describe "The Fleakr module" do
     
-    it "should be able to set an API key" do
-      key = 'f00b4r'
-      Fleakr.api_key = key
-      
-      Fleakr.api_key.should == key
-    end
-    
-    it "should be able to set the shared secret" do
-      secret = 'ssssshhhh'
-      
-      Fleakr.shared_secret = secret
-      Fleakr.shared_secret.should == secret
+    [:api_key, :shared_secret, :mini_token, :auth_token].each do |attribute|
+      it "should be able to set a value for :#{attribute}" do
+        value = 'value'
+        
+        Fleakr.send("#{attribute}=".to_sym, value)
+        Fleakr.send(attribute).should == value
+      end
     end
     
     it "should provide a means to find a user by his username" do

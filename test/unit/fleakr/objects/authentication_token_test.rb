@@ -16,6 +16,16 @@ module Fleakr::Objects
         AuthenticationToken.from_mini_token(token).should == auth_token
       end
       
+      it "should be able to create an instance from an auth_token" do
+        token      = 'abc123'
+        auth_token = stub()
+
+        response = mock_request_cycle :for => 'auth.checkToken', :with => {:auth_token => token, :sign? => true}
+        
+        AuthenticationToken.expects(:new).with(response.body).returns(auth_token)
+        AuthenticationToken.from_auth_token(token).should == auth_token
+      end
+      
     end
     
     describe "An instance of the AuthenticationToken class" do

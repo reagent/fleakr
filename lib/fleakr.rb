@@ -40,7 +40,7 @@ end
 #
 module Fleakr
 
-  mattr_accessor :api_key, :shared_secret
+  mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token
 
   # Find a user based on some unique user data.  This method will try to find
   # the user based on username and will fall back to email if that fails.  Example:
