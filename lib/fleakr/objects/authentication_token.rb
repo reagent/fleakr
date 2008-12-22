@@ -22,7 +22,7 @@ module Fleakr
       #
       def self.from_mini_token(token)
         parameters = {:mini_token => token, :sign? => true}
-        response = Fleakr::Api::Request.with_response!('auth.getFullToken', parameters)
+        response = Fleakr::Api::MethodRequest.with_response!('auth.getFullToken', parameters)
         
         self.new(response.body)
       end
@@ -32,7 +32,7 @@ module Fleakr
       # 
       def self.from_auth_token(token)
         parameters = {:auth_token => token, :sign? => true}
-        response = Fleakr::Api::Request.with_response!('auth.checkToken', parameters)
+        response = Fleakr::Api::MethodRequest.with_response!('auth.checkToken', parameters)
         
         self.new(response.body)
       end

@@ -8,9 +8,14 @@ require 'hpricot'
 require 'activesupport'
 require 'md5'
 
-%w(support api objects).each do |path|
-  full_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr/#{path}"
-  Dir["#{full_path}/*.rb"].each {|f| require f }
+base_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr"
+
+require "#{base_path}/api/request"
+require "#{base_path}/api/response"
+require "#{base_path}/api/method_request"
+
+%w(support objects).each do |path|
+  Dir["#{base_path}/#{path}/*.rb"].each {|f| require f }
 end
 
 # = Fleakr: A teeny tiny gem to interface with Flickr

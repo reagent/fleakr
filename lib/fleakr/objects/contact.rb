@@ -12,7 +12,7 @@ module Fleakr
       # Retrieve a list of contacts for the specified user ID and return an initialized
       # collection of #User objects
       def self.find_all_by_user_id(user_id)
-        response = Fleakr::Api::Request.with_response!('contacts.getPublicList', :user_id => user_id)
+        response = Fleakr::Api::MethodRequest.with_response!('contacts.getPublicList', :user_id => user_id)
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
       

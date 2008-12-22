@@ -1,9 +1,13 @@
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-module Fleakr::Api
-  class RequestTest < Test::Unit::TestCase
+class RequestImplementation
+  include Fleakr::Api::Request
+end
 
-    describe "The Request class" do
+module Fleakr::Api
+  class RequestImplementationTest < Test::Unit::TestCase
+
+    describe "The RequestImplementation class" do
 
       before { @token = stub() }
       
@@ -47,7 +51,9 @@ module Fleakr::Api
       
     end
     
-    describe "A Request instance" do
+    describe "A RequestImplementation instance" do
+
+      before { @request = RequestImplementation.new }
 
       context "with an API key" do
 
@@ -56,140 +62,73 @@ module Fleakr::Api
           Fleakr.stubs(:api_key).with().returns(@api_key)
         end
 
-        it "should know the full query parameters" do
-          request = Request.new('flickr.people.findByUsername', :username => 'foobar')
-
-          expected = [
-            "api_key=#{@api_key}",
-            "method=flickr.people.findByUsername",
-            "username=foobar"
-          ]
-
-          request.__send__(:query_parameters).split('&').sort.should == expected
+        it "should escape the keys and values in the parameter list" do
+          @request.stubs(:parameters).with().returns(:username => 'the decapitator')
+          @request.__send__(:query_parameters).split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
         end
         
-        it "should escape the keys and values in the parameter list" do
-          request = Request.new('flickr.people.findByUsername', :username => 'the decapitator')
-          request.__send__(:query_parameters).split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
+        it "should return an empty hash for parameters by default" do
+          @request.parameters.should == {}
         end
         
         it "should include the signature in the query parameters when the call is to be signed" do
-          request = Request.new('auth.getFullToken', :sign? => true)
-          request.stubs(:signature).with().returns('sig')
+          @request.stubs(:sign?).with().returns(true)
+          @request.stubs(:signature).with().returns('sig')
           
-          params = request.__send__(:query_parameters).split('&')
+          params = @request.__send__(:query_parameters).split('&')
 
           params.include?('api_sig=sig').should be(true)
         end
 
-        it "should translate a shorthand API call" do
-          request = Request.new('people.findByUsername')
-          request.__send__(:query_parameters).split('&').include?('method=flickr.people.findByUsername').should be(true)
-        end
 
         it "should know that it doesn't need to sign the request" do
-          request = Request.new('people.findByUsername')
-          request.sign?.should be(false)
-        end
-        
-        it "should know that it needs to sign the request" do
-          request = Request.new('people.findByUsername', :sign? => true)
-          request.sign?.should be(true)
+          @request.sign?.should be(false)
         end
 
         it "should know that it doesn't need to authenticate by default" do
-          request = Request.new('people.findByUsername')
-          request.authenticate?.should be(false)
+          @request.authenticate?.should be(false)
         end
-        
-        it "should know that it needs to authenticate the request" do
-          request = Request.new('activity.userPhotos', :authenticate? => true)
-          request.authenticate?.should be(true)
-        end
-        
+
         it "should know that it needs to sign the request if it is using authentication" do
-          request = Request.new('activity.userPhotos', :authenticate? => true)
-          request.sign?.should be(true)
+          @request.stubs(:authenticate?).with().returns(true)
+          @request.sign?.should be(true)
         end
         
         it "should be able to calculate the correct signature" do
           Fleakr.stubs(:shared_secret).with().returns('secret')
           
-          request = Request.new('people.findByUsername', :sign? => true)
+          @request.stubs(:sign?).with().returns(true)
+          @request.stubs(:parameters).with().returns(:api_key => @api_key, :method => 'flickr.people.findByUsername')
           sig = Digest::MD5.hexdigest("secretapi_key#{@api_key}methodflickr.people.findByUsername")
           
-          request.__send__(:signature).should == sig
+          @request.__send__(:signature).should == sig
         end
-        
-        it "should return the default parameters when the call doesn't need to be signed" do
-          request = Request.new('people.findByUsername')
-          request.parameters.should == {
-            :api_key => @api_key,
-            :method  => 'flickr.people.findByUsername'
-          }
-        end
-        
+
         it "should return the :auth_token when the call needs to be authenticated" do
           Request.expects(:token).with().returns(stub(:value => 'toke'))
           
-          request = Request.new('activity.userPhotos', :authenticate? => true)
-          request.parameters.should == {
-            :api_key    => @api_key,
-            :method     => 'flickr.activity.userPhotos',
-            :auth_token => 'toke'
-          }
+          @request.stubs(:authenticate?).with().returns(true)
+          @request.parameters.should == {:auth_token => 'toke'}
         end
         
-        it "should know the endpoint with full parameters" do
-          query_parameters = 'foo=bar'
-
-          request = Request.new('people.getInfo')
-          request.stubs(:query_parameters).with().returns(query_parameters)
-
-          uri_mock = mock() {|m| m.expects(:query=).with(query_parameters)}
-
-          URI.expects(:parse).with("http://api.flickr.com/services/rest/").returns(uri_mock)
-
-          request.__send__(:endpoint_uri).should == uri_mock
-        end
-
         it "should be able to make a request" do
           endpoint_uri = stub()
-
-          request = Request.new('flickr.people.findByUsername')
-
-          request.stubs(:endpoint_uri).with().returns(endpoint_uri)
+          @request.stubs(:endpoint_uri).with().returns(endpoint_uri)
+          
           Net::HTTP.expects(:get).with(endpoint_uri).returns('<xml>')
-
-          request.send
+        
+          @request.send
         end
-
+        
         it "should create a response from the request" do
           response_xml  = '<xml>'
           response_stub = stub()
-
-          request = Request.new('flickr.people.findByUsername')
-
+        
           Net::HTTP.stubs(:get).returns(response_xml)
           Response.expects(:new).with(response_xml).returns(response_stub)
-
-          request.send.should == response_stub
-        end
-
-        it "should be able to make a full request and response cycle" do
-          response = stub(:error? => false)
-          Response.expects(:new).with(kind_of(String)).returns(response)
-
-          Request.with_response!('flickr.people.findByUsername', :username => 'foobar').should == response
-        end
-
-        it "should raise an exception when the full request / response cycle has errors" do
-          response = stub(:error? => true, :error => stub(:code => '1', :message => 'User not found'))
-          Response.stubs(:new).with(kind_of(String)).returns(response)
-
-          lambda do
-            Request.with_response!('flickr.people.findByUsername', :username => 'foobar')
-          end.should raise_error(Fleakr::Api::Request::ApiError)
+          @request.stubs(:endpoint_uri)
+          
+          @request.send.should == response_stub
         end
 
       end

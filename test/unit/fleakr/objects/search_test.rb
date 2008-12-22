@@ -56,7 +56,7 @@ module Fleakr::Objects
       
       should "memoize the search results" do
         response = stub(:body => Hpricot.XML(read_fixture('photos.search')))
-        Fleakr::Api::Request.expects(:with_response!).with(kind_of(String), kind_of(Hash)).once.returns(response)
+        Fleakr::Api::MethodRequest.expects(:with_response!).with(kind_of(String), kind_of(Hash)).once.returns(response)
         
         (response.body/'rsp/photos/photo').each do |doc|
           Photo.expects(:new).with(doc).once

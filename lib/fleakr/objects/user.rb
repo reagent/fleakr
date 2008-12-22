@@ -97,7 +97,7 @@ module Fleakr
       end
       
       def load_info # :nodoc:
-        response = Fleakr::Api::Request.with_response!('people.getInfo', :user_id => self.id)
+        response = Fleakr::Api::MethodRequest.with_response!('people.getInfo', :user_id => self.id)
         self.populate_from(response.body)
       end
 

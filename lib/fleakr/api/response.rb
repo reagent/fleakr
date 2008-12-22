@@ -5,7 +5,7 @@ module Fleakr
     #
     # Response objects contain Hpricot documents that are traversed and parsed by
     # the model objects.  This class is never called directly but is instantiated
-    # during the request cycle (see: Fleakr::Api::Request.with_response!)
+    # during the request cycle (see: Fleakr::Api::MethodRequest.with_response!)
     #
     class Response
 
