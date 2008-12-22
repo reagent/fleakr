@@ -47,6 +47,7 @@ module Fleakr
         #
         def parameters
           parameters = @parameters || {}
+          parameters.merge!(:api_key => Fleakr.api_key)
           parameters.merge!(:auth_token => Request.token.value) if self.authenticate?
           
           parameters

@@ -62,15 +62,15 @@ module Fleakr::Api
           Fleakr.stubs(:api_key).with().returns(@api_key)
         end
 
-        it "should return an empty hash for parameters by default" do
-          @request.parameters.should == {}
+        it "should return a hash containing the :api_key in the parameter list by default" do
+          @request.parameters.should == {:api_key => @api_key}
         end
         
         it "should include the signature in the query parameters when the call is to be signed" do
           @request.stubs(:sign?).with().returns(true)
           @request.stubs(:signature).with().returns('sig')
           
-          @request.__send__(:query_parameters).should == {:api_sig => 'sig'}
+          @request.__send__(:query_parameters)[:api_sig].should == 'sig'
         end
 
         it "should know that it doesn't need to sign the request" do
@@ -100,7 +100,7 @@ module Fleakr::Api
           Request.expects(:token).with().returns(stub(:value => 'toke'))
           
           @request.stubs(:authenticate?).with().returns(true)
-          @request.parameters.should == {:auth_token => 'toke'}
+          @request.parameters[:auth_token].should == 'toke'
         end
         
         it "should require implementations to override the :endpoint_uri method" do

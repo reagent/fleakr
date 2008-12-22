@@ -4,6 +4,8 @@ module Fleakr
     class MethodRequest
       include Fleakr::Api::Request
       
+      attr_reader :method
+      
       # Makes a request to the Flickr API and returns a valid Response object.  If
       # there are errors on the response it will raise an ApiError exception.  See 
       # #Fleakr::Api::MethodRequest.new for details about the additional parameters
@@ -29,15 +31,17 @@ module Fleakr
       # whether this call should automatically be signed.
       #
       def initialize(method, additional_parameters = {})
-        method = method.sub(/^(flickr\.)?/, 'flickr.')
-
         @sign         = additional_parameters.delete(:sign?)
         @authenticate = additional_parameters.delete(:authenticate?)
-
-        default_parameters = {:api_key => Fleakr.api_key, :method => method}
-        @parameters = default_parameters.merge(additional_parameters)
+        
+        self.method = method
+        @parameters = additional_parameters.merge(:method => self.method)
       end
    
+      def method=(method)
+        @method = method.sub(/^(flickr\.)?/, 'flickr.')
+      end
+      
       private
       def endpoint_uri
         uri = URI.parse('http://api.flickr.com/services/rest/')
