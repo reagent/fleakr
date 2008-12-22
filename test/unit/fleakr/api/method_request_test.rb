@@ -48,7 +48,7 @@ module Fleakr::Api
         end
 
         it "should know the endpoint with full parameters" do
-          query_parameters = 'foo=bar'
+          query_parameters = {:foo => 'bar'}
         
           request = MethodRequest.new('people.getInfo')
           request.stubs(:query_parameters).with().returns(query_parameters)
