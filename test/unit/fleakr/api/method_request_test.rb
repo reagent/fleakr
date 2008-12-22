@@ -15,18 +15,18 @@ module Fleakr::Api
         it "should know the full query parameters" do
           request = MethodRequest.new('flickr.people.findByUsername', :username => 'foobar')
 
-          expected = [
-            "api_key=#{@api_key}",
-            "method=flickr.people.findByUsername",
-            "username=foobar"
-          ]
+          expected = {
+            :api_key  => @api_key,
+            :method   => 'flickr.people.findByUsername',
+            :username => 'foobar'
+          }
 
-          request.__send__(:query_parameters).split('&').sort.should == expected
+          request.__send__(:query_parameters).should == expected
         end
         
         it "should translate a shorthand API call" do
           request = MethodRequest.new('people.findByUsername')
-          request.__send__(:query_parameters).split('&').include?('method=flickr.people.findByUsername').should be(true)
+          request.__send__(:query_parameters)[:method].should == 'flickr.people.findByUsername'
         end
         
         it "should know that it needs to sign the request" do

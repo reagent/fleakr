@@ -60,8 +60,8 @@ module Fleakr
         def query_parameters
           parameters = self.parameters
           parameters.merge!(:api_sig => signature) if self.sign?
-
-          parameters.map {|key,value| "#{key}=#{CGI.escape(value)}" }.join('&')
+          
+          parameters
         end
 
         def signature

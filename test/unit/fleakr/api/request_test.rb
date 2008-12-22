@@ -62,11 +62,6 @@ module Fleakr::Api
           Fleakr.stubs(:api_key).with().returns(@api_key)
         end
 
-        it "should escape the keys and values in the parameter list" do
-          @request.stubs(:parameters).with().returns(:username => 'the decapitator')
-          @request.__send__(:query_parameters).split('&').include?("username=#{CGI.escape('the decapitator')}").should be(true)
-        end
-        
         it "should return an empty hash for parameters by default" do
           @request.parameters.should == {}
         end
@@ -75,9 +70,7 @@ module Fleakr::Api
           @request.stubs(:sign?).with().returns(true)
           @request.stubs(:signature).with().returns('sig')
           
-          params = @request.__send__(:query_parameters).split('&')
-
-          params.include?('api_sig=sig').should be(true)
+          @request.__send__(:query_parameters).should == {:api_sig => 'sig'}
         end
 
         it "should know that it doesn't need to sign the request" do

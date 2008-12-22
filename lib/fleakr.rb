@@ -10,6 +10,8 @@ require 'md5'
 
 base_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr"
 
+require "#{base_path}/core_ext/uri/http"
+
 require "#{base_path}/api/request"
 require "#{base_path}/api/response"
 require "#{base_path}/api/method_request"
