@@ -80,7 +80,6 @@ module Fleakr::Api
           params.include?('api_sig=sig').should be(true)
         end
 
-
         it "should know that it doesn't need to sign the request" do
           @request.sign?.should be(false)
         end
@@ -109,6 +108,10 @@ module Fleakr::Api
           
           @request.stubs(:authenticate?).with().returns(true)
           @request.parameters.should == {:auth_token => 'toke'}
+        end
+        
+        it "should require implementations to override the :endpoint_uri method" do
+          lambda { @request.endpoint_uri }.should raise_error(NoMethodError)
         end
         
         it "should be able to make a request" do
