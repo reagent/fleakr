@@ -15,6 +15,7 @@ require "#{base_path}/core_ext/uri/http"
 require "#{base_path}/api/request"
 require "#{base_path}/api/response"
 require "#{base_path}/api/method_request"
+require "#{base_path}/api/parameter"
 
 %w(support objects).each do |path|
   Dir["#{base_path}/#{path}/*.rb"].each {|f| require f }
