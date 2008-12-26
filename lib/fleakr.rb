@@ -49,6 +49,9 @@ end
 #
 module Fleakr
 
+  # Generic catch-all exception for any API errors
+  class ApiError < StandardError; end
+
   mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token
 
   # Find a user based on some unique user data.  This method will try to find
@@ -61,7 +64,7 @@ module Fleakr
   def self.user(user_data)
     begin
       Objects::User.find_by_username(user_data)
-    rescue Api::Request::ApiError
+    rescue ApiError
       Objects::User.find_by_email(user_data)
     end
   end

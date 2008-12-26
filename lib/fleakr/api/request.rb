@@ -9,9 +9,6 @@ module Fleakr
     #
     module Request
 
-      # Generic catch-all exception for any API errors
-      class ApiError < StandardError; end
-
       def self.token
         if @token.nil?
           if !Fleakr.auth_token.nil?

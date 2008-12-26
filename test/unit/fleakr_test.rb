@@ -23,7 +23,7 @@ class FleakrTest < Test::Unit::TestCase
       user = stub()
       email = 'user@host.com'
       
-      Fleakr::Objects::User.stubs(:find_by_username).with(email).raises(Fleakr::Api::Request::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_username).with(email).raises(Fleakr::ApiError)
       Fleakr::Objects::User.expects(:find_by_email).with(email).returns(user)
       
       Fleakr.user(email).should == user

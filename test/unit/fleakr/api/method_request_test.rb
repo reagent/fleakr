@@ -93,7 +93,7 @@ module Fleakr::Api
           
           lambda do
             MethodRequest.with_response!('flickr.people.findByUsername', :username => 'foobar')
-          end.should raise_error(Fleakr::Api::Request::ApiError)
+          end.should raise_error(Fleakr::ApiError)
         end
         
       end

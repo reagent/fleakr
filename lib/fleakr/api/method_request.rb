@@ -12,7 +12,7 @@ module Fleakr
         request = self.new(method, additional_parameters)
         response = request.send
 
-        raise(Fleakr::Api::Request::ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
+        raise(Fleakr::ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
 
         response
       end
