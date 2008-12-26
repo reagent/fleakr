@@ -36,7 +36,7 @@ module Fleakr
    
       def method=(method)
         @method = method.sub(/^(flickr\.)?/, 'flickr.')
-        @parameters << Parameter.new('method', @method)
+        @parameters << ValueParameter.new('method', @method)
       end
 
       def send # :nodoc:

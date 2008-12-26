@@ -25,14 +25,14 @@ module Fleakr::Api
       end
 
       it "should be able to add parameters to its list" do
-        parameter = Parameter.new('foo', 'bar')
+        parameter = ValueParameter.new('foo', 'bar')
         
         @parameter_list << parameter
         @parameter_list['foo'].should == parameter
       end
       
       it "should allow access to parameters by symbol" do
-        parameter = Parameter.new('foo', 'bar')
+        parameter = ValueParameter.new('foo', 'bar')
         @parameter_list << parameter
         
         @parameter_list[:foo].should == parameter
@@ -40,26 +40,26 @@ module Fleakr::Api
       
       it "should overwrite existing values when a duplicate is added" do
         length = @parameter_list.instance_variable_get(:@list).length
-        2.times {@parameter_list << Parameter.new('foo', 'bar') }
+        2.times {@parameter_list << ValueParameter.new('foo', 'bar') }
         
         @parameter_list.instance_variable_get(:@list).length.should == length + 1
       end
       
       it "should be able to calculate the signature of the parameters" do
-        @parameter_list << Parameter.new('foo', 'bar')
+        @parameter_list << ValueParameter.new('foo', 'bar')
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
       it "should use the correct order when signing a list of multiple parameters" do
-        @parameter_list << Parameter.new('z', 'a')
-        @parameter_list << Parameter.new('a', 'z')
+        @parameter_list << ValueParameter.new('z', 'a')
+        @parameter_list << ValueParameter.new('a', 'z')
         
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}azapi_key#{@api_key}za")
       end
       
       it "should ignore the parameters that aren't included in the signature" do
-        @parameter_list << Parameter.new('foo', 'bar')
-        @parameter_list << Parameter.new('yes', 'no', false)
+        @parameter_list << ValueParameter.new('foo', 'bar')
+        @parameter_list << ValueParameter.new('yes', 'no', false)
         
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
@@ -123,8 +123,8 @@ module Fleakr::Api
       context "with associated parameters" do
 
         before do
-          @p1 = Parameter.new('a', 'b')
-          @p2 = Parameter.new('c', 'd')
+          @p1 = ValueParameter.new('a', 'b')
+          @p2 = ValueParameter.new('c', 'd')
 
           @p1.stubs(:to_query).with().returns('q1')
           @p1.stubs(:to_form).with().returns('f1')

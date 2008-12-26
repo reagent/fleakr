@@ -8,10 +8,10 @@ module Fleakr
         
         @list = Hash.new
 
-        options.each {|k,v| self << Parameter.new(k.to_s, v) }
+        options.each {|k,v| self << ValueParameter.new(k.to_s, v) }
 
-        self << Parameter.new('api_key', Fleakr.api_key)
-        self << Parameter.new('auth_token', Request.token.value) if authenticate?
+        self << ValueParameter.new('api_key', Fleakr.api_key)
+        self << ValueParameter.new('auth_token', Request.token.value) if authenticate?
       end
       
       def <<(parameter)
@@ -55,7 +55,7 @@ module Fleakr
       private
       def list
         list = @list
-        list.merge!('api_sig' => Parameter.new('api_sig', signature, false)) if self.sign?
+        list.merge!('api_sig' => ValueParameter.new('api_sig', signature, false)) if self.sign?
         
         list
       end
