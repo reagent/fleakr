@@ -6,12 +6,17 @@ module Fleakr::Api
     describe "An instance of the ParameterList class" do
       
       before do
-        @secret = 'foobar'
+        @api_key = 'key'
+        @secret  = 'foobar'
+
+        Fleakr.stubs(:api_key).with().returns(@api_key)
         @parameter_list = ParameterList.new(@secret)
       end
       
-      it "should have an empty hash by default" do
-        @parameter_list.instance_variable_get(:@list).should == {}
+      it "should contain the :api_key by default" do
+        @parameter_list[:api_key].name.should == 'api_key'
+        @parameter_list[:api_key].value.should == @api_key
+        @parameter_list[:api_key].include_in_signature?.should be(true)
       end
 
       it "should be able to add parameters to its list" do
@@ -29,28 +34,29 @@ module Fleakr::Api
       end
       
       it "should overwrite existing values when a duplicate is added" do
+        length = @parameter_list.instance_variable_get(:@list).length
         2.times {@parameter_list << Parameter.new('foo', 'bar') }
         
-        @parameter_list.instance_variable_get(:@list).length.should == 1
+        @parameter_list.instance_variable_get(:@list).length.should == length + 1
       end
       
       it "should be able to calculate the signature of the parameters" do
         @parameter_list << Parameter.new('foo', 'bar')
-        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}foobar")
+        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
       it "should use the correct order when signing a list of multiple parameters" do
         @parameter_list << Parameter.new('z', 'a')
         @parameter_list << Parameter.new('a', 'z')
         
-        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}azza")
+        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}azapi_key#{@api_key}za")
       end
       
       it "should ignore the parameters that aren't included in the signature" do
         @parameter_list << Parameter.new('foo', 'bar')
         @parameter_list << Parameter.new('yes', 'no', false)
         
-        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}foobar")
+        @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
       it "should be able to generate a boundary for post data" do
@@ -121,8 +127,7 @@ module Fleakr::Api
           @p2.stubs(:to_query).with().returns('q2')
           @p2.stubs(:to_form).with().returns('f2')
 
-          @parameter_list << @p1
-          @parameter_list << @p2
+          @parameter_list.stubs(:list).with().returns('a' => @p1, 'c' => @p2)
         end
 
         it "should be able to generate a query representation of itself" do

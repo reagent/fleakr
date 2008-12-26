@@ -8,6 +8,7 @@ module Fleakr
         
         @list = Hash.new
 
+        self << Parameter.new('api_key', Fleakr.api_key)
         self << Parameter.new('auth_token', Request.token.value) if authenticate?
       end
       
