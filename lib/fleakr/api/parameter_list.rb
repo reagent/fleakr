@@ -4,9 +4,11 @@ module Fleakr
       
       def initialize(secret, options = {})
         @secret = secret
-        @options = options
+        @api_options = options.extract!(:sign?, :authenticate?)
         
         @list = Hash.new
+
+        options.each {|k,v| self << Parameter.new(k.to_s, v) }
 
         self << Parameter.new('api_key', Fleakr.api_key)
         self << Parameter.new('auth_token', Request.token.value) if authenticate?
@@ -17,11 +19,11 @@ module Fleakr
       end
       
       def sign?
-        (@options[:sign?] == true || authenticate?) ? true : false
+        (@api_options[:sign?] == true || authenticate?) ? true : false
       end
       
       def authenticate?
-        (@options[:authenticate?] == true) ? true : false
+        (@api_options[:authenticate?] == true) ? true : false
       end
       
       def [](key)

@@ -18,6 +18,11 @@ module Fleakr::Api
         @parameter_list[:api_key].value.should == @api_key
         @parameter_list[:api_key].include_in_signature?.should be(true)
       end
+      
+      it "should be able to create an initial list of parameters" do
+        parameter_list = ParameterList.new('secret', {:one => 'two'})
+        parameter_list[:one].value.should == 'two'
+      end
 
       it "should be able to add parameters to its list" do
         parameter = Parameter.new('foo', 'bar')
