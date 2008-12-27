@@ -5,8 +5,8 @@ module Fleakr
       
       attr_reader :parameters
       
-      def self.with_response!(filename)
-        request = self.new(filename)
+      def self.with_response!(filename, options = {})
+        request = self.new(filename, options)
         response = request.send
         
         raise(Fleakr::ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
@@ -14,8 +14,10 @@ module Fleakr
         response
       end
       
-      def initialize(filename)
-        @parameters = ParameterList.new(Fleakr.shared_secret, :authenticate? => true)
+      def initialize(filename, options = {})
+        options.merge!(:authenticate? => true)
+        
+        @parameters = ParameterList.new(Fleakr.shared_secret, options)
         @parameters << FileParameter.new('photo', filename)
       end
       

@@ -21,6 +21,14 @@ module Fleakr::Api
 
         UploadRequest.new(filename)
       end
+      
+      it "should allow setting additional parameters on initialization" do
+        params = {:is_public => 1}
+        
+        ParameterList.expects(:new).with(@secret, {:is_public => 1, :authenticate? => true}).returns(stub(:<<))
+        
+        UploadRequest.new('filename', params)
+      end
 
       context "after initialization" do
 
@@ -87,7 +95,7 @@ module Fleakr::Api
           filename = 'filename'
           response = stub(:error? => false)
           
-          UploadRequest.expects(:new).with(filename).returns(stub(:send => response))
+          UploadRequest.expects(:new).with(filename, {}).returns(stub(:send => response))
           UploadRequest.with_response!(filename).should == response
         end
         
@@ -95,7 +103,7 @@ module Fleakr::Api
           filename = 'filename'
           response = stub(:error? => true, :error => stub(:code => '1', :message => 'User not found'))
           
-          UploadRequest.expects(:new).with(filename).returns(stub(:send => response))
+          UploadRequest.expects(:new).with(filename, {}).returns(stub(:send => response))
           
           lambda do
             UploadRequest.with_response!(filename)
