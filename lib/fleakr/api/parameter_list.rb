@@ -31,7 +31,7 @@ module Fleakr
       end
       
       def boundary
-        @boundary ||= ('-' * 32) + Digest::MD5.hexdigest(rand.to_s)
+        @boundary ||= Digest::MD5.hexdigest(rand.to_s)
       end
       
       def to_query
@@ -39,8 +39,8 @@ module Fleakr
       end
       
       def to_form
-        form = list.map {|k,p| "#{self.boundary}\r\n#{p.to_form}" }.join
-        form << "#{self.boundary}--\r\n"
+        form = list.map {|k,p| "--#{self.boundary}\r\n#{p.to_form}" }.join
+        form << "--#{self.boundary}--"
 
         form
       end

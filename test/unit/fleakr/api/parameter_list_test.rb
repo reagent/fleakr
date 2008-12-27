@@ -68,7 +68,7 @@ module Fleakr::Api
         rand = '0.123'
         
         @parameter_list.stubs(:rand).with().returns(stub(:to_s => rand))
-        @parameter_list.boundary.should == ('-' * 32) + Digest::MD5.hexdigest(rand)
+        @parameter_list.boundary.should == Digest::MD5.hexdigest(rand)
       end
       
       it "should know that it doesn't need to sign the request by default" do
@@ -143,11 +143,11 @@ module Fleakr::Api
           @parameter_list.stubs(:boundary).returns('bound')
           
           expected = 
-            "bound\r\n" +
+            "--bound\r\n" +
             "f1" +
-            "bound\r\n" +
+            "--bound\r\n" +
             "f2" +
-            "bound--\r\n"
+            "--bound--"
             
           @parameter_list.to_form.should == expected
         end
