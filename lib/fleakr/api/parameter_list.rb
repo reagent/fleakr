@@ -39,15 +39,15 @@ module Fleakr
       end
       
       def to_form
-        form = list.map {|k,p| "--#{self.boundary}\r\n#{p.to_form}" }.join
+        form = list.values.map {|p| "--#{self.boundary}\r\n#{p.to_form}" }.join
         form << "--#{self.boundary}--"
 
         form
       end
       
       def signature
-        parameters_to_sign = @list.reject {|k,p| !p.include_in_signature? }
-        signature_text = parameters_to_sign.sort.map {|e| "#{e[1].name}#{e[1].value}" }.join
+        parameters_to_sign = @list.values.reject {|p| !p.include_in_signature? }
+        signature_text = parameters_to_sign.sort.map {|p| "#{p.name}#{p.value}" }.join
 
         Digest::MD5.hexdigest("#{@secret}#{signature_text}")
       end
