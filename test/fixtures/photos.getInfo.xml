@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+  <photo id="1" secret="secret" server="3085" farm="4" dateuploaded="1230274722" isfavorite="0" license="0" rotation="0" originalsecret="sekrit" originalformat="jpg" media="photo">
+    <owner nsid="31066442@N69" username="frootpantz" realname="" location="" />
+    <title>Tree</title>
+    <description>A Tree</description>
+    <visibility ispublic="1" isfriend="0" isfamily="0" />
+    <dates posted="1230274722" taken="2008-12-25 18:26:55" takengranularity="0" lastupdate="1230276652" />
+
+    <editability cancomment="0" canaddmeta="0" />
+    <usage candownload="1" canblog="0" canprint="0" />
+    <comments>0</comments>
+    <notes />
+    <tags />
+    <urls>
+      <url type="photopage">http://www.flickr.com/photos/yes/1</url>
+    </urls>
+
+  </photo>
+</rsp>

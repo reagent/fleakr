@@ -26,7 +26,7 @@ module Fleakr
       include Fleakr::Support::Object
 
       flickr_attribute :title
-      flickr_attribute :id
+      flickr_attribute :id, :from => ['@id', 'photoid']
       flickr_attribute :farm_id, :from => '@farm'
       flickr_attribute :server_id, :from => '@server'
       flickr_attribute :secret
@@ -35,7 +35,15 @@ module Fleakr
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
       
+      find_one :by_id, :using => :photo_id, :call => 'photos.getInfo', :authenticate? => true
+      
       has_many :images
+
+      def self.upload(filename)
+        response = Fleakr::Api::UploadRequest.with_response!(filename)
+        photo = Photo.new(response.body)
+        Photo.find_by_id(photo.id)
+      end
 
       # Create methods to access image sizes by name
       SIZES.each do |size|

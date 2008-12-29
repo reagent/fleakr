@@ -64,12 +64,15 @@ class Test::Unit::TestCase
     klass       = "Fleakr::Objects::#{class_name}".constantize
     object_type = class_name.downcase    
 
+    condition_value = '1'
+
     options[:with] = options[:by] if options[:with].nil?
+    params = {options[:with] => condition_value}
+    params.merge!(options[:options].nil? ? {} : options[:options])
 
     it "should be able to find a #{thing} by #{options[:by]}" do
-      condition_value = '1'
       stub = stub()
-      response = mock_request_cycle :for => options[:call], :with => {options[:with] => condition_value}
+      response = mock_request_cycle :for => options[:call], :with => params
 
       klass.expects(:new).with(response.body).returns(stub)
       klass.send("find_by_#{options[:by]}".to_sym, condition_value).should == stub

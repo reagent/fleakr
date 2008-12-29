@@ -43,9 +43,15 @@ module Fleakr
         def find_one(condition, options)
           attribute = options[:using].nil? ? condition.to_s.sub(/^by_/, '') : options[:using]
         
+          parameters = "{}"
+          parameters = "{:authenticate? => true}" if options[:authenticate?] == true
+        
           class_eval <<-CODE
             def self.find_#{condition}(value)
-              response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', :#{attribute} => value)
+              parameters = #{parameters}
+              parameters.merge!(:#{attribute} => value)
+              
+              response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', parameters)
               #{self.name}.new(response.body)
             end
           CODE
