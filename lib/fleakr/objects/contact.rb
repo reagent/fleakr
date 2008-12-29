@@ -4,10 +4,10 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :id, :attribute => 'nsid'
-      flickr_attribute :username, :attribute => 'username'
-      flickr_attribute :icon_server, :attribute => 'iconserver'
-      flickr_attribute :icon_farm, :attribute => 'iconfarm'
+      flickr_attribute :id, :from => '@nsid'
+      flickr_attribute :username
+      flickr_attribute :icon_server, :from => '@iconserver'
+      flickr_attribute :icon_farm,   :from => '@iconfarm'
 
       # Retrieve a list of contacts for the specified user ID and return an initialized
       # collection of #User objects

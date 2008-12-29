@@ -56,16 +56,16 @@ module Fleakr
         end
       end
 
-      flickr_attribute :id, :xpath => 'rsp/user', :attribute => 'nsid'
-      flickr_attribute :username, :xpath => 'rsp/user/username'
-      flickr_attribute :name, :xpath => 'rsp/person/realname'
-      flickr_attribute :photos_url, :xpath => 'rsp/person/photosurl'
-      flickr_attribute :profile_url, :xpath => 'rsp/person/profileurl'
-      flickr_attribute :photos_count, :xpath => 'rsp/person/photos/count'
-      flickr_attribute :icon_server, :xpath => 'rsp/person', :attribute => 'iconserver'
-      flickr_attribute :icon_farm, :xpath => 'rsp/person', :attribute => 'iconfarm'
-      flickr_attribute :pro, :xpath => 'rsp/person', :attribute => 'ispro'
-      flickr_attribute :admin, :xpath => 'rsp/person', :attribute => 'isadmin'
+      flickr_attribute :id, :from => 'user@nsid'
+      flickr_attribute :username
+      flickr_attribute :name, :from => 'person/realname'
+      flickr_attribute :photos_url, :from => 'person/photosurl'
+      flickr_attribute :profile_url, :from => 'person/profileurl'
+      flickr_attribute :photos_count, :from => 'person/photos/count'
+      flickr_attribute :icon_server, :from => 'person@iconserver'
+      flickr_attribute :icon_farm, :from => 'person@iconfarm'
+      flickr_attribute :pro, :from => 'person@ispro'
+      flickr_attribute :admin, :from => 'person@isadmin'
 
       has_many :sets, :groups, :photos, :contacts
 

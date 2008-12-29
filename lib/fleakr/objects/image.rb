@@ -24,11 +24,11 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :size,   :attribute => :label
-      flickr_attribute :width,  :attribute => :width
-      flickr_attribute :height, :attribute => :height
-      flickr_attribute :url,    :attribute => :source
-      flickr_attribute :page,   :attribute => :url
+      flickr_attribute :size,   :from => '@label'
+      flickr_attribute :width
+      flickr_attribute :height
+      flickr_attribute :url,    :from => '@source'
+      flickr_attribute :page,   :from => '@url'
 
       find_all :by_photo_id, :call => 'photos.getSizes', :path => 'sizes/size'
 

@@ -15,8 +15,8 @@ module Fleakr
       
       include Fleakr::Support::Object
       
-      flickr_attribute :value, :xpath => 'rsp/auth/token'
-      flickr_attribute :permissions, :xpath => 'rsp/auth/perms'
+      flickr_attribute :value, :from => 'auth/token'
+      flickr_attribute :permissions, :from => 'auth/perms'
       
       # Retrieve a full authentication token from the supplied mini-token (e.g. 123-456-789)
       #

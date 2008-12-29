@@ -19,10 +19,10 @@ module Fleakr
 
       has_many :photos, :using => :photoset_id
 
-      flickr_attribute :id, :attribute => 'id'
+      flickr_attribute :id
       flickr_attribute :title
       flickr_attribute :description
-      flickr_attribute :count, :attribute => :photos
+      flickr_attribute :count, :from => '@photos'
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
 

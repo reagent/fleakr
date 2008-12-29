@@ -12,8 +12,8 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :id, :attribute => 'nsid'
-      flickr_attribute :name, :attribute => 'name'
+      flickr_attribute :id, :from => '@nsid'
+      flickr_attribute :name
 
       find_all :by_user_id, :call => 'people.getPublicGroups', :path => 'groups/group'
 

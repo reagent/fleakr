@@ -9,9 +9,9 @@ class FlickrObject
   include Fleakr::Support::Object
   
   flickr_attribute :name
-  flickr_attribute :description, :xpath => 'desc'
-  flickr_attribute :id, :attribute => 'nsid'
-  flickr_attribute :photoset_id, :xpath => 'photoset', :attribute => 'id'
+  flickr_attribute :description, :from => 'desc'
+  flickr_attribute :id, :from => '@nsid'
+  flickr_attribute :photoset_id, :from => 'photoset@id'
   
 end
 

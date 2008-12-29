@@ -2,25 +2,43 @@ module Fleakr
   module Support # :nodoc:all
     class Attribute
 
-      attr_reader :name, :xpath, :attribute
+      # TODO: Refactor the location / attribute logic into a Source class
 
-      def initialize(name, options = {})
+      attr_reader :name, :sources
+
+      def initialize(name, sources = nil)
         @name = name.to_sym
-        @attribute = options[:attribute]
+        
+        @sources = Array(sources)
+        @sources << @name.to_s if @sources.empty?
+      end
+      
+      def split(source)
+        location, attribute = source.split('@')
+        location = self.name.to_s if location.blank?
+        
+        [location, attribute]
+      end
+      
+      def node_for(document, source)
+        document.at(location(source)) || document.search("//[@#{attribute(source)}]").first
+      end
 
-        @xpath = options[:xpath]
-        @xpath ||= @name.to_s unless @attribute
+      def attribute(source)
+        location, attribute = source.split('@')
+        attribute || location
+      end
+      
+      def location(source)
+        split(source).first
       end
 
       def value_from(document)
-        node = document
-
-        begin 
-          node = document.at(self.xpath) if self.xpath
-          self.attribute.nil? ? node.inner_text : node[self.attribute]
-        rescue NoMethodError
-          nil
+        values = sources.map do |source|
+          node = node_for(document, source)
+          (node.attributes[attribute(source)] || node.inner_text) unless node.nil?
         end
+        values.compact.first
       end
 
     end
