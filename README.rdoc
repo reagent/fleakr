@@ -122,6 +122,9 @@ Searches can also be scoped to other entities in the system (namely Users and Gr
 * Implement remaining bits of person, photoset, and photo-releated APIs
 * Provide a better searching interface
 * Lazily load attributes for objects that need to be accessed via secondary API call
+* Implement asynchronous file upload / replacement w/ ticket checking
+* Automatically sign all calls (if we have a secret), authenticate all calls (if we have a token)
+* Implement save-able search results (e.g. Fleakr.search('ponies').save_to('/path', :medium))
         
 == License
 
