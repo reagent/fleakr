@@ -9,7 +9,7 @@ module Fleakr::Api
         @secret = 'sekrit'
         Fleakr.stubs(:shared_secret).with().returns(@secret)
       end
-
+      
       it "should create a file parameter on initialization" do
         filename = '/path/to/image.jpg'
 
@@ -34,9 +34,24 @@ module Fleakr::Api
 
         before { ParameterList.stubs(:new).returns(stub(:<< => nil)) }
 
+        it "should default the type to :create" do
+          request = UploadRequest.new('file')
+          request.type.should == :create
+        end
+        
+        it "should allow setting the type to :update" do
+          request = UploadRequest.new('file', :type => :update)
+          request.type.should == :update
+        end
+
         it "should know the endpoint_uri" do
           request = UploadRequest.new('filename')
           request.__send__(:endpoint_uri).should == URI.parse('http://api.flickr.com/services/upload/')
+        end
+        
+        it "should know the endpoint_uri for an :update request" do
+          request = UploadRequest.new('filename', :type => :update)
+          request.__send__(:endpoint_uri).should == URI.parse('http://api.flickr.com/services/replace/')
         end
         
         it "should only parse the endpoint URI once" do

@@ -2,8 +2,13 @@ module Fleakr
   module Api
     
     class UploadRequest
+
+      ENDPOINT_URIS = {
+        :create => 'http://api.flickr.com/services/upload/',
+        :update => 'http://api.flickr.com/services/replace/'
+      }
       
-      attr_reader :parameters
+      attr_reader :parameters, :type
       
       def self.with_response!(filename, options = {})
         request = self.new(filename, options)
@@ -15,7 +20,10 @@ module Fleakr
       end
       
       def initialize(filename, options = {})
+        type_options = options.extract!(:type)
         options.merge!(:authenticate? => true)
+        
+        @type = type_options[:type] || :create
         
         @parameters = ParameterList.new(Fleakr.shared_secret, options)
         @parameters << FileParameter.new('photo', filename)
@@ -34,7 +42,7 @@ module Fleakr
       
       private
       def endpoint_uri
-        @endpoint_uri ||= URI.parse('http://api.flickr.com/services/upload/')
+        @endpoint_uri ||= URI.parse(ENDPOINT_URIS[self.type])
       end
     end
     
