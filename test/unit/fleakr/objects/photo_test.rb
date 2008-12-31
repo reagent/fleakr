@@ -31,6 +31,22 @@ module Fleakr::Objects
     end
 
     describe "An instance of the Photo class" do
+      
+      it "should be able to replace the associated photo data" do
+        filename = '/path/to/file.jpg'
+        response = stub(:body => 'body')
+        
+        params = {:type => :update, :photo_id => '1'}
+
+        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, params).returns(response)
+
+        photo = Photo.new
+        photo.stubs(:id).returns('1')
+        photo.expects(:populate_from).with('body')
+        
+        photo.replace_with(filename).should == photo
+      end
+      
       context "when populating from the people_getPublicPhotos XML data" do
         before do
           @object = Photo.new(Hpricot.XML(read_fixture('people.getPublicPhotos')).at('rsp/photos/photo'))

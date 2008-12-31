@@ -45,6 +45,12 @@ module Fleakr
         Photo.find_by_id(photo.id, :authenticate? => true)
       end
 
+      def replace_with(filename)
+        response = Fleakr::Api::UploadRequest.with_response!(filename, :photo_id => self.id, :type => :update)
+        self.populate_from(response.body)
+        self
+      end
+
       # Create methods to access image sizes by name
       SIZES.each do |size|
         define_method(size) do
