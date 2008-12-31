@@ -87,4 +87,8 @@ module Fleakr
     Objects::Search.new(params).results
   end
   
+  def self.upload(glob)
+    Dir[glob].each {|file| Fleakr::Objects::Photo.upload(file) }
+  end
+  
 end

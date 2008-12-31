@@ -40,6 +40,18 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr::Objects::Search.expects(:new).with(:tags => %w(one two)).returns(stub(:results => []))
       Fleakr.search(:tags => %w(one two))
     end
+   
+    it "should be able to upload a collection of images" do
+      glob      = '*.jpg'
+      filenames = %w(one.jpg two.jpg)
+      
+      Dir.expects(:[]).with(glob).returns(filenames)
+      
+      Fleakr::Objects::Photo.expects(:upload).with('one.jpg')
+      Fleakr::Objects::Photo.expects(:upload).with('two.jpg')
+      
+      Fleakr.upload(glob)
+    end
     
   end
   
