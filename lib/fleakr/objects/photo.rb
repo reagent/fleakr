@@ -42,7 +42,7 @@ module Fleakr
       def self.upload(filename)
         response = Fleakr::Api::UploadRequest.with_response!(filename)
         photo = Photo.new(response.body)
-        Photo.find_by_id(photo.id)
+        Photo.find_by_id(photo.id, :authenticate? => true)
       end
 
       # Create methods to access image sizes by name

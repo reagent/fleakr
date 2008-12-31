@@ -13,6 +13,8 @@ class FlickrObject
   flickr_attribute :id, :from => '@nsid'
   flickr_attribute :photoset_id, :from => 'photoset@id'
   
+  find_one :by_id, :call => 'people.getInfo'
+  
 end
 
 module Fleakr
@@ -26,6 +28,27 @@ module Fleakr
       
       it "should know the names of all its attributes" do
         FlickrObject.attributes.map {|a| a.name.to_s }.should == %w(name description id photoset_id)
+      end
+      
+      it "should be able to find by ID" do
+        id = 1
+        flickr_object = stub()
+        
+        response = mock_request_cycle :for => 'people.getInfo', :with => {:id => id}
+        FlickrObject.expects(:new).with(response.body).returns(flickr_object)
+        
+        FlickrObject.find_by_id(id).should == flickr_object
+      end
+      
+      it "should be able to pass parameters to the :find_by_id method" do
+        id = 1
+        params = {:authenticate? => true}
+        flickr_object = stub()
+        
+        response = mock_request_cycle :for => 'people.getInfo', :with => {:id => id, :authenticate? => true}
+        FlickrObject.expects(:new).with(response.body).returns(flickr_object)
+        
+        FlickrObject.find_by_id(id, params).should == flickr_object
       end
       
     end

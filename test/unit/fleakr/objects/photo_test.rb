@@ -11,7 +11,7 @@ module Fleakr::Objects
       should_find_all :photos, :by => :photoset_id, :call => 'photosets.getPhotos', :path => 'rsp/photoset/photo'
       should_find_all :photos, :by => :group_id, :call => 'groups.pools.getPhotos', :path => 'rsp/photos/photo'
       
-      should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo', :options => {:authenticate? => true}
+      should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo'
 
 
       it "should be able to upload a photo and return the new photo information" do
@@ -23,7 +23,7 @@ module Fleakr::Objects
         end
         
         Fleakr::Api::UploadRequest.expects(:with_response!).with(filename).returns(response)
-        Photo.expects(:find_by_id).with('123').returns(photo)
+        Photo.expects(:find_by_id).with('123', :authenticate? => true).returns(photo)
         
         Photo.upload(filename).should == photo
       end

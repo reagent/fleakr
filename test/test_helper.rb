@@ -68,7 +68,6 @@ class Test::Unit::TestCase
 
     options[:with] = options[:by] if options[:with].nil?
     params = {options[:with] => condition_value}
-    params.merge!(options[:options].nil? ? {} : options[:options])
 
     it "should be able to find a #{thing} by #{options[:by]}" do
       stub = stub()
