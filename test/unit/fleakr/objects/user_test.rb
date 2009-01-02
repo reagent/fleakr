@@ -3,17 +3,6 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class UserTest < Test::Unit::TestCase
 
-    def self.should_autoload_when_accessing(*attributes)
-      options = attributes.extract_options!
-      attributes.each do |accessor_name|
-        it "should load the additional user information when accessing the :#{accessor_name} attribute" do
-          user = User.new
-          user.expects(options[:with]).with()
-          user.send(accessor_name)
-        end
-      end
-    end
-    
     should_search_by :user_id
 
     should_have_many :photos, :groups, :sets, :contacts
@@ -93,10 +82,6 @@ module Fleakr::Objects
           @user.stubs(:admin).with().returns('1')
           @user.admin?.should be(true)
         end
-        
-        
-        
-
         
       end
     end

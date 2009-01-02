@@ -43,20 +43,6 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      def self.lazily_load(*attributes)
-        options = attributes.extract_options!
-
-        attributes.each do |attribute|
-          class_eval <<-CODE
-            def #{attribute}_with_loading
-              self.send(:#{options[:with]}) if @#{attribute}.nil?
-              #{attribute}_without_loading
-            end
-            alias_method_chain :#{attribute}, :loading
-          CODE
-        end
-      end
-
       flickr_attribute :id, :from => 'user@nsid'
       flickr_attribute :username
       flickr_attribute :name, :from => 'person/realname'

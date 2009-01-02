@@ -9,6 +9,19 @@ require File.dirname(__FILE__) + '/../lib/fleakr'
 
 class Test::Unit::TestCase
 
+  def self.should_autoload_when_accessing(*attributes)
+    options = attributes.extract_options!
+    attributes.each do |accessor_name|
+      it "should load the additional user information when accessing the :#{accessor_name} attribute" do
+        klass = self.class.name.sub(/Test$/, '').constantize
+              
+        object = klass.new
+        object.expects(options[:with]).with()
+        object.send(accessor_name)
+      end
+    end
+  end
+
   def self.should_have_a_value_for(attribute_test)
     it "should have a value for :#{attribute_test.keys.first}" do
       @object.send(attribute_test.keys.first).should == attribute_test.values.first

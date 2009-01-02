@@ -62,6 +62,20 @@ module Fleakr
             end
           CODE
         end
+
+        def lazily_load(*attributes)
+          options = attributes.extract_options!
+
+          attributes.each do |attribute|
+            class_eval <<-CODE
+              def #{attribute}_with_loading
+                self.send(:#{options[:with]}) if @#{attribute}.nil?
+                #{attribute}_without_loading
+              end
+              alias_method_chain :#{attribute}, :loading
+            CODE
+          end
+        end
       
       end
     

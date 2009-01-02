@@ -5,6 +5,8 @@ module Fleakr::Objects
 
     should_have_many :images
 
+    should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :url, :with => :load_info
+
     describe "The Photo class" do
 
       should_find_all :photos, :by => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo'
@@ -70,16 +72,54 @@ module Fleakr::Objects
       context "when populating from the photos_getInfo XML data" do
         before do
           @object = Photo.new(Hpricot.XML(read_fixture('photos.getInfo')))
+          
         end
         
-        should_have_a_value_for :id        => '1'
-        should_have_a_value_for :title     => 'Tree'
-        should_have_a_value_for :farm_id   => '4'
-        should_have_a_value_for :server_id => '3085'
-        should_have_a_value_for :secret    => 'secret'
+        should_have_a_value_for :id            => '1'
+        should_have_a_value_for :title         => 'Tree'
+        should_have_a_value_for :farm_id       => '4'
+        should_have_a_value_for :server_id     => '3085'
+        should_have_a_value_for :secret        => 'secret'
+        should_have_a_value_for :posted        => '1230274722'
+        should_have_a_value_for :taken         => '2008-12-25 18:26:55'
+        should_have_a_value_for :updated       => '1230276652'
+        should_have_a_value_for :comment_count => '0'
+        should_have_a_value_for :url           => 'http://www.flickr.com/photos/yes/1'
+        
       end
       
       context "in general" do
+        
+        before do
+          @photo = Photo.new
+          @time = Time.parse('2009-08-01 00:00:00')
+        end
+        
+        it "should be able to retrieve additional information about the current user" do
+          photo_id = '1'
+          photo = Photo.new
+          photo.expects(:id).with().returns(photo_id)
+          response = mock_request_cycle :for => 'photos.getInfo', :with => {:photo_id => photo_id}
+          
+          photo.expects(:populate_from).with(response.body)
+
+          photo.load_info
+        end
+        
+        it "should have a value for :posted_at" do
+          @photo.expects(:posted).with().returns("#{@time.to_i}")
+          @photo.posted_at.should == @time
+        end
+        
+        it "should have a value for :taken_at" do
+          @photo.expects(:taken).with().returns(@time.strftime('%Y-%m-%d %H:%M:%S'))
+          @photo.taken_at.should == @time
+        end
+        
+        it "should have a value for :updated_at" do
+          @photo.expects(:updated).with().returns("#{@time.to_i}")
+          @photo.updated_at.should == @time
+        end
         
         it "should have a collection of images by size" do
           photo = Photo.new
@@ -114,40 +154,6 @@ module Fleakr::Objects
       end
     end
 
-    # context "in general" do
-    # 
-    #   before do
-    #     @photo = Photo.new
-    # 
-    #     @photo.stubs(:id).with().returns('1')
-    #     @photo.stubs(:farm_id).with().returns('2')
-    #     @photo.stubs(:server_id).with().returns('3')
-    #     @photo.stubs(:secret).with().returns('secret')
-    #   end
-    # 
-    #   it "should know the base URL to retrieve images" do
-    #     @photo.send(:base_url).should == "http://farm2.static.flickr.com/3/1_secret"
-    #   end
-    # 
-    # end
-
-    # context "with a base URL" do
-    # 
-    #   before do
-    #     @photo = Photo.new
-    #     @photo.stubs(:base_url).with().returns('url')
-    #   end
-    # 
-    #   [:square, :thumbnail, :small, :medium, :large].each do |size|
-    #     it "should have a :#{size} image" do
-    #       image = stub()
-    #       Image.expects(:new).with('url', size).returns(image)
-    #       
-    #       @photo.send(size).should == image
-    #     end
-    #   end
-    # 
-    # end
   end
 
 end

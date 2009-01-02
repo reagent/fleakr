@@ -30,12 +30,27 @@ module Fleakr
       flickr_attribute :farm_id, :from => '@farm'
       flickr_attribute :server_id, :from => '@server'
       flickr_attribute :secret
+      flickr_attribute :posted
+      flickr_attribute :taken
+      flickr_attribute :updated, :from => '@lastupdate'
+      flickr_attribute :comment_count, :from => 'comments'
+      flickr_attribute :url
+
+      # TODO:
+      # * owner (user)
+      # * visibility
+      # * editability
+      # * usage
+      # * notes
+      # * tags
 
       find_all :by_photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
       
       find_one :by_id, :using => :photo_id, :call => 'photos.getInfo', :authenticate? => true
+      
+      lazily_load :posted, :taken, :updated, :comment_count, :url, :with => :load_info
       
       has_many :images
 
@@ -49,6 +64,24 @@ module Fleakr
         response = Fleakr::Api::UploadRequest.with_response!(filename, :photo_id => self.id, :type => :update)
         self.populate_from(response.body)
         self
+      end
+
+      # TODO: Refactor this to remove duplication w/ User#load_info - possibly in the lazily_load class method
+      def load_info # :nodoc:
+        response = Fleakr::Api::MethodRequest.with_response!('photos.getInfo', :photo_id => self.id)
+        self.populate_from(response.body)
+      end
+
+      def posted_at
+        Time.at(posted.to_i)
+      end
+      
+      def taken_at
+        Time.parse(taken)
+      end
+      
+      def updated_at
+        Time.at(updated.to_i)
       end
 
       # Create methods to access image sizes by name
