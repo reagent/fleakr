@@ -91,14 +91,13 @@ module Fleakr
   end
 
   def self.token
-    if @token.nil?
+    @token ||= begin
       if !Fleakr.auth_token.nil?
-        @token = Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
+        Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
       else
-        @token = Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
+        Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
       end
     end
-    @token
   end
 
   
