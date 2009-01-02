@@ -11,7 +11,7 @@ module Fleakr
         options.each {|k,v| self << ValueParameter.new(k.to_s, v) }
 
         self << ValueParameter.new('api_key', Fleakr.api_key)
-        self << ValueParameter.new('auth_token', Request.token.value) if authenticate?
+        self << ValueParameter.new('auth_token', Fleakr.token.value) if authenticate?
       end
       
       def <<(parameter)

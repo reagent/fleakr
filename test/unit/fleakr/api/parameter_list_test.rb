@@ -85,14 +85,14 @@ module Fleakr::Api
       end
       
       it "should know to authenticate the request when asked" do
-        Request.expects(:token).with().returns(stub(:value => 'toke'))
+        Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
         parameter_list = ParameterList.new('abc', :authenticate? => true)
         parameter_list.authenticate?.should be(true)
       end
       
       it "should contain the :auth_token parameter in the list if the request is to be authenticated" do
-        Request.expects(:token).with().returns(stub(:value => 'toke'))
+        Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
         parameter_list = ParameterList.new('abc', :authenticate? => true)
         auth_param = parameter_list[:auth_token]
@@ -103,7 +103,7 @@ module Fleakr::Api
       end
       
       it "should know that it needs to sign the request when it is to be authenticated" do
-        Request.expects(:token).with().returns(stub(:value => 'toke'))
+        Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
         parameter_list = ParameterList.new('abc', :authenticate? => true)
         parameter_list.sign?.should be(true)

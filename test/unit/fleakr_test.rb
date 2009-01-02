@@ -53,6 +53,51 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(glob)
     end
     
+    context "when generating an AuthenticationToken from an auth_token string" do
+
+      before do
+        @token = stub()
+        
+        Fleakr.expects(:auth_token).with().at_least_once.returns('abc123')
+        Fleakr::Objects::AuthenticationToken.expects(:from_auth_token).with('abc123').returns(@token)
+      end
+
+      # Make sure to clear the cache
+      after { Fleakr.instance_variable_set(:@token, nil) }
+      
+      it "should return the token" do
+        Fleakr.token.should == @token
+      end
+      
+      it "should cache the result" do
+        2.times { Fleakr.token }
+      end
+
+    end
+    
+    context "when generating an AuthenticationToken from a mini_token string" do
+      
+      before do
+        @token = stub()
+
+        Fleakr.expects(:auth_token).with().at_least_once.returns(nil)
+        Fleakr.expects(:mini_token).with().at_least_once.returns('123-123-123')
+        Fleakr::Objects::AuthenticationToken.expects(:from_mini_token).with('123-123-123').returns(@token)          
+      end
+      
+      # Make sure to clear the cache
+      after { Fleakr.instance_variable_set(:@token, nil) }
+      
+      it "should return the token" do
+        Fleakr.token.should == @token
+      end
+      
+      it "should cache the result" do
+        2.times { Fleakr.token }
+      end
+      
+    end
+    
   end
   
 end

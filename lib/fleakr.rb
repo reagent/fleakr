@@ -12,7 +12,6 @@ base_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr"
 
 require "#{base_path}/core_ext/hash"
 
-require "#{base_path}/api/request"
 require "#{base_path}/api/response"
 require "#{base_path}/api/method_request"
 require "#{base_path}/api/upload_request"
@@ -90,5 +89,17 @@ module Fleakr
   def self.upload(glob)
     Dir[glob].each {|file| Fleakr::Objects::Photo.upload(file) }
   end
+
+  def self.token
+    if @token.nil?
+      if !Fleakr.auth_token.nil?
+        @token = Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
+      else
+        @token = Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
+      end
+    end
+    @token
+  end
+
   
 end
