@@ -27,12 +27,12 @@ module Fleakr::Api
         end
         
         it "should know that it needs to sign the request" do
-          ParameterList.expects(:new).with(kind_of(String), :sign? => true).returns(stub(:<< => nil))
+          ParameterList.expects(:new).with(:sign? => true).returns(stub(:<< => nil))
           request = MethodRequest.new('people.findByUsername', :sign? => true)
         end
         
         it "should know that it needs to authenticate the request" do
-          ParameterList.expects(:new).with(kind_of(String), :authenticate? => true).returns(stub(:<< => nil))
+          ParameterList.expects(:new).with(:authenticate? => true).returns(stub(:<< => nil))
           request = MethodRequest.new('activity.userPhotos', :authenticate? => true)
         end
 

@@ -29,7 +29,7 @@ module Fleakr
       # whether this call should automatically be signed.
       #
       def initialize(method, additional_parameters = {})
-        @parameters = ParameterList.new(Fleakr.shared_secret, additional_parameters)
+        @parameters = ParameterList.new(additional_parameters)
         
         self.method = method
       end

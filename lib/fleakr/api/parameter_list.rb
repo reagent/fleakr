@@ -2,8 +2,7 @@ module Fleakr
   module Api
     class ParameterList
       
-      def initialize(secret, options = {})
-        @secret = secret
+      def initialize(options = {})
         @api_options = options.extract!(:sign?, :authenticate?)
         
         @list = Hash.new
@@ -49,7 +48,7 @@ module Fleakr
         parameters_to_sign = @list.values.reject {|p| !p.include_in_signature? }
         signature_text = parameters_to_sign.sort.map {|p| "#{p.name}#{p.value}" }.join
 
-        Digest::MD5.hexdigest("#{@secret}#{signature_text}")
+        Digest::MD5.hexdigest("#{Fleakr.shared_secret}#{signature_text}")
       end
       
       private

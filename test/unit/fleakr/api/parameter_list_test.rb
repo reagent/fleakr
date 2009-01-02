@@ -9,8 +9,9 @@ module Fleakr::Api
         @api_key = 'key'
         @secret  = 'foobar'
 
+        Fleakr.stubs(:shared_secret).with().returns(@secret)
         Fleakr.stubs(:api_key).with().returns(@api_key)
-        @parameter_list = ParameterList.new(@secret)
+        @parameter_list = ParameterList.new
       end
       
       it "should contain the :api_key by default" do
@@ -20,7 +21,7 @@ module Fleakr::Api
       end
       
       it "should be able to create an initial list of parameters" do
-        parameter_list = ParameterList.new('secret', {:one => 'two'})
+        parameter_list = ParameterList.new(:one => 'two')
         parameter_list[:one].value.should == 'two'
       end
 
@@ -76,7 +77,7 @@ module Fleakr::Api
       end
       
       it "should know that it needs to sign the request when asked" do
-        parameter_list = ParameterList.new('foo', :sign? => true)
+        parameter_list = ParameterList.new(:sign? => true)
         parameter_list.sign?.should be(true)
       end
       
@@ -87,14 +88,14 @@ module Fleakr::Api
       it "should know to authenticate the request when asked" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
-        parameter_list = ParameterList.new('abc', :authenticate? => true)
+        parameter_list = ParameterList.new(:authenticate? => true)
         parameter_list.authenticate?.should be(true)
       end
       
       it "should contain the :auth_token parameter in the list if the request is to be authenticated" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
-        parameter_list = ParameterList.new('abc', :authenticate? => true)
+        parameter_list = ParameterList.new(:authenticate? => true)
         auth_param = parameter_list[:auth_token]
         
         auth_param.name.should == 'auth_token'
@@ -105,12 +106,12 @@ module Fleakr::Api
       it "should know that it needs to sign the request when it is to be authenticated" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
-        parameter_list = ParameterList.new('abc', :authenticate? => true)
+        parameter_list = ParameterList.new(:authenticate? => true)
         parameter_list.sign?.should be(true)
       end
       
       it "should include the signature in the list of parameters if the request is to be signed" do
-        parameter_list = ParameterList.new('abc', :sign? => true)
+        parameter_list = ParameterList.new(:sign? => true)
         parameter_list.stubs(:signature).with().returns('sig')
         
         signature_param = parameter_list[:api_sig]
