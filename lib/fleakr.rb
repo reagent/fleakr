@@ -8,21 +8,10 @@ require 'hpricot'
 require 'activesupport'
 require 'md5'
 
-base_path = File.expand_path(File.dirname(__FILE__)) + "/fleakr"
-
-require "#{base_path}/core_ext/hash"
-
-require "#{base_path}/api/response"
-require "#{base_path}/api/method_request"
-require "#{base_path}/api/upload_request"
-require "#{base_path}/api/parameter_list"
-require "#{base_path}/api/parameter"
-require "#{base_path}/api/value_parameter"
-require "#{base_path}/api/file_parameter"
-
-%w(support objects).each do |path|
-  Dir["#{base_path}/#{path}/*.rb"].each {|f| require f }
-end
+require 'fleakr/api'
+require 'fleakr/core_ext'
+require 'fleakr/support'
+require 'fleakr/objects'
 
 # = Fleakr: A teeny tiny gem to interface with Flickr
 #

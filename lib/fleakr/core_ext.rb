@@ -1,0 +1,1 @@
+require 'fleakr/core_ext/hash'
