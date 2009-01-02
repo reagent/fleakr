@@ -13,7 +13,7 @@ require 'fleakr/core_ext'
 require 'fleakr/support'
 require 'fleakr/objects'
 
-# = Fleakr: A teeny tiny gem to interface with Flickr
+# = Fleakr: A small, yet powerful, gem to interface with Flickr photostreams
 #
 # == Quick Start
 #
