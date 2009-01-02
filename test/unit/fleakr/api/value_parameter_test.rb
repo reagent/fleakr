@@ -20,6 +20,11 @@ module Fleakr::Api
         parameter.to_query.should == 'foo=Mr.+Crystal%3F'
       end
       
+      it "should use an empty string when generating a query if the parameter value is nil" do
+        parameter = ValueParameter.new('foo', nil)
+        parameter.to_query.should == 'foo='
+      end
+      
       it "should know how to generate the form representation of itself" do
         parameter = ValueParameter.new('foo', 'bar')
         expected = 

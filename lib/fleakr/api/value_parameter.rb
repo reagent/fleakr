@@ -11,7 +11,7 @@ module Fleakr
       end
       
       def to_query
-        "#{self.name}=#{CGI.escape(self.value)}"
+        "#{self.name}=#{CGI.escape(self.value.to_s)}"
       end
       
       def to_form
