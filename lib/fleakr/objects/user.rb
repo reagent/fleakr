@@ -11,6 +11,7 @@ module Fleakr
     # [id] The ID for this user (also referred to as the NSID in the API docs)
     # [username] This user's username
     # [name] This user's full name (if entered)
+    # [location] This user's location (if entered)
     # [photos_url] The direct URL to this user's photostream
     # [profile_url] The direct URL to this user's profile
     # [photos_count] The number of photos that this user has uploaded
@@ -59,6 +60,7 @@ module Fleakr
       flickr_attribute :id, :from => 'user@nsid'
       flickr_attribute :username
       flickr_attribute :name, :from => 'person/realname'
+      flickr_attribute :location
       flickr_attribute :photos_url, :from => 'person/photosurl'
       flickr_attribute :profile_url, :from => 'person/profileurl'
       flickr_attribute :photos_count, :from => 'person/photos/count'
@@ -72,7 +74,7 @@ module Fleakr
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
 
-      lazily_load :name, :photos_url, :profile_url, :photos_count, :with => :load_info
+      lazily_load :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
 
       scoped_search

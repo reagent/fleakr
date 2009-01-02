@@ -18,7 +18,7 @@ module Fleakr::Objects
 
     should_have_many :photos, :groups, :sets, :contacts
     
-    should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :with => :load_info
+    should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
 
     describe "The User class" do
@@ -38,6 +38,7 @@ module Fleakr::Objects
         should_have_a_value_for :id           => '31066442@N69'
         should_have_a_value_for :username     => 'frootpantz'
         should_have_a_value_for :name         => 'Sir Froot Pantz'
+        should_have_a_value_for :location     => 'The Moon'
         should_have_a_value_for :photos_url   => 'http://www.flickr.com/photos/frootpantz/'
         should_have_a_value_for :profile_url  => 'http://www.flickr.com/people/frootpantz/'
         should_have_a_value_for :photos_count => '3907'
