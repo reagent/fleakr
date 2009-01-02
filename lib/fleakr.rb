@@ -15,6 +15,8 @@ require 'fleakr/objects'
 
 # = Fleakr: A teeny tiny gem to interface with Flickr
 #
+# == Quick Start
+#
 # Getting started is easy, just make sure you have a valid API key from Flickr and you can
 # then start making any non-authenticated request to pull back data for yours and others' 
 # photostreams, sets, contacts, groups, etc...
@@ -37,6 +39,35 @@ require 'fleakr/objects'
 #  user.groups
 #
 # To see what other associations and attributes are available, see the Fleakr::Objects::User class
+# 
+# == Authentication
+#
+# If you want to do something more than just retrieve public photos (like upload your own), 
+# you'll need to generate an authentication token to use across requests and sessions.
+#
+# Assuming you've already applied for a key, go back and make sure you have the right settings
+# to get your auth token.  Click on the 'Edit key details' link and ensure that:
+#
+# 1. Your application description and notes are up-to-date
+# 1. The value for 'Authentication Type' is set to 'Mobile Application'
+# 1. The value for 'Mobile Permissions' is set to either 'write' or 'delete'
+#
+# Once this is set, you'll see your Authentication URL on the key details page (it will look
+# something like http://www.flickr.com/auth-534525246245).  Paste this URL into your browser and 
+# confirm access to get your mini-token. Now you're ready to make authenticated requests:
+#
+#   require 'rubygems'
+#   require 'fleakr'
+#
+#   Fleakr.api_key       = 'ABC123'
+#   Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site
+#   Fleakr.mini_token    = '362-133-214'
+#
+#   Fleakr.upload('/path/to/my/photo.jpg')
+#   Fleakr.token.value # => "34132412341235-12341234ef34"
+# 
+# Once you use the mini-token once, it is no longer available.  To use the generated auth_token
+# for future requests, just set Fleakr.auth_token to the generated value.
 #
 module Fleakr
 
@@ -75,10 +106,19 @@ module Fleakr
     Objects::Search.new(params).results
   end
   
+  # Upload one or more files to your Flickr account (requires authentication).  Simply provide
+  # a filename or a pattern to upload one or more files:
+  #
+  #  Fleakr.upload('/path/to/my/mug.jpg')
+  #  Fleakr.upload('/User/Pictures/Party/*.jpg')
+  #
   def self.upload(glob)
     Dir[glob].each {|file| Fleakr::Objects::Photo.upload(file) }
   end
 
+  # Get the authentication token needed for authenticated requests.  Will either use
+  # a valid auth_token (if available) or a mini-token to generate the auth_token.
+  #
   def self.token
     @token ||= begin
       if !Fleakr.auth_token.nil?

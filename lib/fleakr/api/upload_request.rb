@@ -1,15 +1,24 @@
 module Fleakr
-  module Api
+  module Api # :nodoc:
     
+    # = UploadRequest
+    # 
+    # This implements the upload functionality of the Flickr API which is needed
+    # to create new photos and replace the photo content of existing photos
+    #
     class UploadRequest
 
       ENDPOINT_URIS = {
         :create => 'http://api.flickr.com/services/upload/',
         :update => 'http://api.flickr.com/services/replace/'
       }
-      
+
       attr_reader :parameters, :type
-      
+
+      # Send a request and return a Response object.  If an API error occurs, this raises
+      # a Fleakr::ApiError with the reason for the error.  See UploadRequest#new for more 
+      # details.
+      #
       def self.with_response!(filename, options = {})
         request = self.new(filename, options)
         response = request.send
@@ -19,6 +28,11 @@ module Fleakr
         response
       end
       
+      # Create a new UploadRequest with the specified filename and options:
+      #
+      # [:type] Valid values are :create and :update and are used when uploading new 
+      #         photos or replacing existing ones
+      #
       def initialize(filename, options = {})
         type_options = options.extract!(:type)
         options.merge!(:authenticate? => true)
@@ -29,11 +43,11 @@ module Fleakr
         @parameters << FileParameter.new('photo', filename)
       end
       
-      def headers
+      def headers # :nodoc:
         {'Content-Type' => "multipart/form-data; boundary=#{self.parameters.boundary}"}
       end
 
-      def send
+      def send # :nodoc:
         response = Net::HTTP.start(endpoint_uri.host, endpoint_uri.port) do |http| 
           http.post(endpoint_uri.path, self.parameters.to_form, self.headers)
         end

@@ -1,5 +1,5 @@
 module Fleakr
-  module Api
+  module Api # :nodoc:
     
     class MethodRequest
       attr_reader :parameters, :method
@@ -25,8 +25,9 @@ module Fleakr
       # see (#Fleakr.api_key=)
       #
       # The <tt>additional_parameters</tt> is a list of parameters to pass directly to 
-      # the Flickr API call.  The exception is the <tt>:sign?</tt> option that determines
-      # whether this call should automatically be signed.
+      # the Flickr API call.  Exceptions to this are the <tt>:sign?</tt> and 
+      # <tt>:authenticate?</tt> options that determine if the call should be signed or
+      # authenticated.
       #
       def initialize(method, additional_parameters = {})
         @parameters = ParameterList.new(additional_parameters)
@@ -34,7 +35,7 @@ module Fleakr
         self.method = method
       end
    
-      def method=(method)
+      def method=(method) # :nodoc:
         @method = method.sub(/^(flickr\.)?/, 'flickr.')
         @parameters << ValueParameter.new('method', @method)
       end

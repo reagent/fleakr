@@ -7,6 +7,9 @@ module Fleakr
     #
     # [id] The ID for this photo
     # [title] The title of this photo
+    # [secret] This photo's secret (used for sharing photo without permissions checking)
+    # [comment_count] Count of the comments attached to this photo
+    # [url] This photo's page on Flickr
     # [square] The tiny square representation of this photo
     # [thumbnail] The thumbnail for this photo
     # [small] The small representation of this photo
@@ -54,12 +57,18 @@ module Fleakr
       
       has_many :images
 
+      # Upload the photo specified by <tt>filename</tt> to the user's Flickr account.  This
+      # call requires authentication.
+      #
       def self.upload(filename)
         response = Fleakr::Api::UploadRequest.with_response!(filename)
         photo = Photo.new(response.body)
         Photo.find_by_id(photo.id, :authenticate? => true)
       end
 
+      # Replace the current photo's image with the one specified by filename.  This 
+      # call requires authentication.
+      #
       def replace_with(filename)
         response = Fleakr::Api::UploadRequest.with_response!(filename, :photo_id => self.id, :type => :update)
         self.populate_from(response.body)
@@ -72,14 +81,20 @@ module Fleakr
         self.populate_from(response.body)
       end
 
+      # When was this photo posted?
+      #
       def posted_at
         Time.at(posted.to_i)
       end
       
+      # When was this photo taken?
+      #
       def taken_at
         Time.parse(taken)
       end
       
+      # When was this photo last updated?  This includes addition of tags and other metadata.
+      #
       def updated_at
         Time.at(updated.to_i)
       end

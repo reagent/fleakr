@@ -8,6 +8,7 @@ module Fleakr
     # [id] The ID for this photoset
     # [title] The title of this photoset
     # [description] The description of this set
+    # [count] Count of photos in this set
     # 
     # == Associations
     # 
@@ -26,9 +27,9 @@ module Fleakr
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
 
-      # Save all photos in this set to the specified directory using the specified size.  Allowed
+      # Save all photos in this set to the specified directory for the specified size.  Allowed
       # Sizes include <tt>:square</tt>, <tt>:small</tt>, <tt>:thumbnail</tt>, <tt>:medium</tt>,  
-      # <tt>:large</tt>, and <tt>:original</tt>.  When saving the set, this # method will create 
+      # <tt>:large</tt>, and <tt>:original</tt>.  When saving the set, this method will create 
       # a subdirectory based on the set's title.
       #
       def save_to(path, size)

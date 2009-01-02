@@ -1,5 +1,5 @@
 module Fleakr
-  module Api
+  module Api # :nodoc:
     
     # = Response
     #
