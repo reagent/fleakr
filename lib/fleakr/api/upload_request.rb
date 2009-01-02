@@ -25,7 +25,7 @@ module Fleakr
         
         @type = type_options[:type] || :create
         
-        @parameters = ParameterList.new(Fleakr.shared_secret, options)
+        @parameters = ParameterList.new(options)
         @parameters << FileParameter.new('photo', filename)
       end
       

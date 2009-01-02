@@ -17,7 +17,7 @@ module Fleakr::Api
         FileParameter.expects(:new).with('photo', filename).returns(parameter)
 
         parameter_list = mock() {|m| m.expects(:<<).with(parameter) }
-        ParameterList.expects(:new).with(@secret, :authenticate? => true).returns(parameter_list)
+        ParameterList.expects(:new).with(:authenticate? => true).returns(parameter_list)
 
         UploadRequest.new(filename)
       end
@@ -25,7 +25,7 @@ module Fleakr::Api
       it "should allow setting additional parameters on initialization" do
         params = {:is_public => 1}
         
-        ParameterList.expects(:new).with(@secret, {:is_public => 1, :authenticate? => true}).returns(stub(:<<))
+        ParameterList.expects(:new).with({:is_public => 1, :authenticate? => true}).returns(stub(:<<))
         
         UploadRequest.new('filename', params)
       end
