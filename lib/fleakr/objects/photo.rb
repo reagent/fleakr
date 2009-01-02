@@ -7,6 +7,7 @@ module Fleakr
     #
     # [id] The ID for this photo
     # [title] The title of this photo
+    # [description] The description of this photo
     # [secret] This photo's secret (used for sharing photo without permissions checking)
     # [comment_count] Count of the comments attached to this photo
     # [url] This photo's page on Flickr
@@ -28,8 +29,9 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :title
       flickr_attribute :id, :from => ['@id', 'photoid']
+      flickr_attribute :title
+      flickr_attribute :description
       flickr_attribute :farm_id, :from => '@farm'
       flickr_attribute :server_id, :from => '@server'
       flickr_attribute :secret
@@ -53,7 +55,7 @@ module Fleakr
       
       find_one :by_id, :using => :photo_id, :call => 'photos.getInfo', :authenticate? => true
       
-      lazily_load :posted, :taken, :updated, :comment_count, :url, :with => :load_info
+      lazily_load :posted, :taken, :updated, :comment_count, :url, :description, :with => :load_info
       
       has_many :images
 

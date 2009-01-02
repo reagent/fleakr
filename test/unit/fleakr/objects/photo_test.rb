@@ -5,7 +5,8 @@ module Fleakr::Objects
 
     should_have_many :images
 
-    should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :url, :with => :load_info
+    should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :with => :load_info
+    should_autoload_when_accessing :url, :description, :with => :load_info
 
     describe "The Photo class" do
 
@@ -77,6 +78,7 @@ module Fleakr::Objects
         
         should_have_a_value_for :id            => '1'
         should_have_a_value_for :title         => 'Tree'
+        should_have_a_value_for :description   => 'A Tree'
         should_have_a_value_for :farm_id       => '4'
         should_have_a_value_for :server_id     => '3085'
         should_have_a_value_for :secret        => 'secret'
