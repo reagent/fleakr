@@ -53,7 +53,7 @@ module Fleakr
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
       
-      find_one :by_id, :using => :photo_id, :call => 'photos.getInfo', :authenticate? => true
+      find_one :by_id, :using => :photo_id, :call => 'photos.getInfo'
       
       lazily_load :posted, :taken, :updated, :comment_count, :url, :description, :with => :load_info
       
