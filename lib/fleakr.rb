@@ -1,12 +1,13 @@
 $:.unshift(File.dirname(__FILE__))
+require 'rubygems'
 
 require 'uri'
 require 'cgi'
 require 'net/http'
-require 'rubygems'
 require 'hpricot'
 require 'activesupport'
 require 'md5'
+require 'loggable'
 
 require 'fleakr/api'
 require 'fleakr/core_ext'

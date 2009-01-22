@@ -20,6 +20,7 @@ spec = Gem::Specification.new do |s|
   
   s.add_dependency('hpricot', '~> 0.6.0')
   s.add_dependency('activesupport', '~> 2.2.0')
+  s.add_dependency('loggable', '~> 0.2.0')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
