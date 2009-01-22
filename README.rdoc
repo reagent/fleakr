@@ -186,18 +186,38 @@ Once this is set, you'll see your Authentication URL on the key details page (it
 something like http://www.flickr.com/auth-534525246245).  Paste this URL into your browser and 
 confirm access to get your mini-token. Now you're ready to make authenticated requests:
 
-  require 'rubygems'
-  require 'fleakr'
+    require 'rubygems'
+    require 'fleakr'
 
-  Fleakr.api_key       = 'ABC123'
-  Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site
-  Fleakr.mini_token    = '362-133-214'
+    Fleakr.api_key       = 'ABC123'
+    Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site
+    Fleakr.mini_token    = '362-133-214'
 
-  Fleakr.upload('/path/to/my/photo.jpg')
-  Fleakr.token.value # => "34132412341235-12341234ef34"
+    Fleakr.upload('/path/to/my/photo.jpg')
+    Fleakr.token.value # => "34132412341235-12341234ef34"
 
 Once you use the mini-token once, it is no longer available.  To use the generated auth_token
 for future requests, just set Fleakr.auth_token to the generated value.
+
+=== What Went Wrong?
+
+Because so much of the underlying API is hidden under the covers, it's often tough to know
+what's really going on when you run into unexpected behavior.  To make things easier, you can
+have Fleakr log all of the API traffic.  Here's how:
+
+    Fleakr.logger = Logger.new('/tmp/fleakr.log')
+    
+Now any calls to the API will log both their request and response data to that file.  But be 
+warned, this can be pretty verbose by default (especially if you're doing file uploads).  To see
+just the requests you need to tune the log level:
+
+    logger = Logger.new('/tmp/fleakr.log')
+    logger.level = Logger::INFO
+    
+    Fleakr.logger = logger
+    
+Even if something doesn't go wrong, this is a good way to get a sense for when you're making
+API requests.
 
 == Roadmap / TODO
 
