@@ -37,6 +37,14 @@ module Fleakr
         self.new(response.body)
       end
       
+      # Retrieve a full authentication token from the supplied frob
+      def self.from_frob(frob)
+        parameters = {:frob => frob, :sign? => true}
+        response = Fleakr::Api::MethodRequest.with_response!('auth.getToken', parameters)
+        
+        self.new(response.body)
+      end
+      
     end
     
   end

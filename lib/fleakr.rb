@@ -75,7 +75,7 @@ module Fleakr
   # Generic catch-all exception for any API errors
   class ApiError < StandardError; end
 
-  mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token
+  mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token, :frob
 
   # Find a user based on some unique user data.  This method will try to find
   # the user based on username and will fall back to email if that fails.  Example:
@@ -122,8 +122,10 @@ module Fleakr
   #
   def self.token
     @token ||= begin
-      if !Fleakr.auth_token.nil?
+      if Fleakr.auth_token
         Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
+      elsif Fleakr.frob
+        Fleakr::Objects::AuthenticationToken.from_frob(Fleakr.frob)
       else
         Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
       end

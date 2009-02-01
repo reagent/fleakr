@@ -26,6 +26,17 @@ module Fleakr::Objects
         AuthenticationToken.from_auth_token(token).should == auth_token
       end
       
+      
+      it "should be able to create an instance from a frob" do
+        frob       = '12345678901234567-abcde89012fg3456-7890123'
+        auth_token = stub()
+        
+        response = mock_request_cycle :for => 'auth.getToken', :with => {:frob => frob, :sign? => true}
+        
+        AuthenticationToken.expects(:new).with(response.body).returns(auth_token)
+        AuthenticationToken.from_frob(frob).should == auth_token
+      end
+      
     end
     
     describe "An instance of the AuthenticationToken class" do
