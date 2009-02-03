@@ -33,8 +33,10 @@ module Fleakr
           target_class = options[:class_name].nil? ? self.name : "Fleakr::Objects::#{options[:class_name]}"
         
           class_eval <<-CODE
-            def self.find_all_#{condition}(value)
-              response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', :#{attribute} => value)
+            def self.find_all_#{condition}(value, options = {})
+              options.merge!(:#{attribute} => value)
+              
+              response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', options)
               (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e) }
             end
           CODE
