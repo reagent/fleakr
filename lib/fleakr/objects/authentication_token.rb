@@ -17,6 +17,9 @@ module Fleakr
       
       flickr_attribute :value, :from => 'auth/token'
       flickr_attribute :permissions, :from => 'auth/perms'
+      flickr_attribute :user_id, :from => 'auth/user@nsid'
+      flickr_attribute :user_name, :from => 'auth/user@username' 
+      flickr_attribute :full_name, :from => 'auth/user@fullname'
       
       # Retrieve a full authentication token from the supplied mini-token (e.g. 123-456-789)
       #

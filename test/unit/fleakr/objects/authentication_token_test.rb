@@ -49,6 +49,9 @@ module Fleakr::Objects
         
         should_have_a_value_for :value       => 'abc-123'
         should_have_a_value_for :permissions => 'delete'
+        should_have_a_value_for :user_id     => '31066442@N69'
+        should_have_a_value_for :full_name   => 'Sir Froot Pants'
+        should_have_a_value_for :user_name   => 'frootpantz'
         
       end
       
