@@ -53,6 +53,22 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(glob)
     end
     
+    it "should be able to reset the cached token" do
+      @token = stub()
+      Fleakr.expects(:auth_token).with().at_least_once.returns('abc123')
+      Fleakr::Objects::AuthenticationToken.expects(:from_auth_token).with('abc123').times(2).returns(@token)
+      Fleakr.token # once
+      Fleakr.reset_token
+      Fleakr.token # twice
+    end
+    
+    [:mini_token, :auth_token, :frob].each do |attribute|
+      it "should reset_token when :#{attribute} is set" do
+        Fleakr.expects(:reset_token).with().at_least_once
+        Fleakr.send("#{attribute}=".to_sym, 'value')
+      end
+    end
+    
     context "when generating an AuthenticationToken from an auth_token string" do
 
       before do
@@ -63,7 +79,7 @@ class FleakrTest < Test::Unit::TestCase
       end
 
       # Make sure to clear the cache
-      after { Fleakr.instance_variable_set(:@token, nil) }
+      after { Fleakr.auth_token = nil }
       
       it "should return the token" do
         Fleakr.token.should == @token
@@ -86,7 +102,7 @@ class FleakrTest < Test::Unit::TestCase
       end
 
       # Make sure to clear the cache
-      after { Fleakr.instance_variable_set(:@token, nil) }
+      after { Fleakr.frob = nil }
       
       it "should return the token" do
         Fleakr.token.should == @token
@@ -109,7 +125,7 @@ class FleakrTest < Test::Unit::TestCase
       end
       
       # Make sure to clear the cache
-      after { Fleakr.instance_variable_set(:@token, nil) }
+      after { Fleakr.mini_token = nil }
       
       it "should return the token" do
         Fleakr.token.should == @token

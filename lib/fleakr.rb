@@ -131,6 +131,20 @@ module Fleakr
       end
     end
   end
+  
+  # Reset the cached token whenever setting a new value for the mini_token, auth_token, or frob
+  #
+  [:mini_token, :auth_token, :frob].each do |attribute|
+    class_eval <<-ACCESSOR
+      def self.#{attribute}=(#{attribute})
+        reset_token
+        @@#{attribute} = #{attribute}
+      end
+    ACCESSOR
+  end
 
+  def self.reset_token # :nodoc: #
+    @token = nil
+  end
   
 end
