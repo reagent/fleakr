@@ -26,7 +26,7 @@ module Fleakr::Objects
         end
         
         Fleakr::Api::UploadRequest.expects(:with_response!).with(filename).returns(response)
-        Photo.expects(:find_by_id).with('123', :authenticate? => true).returns(photo)
+        Photo.expects(:find_by_id).with('123').returns(photo)
         
         Photo.upload(filename).should == photo
       end

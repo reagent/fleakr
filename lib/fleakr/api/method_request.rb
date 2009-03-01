@@ -25,9 +25,9 @@ module Fleakr
       # see (#Fleakr.api_key=)
       #
       # The <tt>additional_parameters</tt> is a list of parameters to pass directly to 
-      # the Flickr API call.  Exceptions to this are the <tt>:sign?</tt> and 
-      # <tt>:authenticate?</tt> options that determine if the call should be signed or
-      # authenticated.
+      # the Flickr API call.  The exception to this is the <tt>:authenticate?</tt> option
+      # that will force the call to not be authenticated if it is set to false (The default
+      # behavior is to authenticate all calls when we have a token).
       #
       def initialize(method, additional_parameters = {})
         @parameters = ParameterList.new(additional_parameters)

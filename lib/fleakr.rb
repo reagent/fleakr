@@ -126,7 +126,7 @@ module Fleakr
         Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
       elsif Fleakr.frob
         Fleakr::Objects::AuthenticationToken.from_frob(Fleakr.frob)
-      else
+      elsif Fleakr.mini_token
         Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
       end
     end

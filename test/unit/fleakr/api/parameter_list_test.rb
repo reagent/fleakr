@@ -9,7 +9,6 @@ module Fleakr::Api
         @api_key = 'key'
         @secret  = 'foobar'
 
-        Fleakr.stubs(:shared_secret).with().returns(@secret)
         Fleakr.stubs(:api_key).with().returns(@api_key)
         @parameter_list = ParameterList.new
       end
@@ -24,7 +23,7 @@ module Fleakr::Api
         parameter_list = ParameterList.new(:one => 'two')
         parameter_list[:one].value.should == 'two'
       end
-
+      
       it "should be able to add parameters to its list" do
         parameter = ValueParameter.new('foo', 'bar')
         
@@ -47,11 +46,15 @@ module Fleakr::Api
       end
       
       it "should be able to calculate the signature of the parameters" do
+        Fleakr.stubs(:shared_secret).with().returns(@secret)
+        
         @parameter_list << ValueParameter.new('foo', 'bar')
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
       it "should use the correct order when signing a list of multiple parameters" do
+        Fleakr.stubs(:shared_secret).with().returns(@secret)
+        
         @parameter_list << ValueParameter.new('z', 'a')
         @parameter_list << ValueParameter.new('a', 'z')
         
@@ -59,6 +62,8 @@ module Fleakr::Api
       end
       
       it "should ignore the parameters that aren't included in the signature" do
+        Fleakr.stubs(:shared_secret).with().returns(@secret)
+        
         @parameter_list << ValueParameter.new('foo', 'bar')
         @parameter_list << ValueParameter.new('yes', 'no', false)
         
@@ -76,14 +81,29 @@ module Fleakr::Api
         @parameter_list.sign?.should be(false)
       end
       
-      it "should know that it needs to sign the request when asked" do
-        parameter_list = ParameterList.new(:sign? => true)
-        parameter_list.sign?.should be(true)
+      it "should know that it needs to sign the request when a shared secret is available" do
+        Fleakr.expects(:shared_secret).with().returns(@secret)
+        @parameter_list.sign?.should be(true)
       end
       
       it "should know that it doesn't need to authenticate the request by default" do
         @parameter_list.authenticate?.should be(false)
       end
+      
+      it "should know to authenticate the request when a token is available" do
+        Fleakr.stubs(:token).with().returns(stub(:value => 'toke'))
+        parameter_list = ParameterList.new
+
+        parameter_list.authenticate?.should be(true)
+      end
+      
+      it "should not authenticate the request if it's been specifically told not to" do
+        Fleakr.expects(:token).with().never
+        
+        parameter_list = ParameterList.new(:authenticate? => false)
+        parameter_list.authenticate?.should be(false)
+      end
+      
       
       it "should know to authenticate the request when asked" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
@@ -103,15 +123,10 @@ module Fleakr::Api
         auth_param.include_in_signature?.should be(true)
       end
       
-      it "should know that it needs to sign the request when it is to be authenticated" do
-        Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
-        
-        parameter_list = ParameterList.new(:authenticate? => true)
-        parameter_list.sign?.should be(true)
-      end
-      
       it "should include the signature in the list of parameters if the request is to be signed" do
-        parameter_list = ParameterList.new(:sign? => true)
+        parameter_list = ParameterList.new
+        
+        parameter_list.stubs(:sign?).with().returns(true)
         parameter_list.stubs(:signature).with().returns('sig')
         
         signature_param = parameter_list[:api_sig]
@@ -122,24 +137,24 @@ module Fleakr::Api
       end
       
       context "with associated parameters" do
-
+      
         before do
           @p1 = ValueParameter.new('a', 'b')
           @p2 = ValueParameter.new('c', 'd')
-
+      
           @p1.stubs(:to_query).with().returns('q1')
           @p1.stubs(:to_form).with().returns('f1')
           
           @p2.stubs(:to_query).with().returns('q2')
           @p2.stubs(:to_form).with().returns('f2')
-
+      
           @parameter_list.stubs(:list).with().returns('a' => @p1, 'c' => @p2)
         end
-
+      
         it "should be able to generate a query representation of itself" do
           @parameter_list.to_query.should == 'q1&q2'
         end
-
+      
         it "should be able to represent a form representation of itself" do
           @parameter_list.stubs(:boundary).returns('bound')
           

@@ -9,7 +9,7 @@ module Fleakr::Objects
         token = '123-123-123'
         auth_token = stub()
         
-        response = mock_request_cycle :for => 'auth.getFullToken', :with => {:mini_token => token, :sign? => true}
+        response = mock_request_cycle :for => 'auth.getFullToken', :with => {:mini_token => token, :authenticate? => false}
         
         AuthenticationToken.expects(:new).with(response.body).returns(auth_token)
         
@@ -20,7 +20,7 @@ module Fleakr::Objects
         token      = 'abc123'
         auth_token = stub()
 
-        response = mock_request_cycle :for => 'auth.checkToken', :with => {:auth_token => token, :sign? => true}
+        response = mock_request_cycle :for => 'auth.checkToken', :with => {:auth_token => token, :authenticate? => false}
         
         AuthenticationToken.expects(:new).with(response.body).returns(auth_token)
         AuthenticationToken.from_auth_token(token).should == auth_token
@@ -31,7 +31,7 @@ module Fleakr::Objects
         frob       = '12345678901234567-abcde89012fg3456-7890123'
         auth_token = stub()
         
-        response = mock_request_cycle :for => 'auth.getToken', :with => {:frob => frob, :sign? => true}
+        response = mock_request_cycle :for => 'auth.getToken', :with => {:frob => frob, :authenticate? => false}
         
         AuthenticationToken.expects(:new).with(response.body).returns(auth_token)
         AuthenticationToken.from_frob(frob).should == auth_token

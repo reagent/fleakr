@@ -65,7 +65,7 @@ module Fleakr
       def self.upload(filename)
         response = Fleakr::Api::UploadRequest.with_response!(filename)
         photo = Photo.new(response.body)
-        Photo.find_by_id(photo.id, :authenticate? => true)
+        Photo.find_by_id(photo.id)
       end
 
       # Replace the current photo's image with the one specified by filename.  This 

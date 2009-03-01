@@ -26,16 +26,6 @@ module Fleakr::Api
           request.parameters[:method].value.should == 'flickr.people.findByUsername'
         end
         
-        it "should know that it needs to sign the request" do
-          ParameterList.expects(:new).with(:sign? => true).returns(stub(:<< => nil))
-          request = MethodRequest.new('people.findByUsername', :sign? => true)
-        end
-        
-        it "should know that it needs to authenticate the request" do
-          ParameterList.expects(:new).with(:authenticate? => true).returns(stub(:<< => nil))
-          request = MethodRequest.new('activity.userPhotos', :authenticate? => true)
-        end
-
         it "should know the endpoint with full parameters" do
           query_parameters = 'foo=bar'
         

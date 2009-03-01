@@ -24,7 +24,7 @@ module Fleakr
       # Retrieve a full authentication token from the supplied mini-token (e.g. 123-456-789)
       #
       def self.from_mini_token(token)
-        parameters = {:mini_token => token, :sign? => true}
+        parameters = {:mini_token => token, :authenticate? => false}
         response = Fleakr::Api::MethodRequest.with_response!('auth.getFullToken', parameters)
         
         self.new(response.body)
@@ -34,7 +34,7 @@ module Fleakr
       # (e.g. 45-76598454353455)
       # 
       def self.from_auth_token(token)
-        parameters = {:auth_token => token, :sign? => true}
+        parameters = {:auth_token => token, :authenticate? => false}
         response = Fleakr::Api::MethodRequest.with_response!('auth.checkToken', parameters)
         
         self.new(response.body)
@@ -42,7 +42,7 @@ module Fleakr
       
       # Retrieve a full authentication token from the supplied frob
       def self.from_frob(frob)
-        parameters = {:frob => frob, :sign? => true}
+        parameters = {:frob => frob, :authenticate? => false}
         response = Fleakr::Api::MethodRequest.with_response!('auth.getToken', parameters)
         
         self.new(response.body)

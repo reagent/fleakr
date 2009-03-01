@@ -10,8 +10,8 @@ module Fleakr
     class ParameterList
       
       # Create a new parameter list with optional parameters:
-      # [:sign?] Will these parameters be used to sign the request?
-      # [:authenticate?] Will the request need to be authenticated?
+      # [:authenticate?] Request will automatically be authenticated if Fleakr.token is available
+      #                  set this to false to force it not to authenticate
       #
       # Any additional name / value pairs will be created as individual 
       # ValueParameters as part of the list.  Example:
@@ -22,7 +22,8 @@ module Fleakr
       #   => #<Fleakr::Api::ValueParameter:0x1656da4 @include_in_signature=true, @name="foo", @value="bar">
       #
       def initialize(options = {})
-        @api_options = options.extract!(:sign?, :authenticate?)
+        # TODO: need to find a way to move the unexpected behavior in Fleakr.token elsewhere
+        @api_options = options.extract!(:authenticate?)
         
         @list = Hash.new
 
@@ -41,13 +42,13 @@ module Fleakr
       # Should this parameter list be signed?
       #
       def sign?
-        (@api_options[:sign?] == true || authenticate?) ? true : false
+        !Fleakr.shared_secret.blank?
       end
       
       # Should we send the auth_token with the request?
       #
       def authenticate?
-        (@api_options[:authenticate?] == true) ? true : false
+        @api_options.has_key?(:authenticate?) ? @api_options[:authenticate?] : !Fleakr.token.blank?
       end
       
       # Access an individual parameter by key (symbol or string)
