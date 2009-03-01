@@ -53,6 +53,16 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(glob)
     end
     
+    it "should return recently uploaded photos" do
+      filename  = '/path/to/image.jpg'
+      new_image = stub()
+      
+      Dir.expects(:[]).with(filename).returns([filename])
+      Fleakr::Objects::Photo.expects(:upload).with(filename).returns(new_image)
+      
+      Fleakr.upload(filename).should == [new_image]
+    end
+    
     it "should be able to reset the cached token" do
       @token = stub()
       Fleakr.expects(:auth_token).with().at_least_once.returns('abc123')

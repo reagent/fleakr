@@ -114,7 +114,7 @@ module Fleakr
   #  Fleakr.upload('/User/Pictures/Party/*.jpg')
   #
   def self.upload(glob)
-    Dir[glob].each {|file| Fleakr::Objects::Photo.upload(file) }
+    Dir[glob].map {|file| Fleakr::Objects::Photo.upload(file) }
   end
 
   # Get the authentication token needed for authenticated requests.  Will either use
