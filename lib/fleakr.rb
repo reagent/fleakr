@@ -5,7 +5,15 @@ require 'uri'
 require 'cgi'
 require 'net/http'
 require 'hpricot'
-require 'activesupport'
+
+# Require only what we need from ActiveSupport
+require 'active_support/core_ext/array'
+require 'active_support/core_ext/module'
+require 'active_support/core_ext/blank'
+require 'active_support/core_ext/time'
+require 'active_support/inflector'
+require 'active_support/core_ext/string'
+
 require 'md5'
 require 'loggable'
 

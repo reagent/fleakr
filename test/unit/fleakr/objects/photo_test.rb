@@ -110,17 +110,17 @@ module Fleakr::Objects
         
         it "should have a value for :posted_at" do
           @photo.expects(:posted).with().returns("#{@time.to_i}")
-          @photo.posted_at.should == @time
+          @photo.posted_at.to_s.should == @time.to_s
         end
         
         it "should have a value for :taken_at" do
           @photo.expects(:taken).with().returns(@time.strftime('%Y-%m-%d %H:%M:%S'))
-          @photo.taken_at.should == @time
+          @photo.taken_at.to_s.should == @time.to_s
         end
         
         it "should have a value for :updated_at" do
           @photo.expects(:updated).with().returns("#{@time.to_i}")
-          @photo.updated_at.should == @time
+          @photo.updated_at.to_s.should == @time.to_s
         end
         
         it "should have a collection of images by size" do

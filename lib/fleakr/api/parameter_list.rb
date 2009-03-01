@@ -65,7 +65,7 @@ module Fleakr
       # list - e.g. <tt>foo=bar&blee=baz</tt>
       #
       def to_query
-        list.values.map(&:to_query).join('&')
+        list.values.map {|element| element.to_query }.join('&')
       end
       
       # Generate the form representation of this parameter list including the
