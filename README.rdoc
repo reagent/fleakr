@@ -225,7 +225,6 @@ API requests.
 
 * Allow passing of parameters to file uploads to allow for access control / naming
 * Implement remaining bits of person and photo-related API calls (read-only)
-* Automatically sign all calls (if we have a secret), authenticate all calls (if we have a token)
 
 === 0.5.x
 
