@@ -23,27 +23,33 @@ module Fleakr
       
       # Retrieve a full authentication token from the supplied mini-token (e.g. 123-456-789)
       #
-      def self.from_mini_token(token)
-        parameters = {:mini_token => token, :authenticate? => false}
-        response = Fleakr::Api::MethodRequest.with_response!('auth.getFullToken', parameters)
-        
-        self.new(response.body)
+      def self.from_mini_token(mini_token)
+        from :mini_token, mini_token
       end
       
       # Retrieve a full authentication token from the supplied auth_token string
       # (e.g. 45-76598454353455)
       # 
-      def self.from_auth_token(token)
-        parameters = {:auth_token => token, :authenticate? => false}
-        response = Fleakr::Api::MethodRequest.with_response!('auth.checkToken', parameters)
-        
-        self.new(response.body)
+      def self.from_auth_token(auth_token)
+        from :auth_token, auth_token
       end
       
       # Retrieve a full authentication token from the supplied frob
       def self.from_frob(frob)
-        parameters = {:frob => frob, :authenticate? => false}
-        response = Fleakr::Api::MethodRequest.with_response!('auth.getToken', parameters)
+        from :frob, frob
+      end
+      
+      def self.from(thing, value) # :nodoc:
+        api_methods = {
+          :mini_token => 'getFullToken',
+          :auth_token => 'checkToken',
+          :frob       => 'getToken'
+        }
+        
+        method = "auth.#{api_methods[thing]}"
+        
+        parameters = {thing => value, :authenticate? => false}
+        response = Fleakr::Api::MethodRequest.with_response!(method, parameters)
         
         self.new(response.body)
       end
