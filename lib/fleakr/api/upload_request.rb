@@ -35,7 +35,6 @@ module Fleakr
       #
       def initialize(filename, options = {})
         type_options = options.extract!(:type)
-        options.merge!(:authenticate? => true)
         
         @type = type_options[:type] || :create
         
