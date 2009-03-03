@@ -41,14 +41,15 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.search(:tags => %w(one two))
     end
    
+    # TODO: refactor uploading tests?
     it "should be able to upload a collection of images" do
       glob      = '*.jpg'
       filenames = %w(one.jpg two.jpg)
       
       Dir.expects(:[]).with(glob).returns(filenames)
       
-      Fleakr::Objects::Photo.expects(:upload).with('one.jpg')
-      Fleakr::Objects::Photo.expects(:upload).with('two.jpg')
+      Fleakr::Objects::Photo.expects(:upload).with('one.jpg', {})
+      Fleakr::Objects::Photo.expects(:upload).with('two.jpg', {})
       
       Fleakr.upload(glob)
     end
@@ -58,9 +59,19 @@ class FleakrTest < Test::Unit::TestCase
       new_image = stub()
       
       Dir.expects(:[]).with(filename).returns([filename])
-      Fleakr::Objects::Photo.expects(:upload).with(filename).returns(new_image)
+      Fleakr::Objects::Photo.expects(:upload).with(filename, {}).returns(new_image)
       
       Fleakr.upload(filename).should == [new_image]
+    end
+    
+    it "should be able to pass options for the uploaded files" do
+      filename  = '/path/to/image.jpg'
+      new_image = stub()
+      
+      Dir.expects(:[]).with(filename).returns([filename])
+      Fleakr::Objects::Photo.expects(:upload).with(filename, :title => 'bop bip').returns(new_image)
+      
+      Fleakr.upload(filename, :title => 'bop bip').should == [new_image]
     end
     
     it "should be able to reset the cached token" do

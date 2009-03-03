@@ -19,8 +19,8 @@ module Fleakr
       # a Fleakr::ApiError with the reason for the error.  See UploadRequest#new for more 
       # details.
       #
-      def self.with_response!(filename, options = {})
-        request = self.new(filename, options)
+      def self.with_response!(filename, type = :create, options = {})
+        request = self.new(filename, type, options)
         response = request.send
         
         raise(Fleakr::ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
@@ -33,13 +33,17 @@ module Fleakr
       # [:type] Valid values are :create and :update and are used when uploading new 
       #         photos or replacing existing ones
       #
-      def initialize(filename, options = {})
-        type_options = options.extract!(:type)
+      def initialize(filename, type = :create, options = {})
+        @type    = type
+        @options = options
         
-        @type = type_options[:type] || :create
-        
-        @parameters = ParameterList.new(options)
+        @parameters = ParameterList.new(upload_options)
         @parameters << FileParameter.new('photo', filename)
+      end
+      
+      def upload_options
+        option_list = @options.map {|key, value| Option.for(key, value) }
+        option_list.inject({}) {|hash, option| hash.merge(option.to_hash)}
       end
       
       def headers # :nodoc:

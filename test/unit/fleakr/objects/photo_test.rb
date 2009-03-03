@@ -16,7 +16,7 @@ module Fleakr::Objects
       
       should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo'
 
-
+      # TODO: refactor these 2 tests
       it "should be able to upload a photo and return the new photo information" do
         filename = '/path/to/mugshot.jpg'
         photo = stub()
@@ -25,10 +25,24 @@ module Fleakr::Objects
           s.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
         end
         
-        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename).returns(response)
+        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :create, {}).returns(response)
         Photo.expects(:find_by_id).with('123').returns(photo)
         
         Photo.upload(filename).should == photo
+      end
+      
+      it "should be able to pass additional options when uploading a new file" do
+        filename = '/path/to/mugshot.jpg'
+        photo = stub()
+        
+        response = stub do |s|
+          s.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
+        end
+        
+        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :create, {:title => 'foo'}).returns(response)
+        Photo.expects(:find_by_id).with('123').returns(photo)
+        
+        Photo.upload(filename, :title => 'foo').should == photo
       end
 
     end
@@ -39,9 +53,9 @@ module Fleakr::Objects
         filename = '/path/to/file.jpg'
         response = stub(:body => 'body')
         
-        params = {:type => :update, :photo_id => '1'}
+        params = {:photo_id => '1'}
 
-        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, params).returns(response)
+        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :update, params).returns(response)
 
         photo = Photo.new
         photo.stubs(:id).returns('1')

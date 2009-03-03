@@ -62,8 +62,8 @@ module Fleakr
       # Upload the photo specified by <tt>filename</tt> to the user's Flickr account.  This
       # call requires authentication.
       #
-      def self.upload(filename)
-        response = Fleakr::Api::UploadRequest.with_response!(filename)
+      def self.upload(filename, options = {})
+        response = Fleakr::Api::UploadRequest.with_response!(filename, :create, options)
         photo = Photo.new(response.body)
         Photo.find_by_id(photo.id)
       end
@@ -72,7 +72,7 @@ module Fleakr
       # call requires authentication.
       #
       def replace_with(filename)
-        response = Fleakr::Api::UploadRequest.with_response!(filename, :photo_id => self.id, :type => :update)
+        response = Fleakr::Api::UploadRequest.with_response!(filename, :update, :photo_id => self.id)
         self.populate_from(response.body)
         self
       end

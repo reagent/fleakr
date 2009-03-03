@@ -10,6 +10,17 @@ module Fleakr::Api
         Fleakr.stubs(:shared_secret).with().returns(@secret)
       end
       
+      it "should have a collection of upload_options" do
+        request = UploadRequest.new('foo', :create, {:title => 'foo', :tags => %w(a b)})
+        
+        option_1, option_2 = [stub(:to_hash => {:one => 'value_1'}), stub(:to_hash => {:two => 'value_2'})]
+        
+        Option.expects(:for).with(:title, 'foo').returns(option_1)
+        Option.expects(:for).with(:tags, %w(a b)).returns(option_2)
+        
+        request.upload_options.should == {:one => 'value_1', :two => 'value_2'}
+      end
+      
       it "should create a file parameter on initialization" do
         filename = '/path/to/image.jpg'
 
@@ -22,12 +33,13 @@ module Fleakr::Api
         UploadRequest.new(filename)
       end
       
-      it "should allow setting additional parameters on initialization" do
-        params = {:is_public => 1}
+      it "should allow setting options on initialization" do
+        option = stub {|s| s.stubs(:to_hash).with().returns({:title => 'foo'})}
+        Option.expects(:for).with(:title, 'foo').returns(option)
         
-        ParameterList.expects(:new).with({:is_public => 1}).returns(stub(:<<))
+        ParameterList.expects(:new).with({:title => 'foo'}).returns(stub(:<<))
         
-        UploadRequest.new('filename', params)
+        UploadRequest.new('filename', :create, {:title => 'foo'})
       end
 
       context "after initialization" do
@@ -40,7 +52,7 @@ module Fleakr::Api
         end
         
         it "should allow setting the type to :update" do
-          request = UploadRequest.new('file', :type => :update)
+          request = UploadRequest.new('file', :update)
           request.type.should == :update
         end
 
@@ -50,7 +62,7 @@ module Fleakr::Api
         end
         
         it "should know the endpoint_uri for an :update request" do
-          request = UploadRequest.new('filename', :type => :update)
+          request = UploadRequest.new('filename', :update)
           request.__send__(:endpoint_uri).should == URI.parse('http://api.flickr.com/services/replace/')
         end
         
@@ -110,7 +122,7 @@ module Fleakr::Api
           filename = 'filename'
           response = stub(:error? => false)
           
-          UploadRequest.expects(:new).with(filename, {}).returns(stub(:send => response))
+          UploadRequest.expects(:new).with(filename, :create, {}).returns(stub(:send => response))
           UploadRequest.with_response!(filename).should == response
         end
         
@@ -118,7 +130,7 @@ module Fleakr::Api
           filename = 'filename'
           response = stub(:error? => true, :error => stub(:code => '1', :message => 'User not found'))
           
-          UploadRequest.expects(:new).with(filename, {}).returns(stub(:send => response))
+          UploadRequest.expects(:new).with(filename, :create, {}).returns(stub(:send => response))
           
           lambda do
             UploadRequest.with_response!(filename)
