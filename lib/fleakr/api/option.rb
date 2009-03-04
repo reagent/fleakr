@@ -80,24 +80,29 @@ module Fleakr
     # Specify who is able to view the photo.
     #
     class ViewOption < SimpleOption
-      # TODO: allow friends & family permissions to exist together
+      
+      # Specify who this is viewable by (e.g. everyone / friends / family).
+      #
+      def initialize(type, value)
+        super type, Array(value)
+      end
       
       # Is this publicly viewable? (i.e. :everyone)
       #
       def public?
-        value == :everyone
+        value == [:everyone]
       end
       
       # Is this viewable by friends? (i.e. :friends)
       #
       def friends?
-        value == :friends
+        value.include?(:friends)
       end
 
       # Is this viewable by family? (i.e. :family)
       #
       def family?
-        value == :family
+        value.include?(:family)
       end
       
       # Hash representation of photo permissions

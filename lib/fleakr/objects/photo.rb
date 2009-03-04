@@ -69,7 +69,8 @@ module Fleakr
       # [:description] The description for this photo. Any string is allowed.
       # [:tags] A collection of tags for this photo. This can be a string or array of strings.
       # [:viewable_by] Who can view this photo?  Acceptable values are one of <tt>:everyone</tt>,
-      #                <tt>:friends</tt> or <tt>:family</tt>.
+      #                <tt>:friends</tt> or <tt>:family</tt>.  This can also take an array of values
+      #                (e.g. <tt>[:friends, :family]</tt>) to make it viewable by friends and family.
       # [:level] The safety level of this photo.  Acceptable values are one of <tt>:safe</tt>,
       #          <tt>:moderate</tt>, or <tt>:restricted</tt>.
       # [:type] The type of image this is.  Acceptable values are one of <tt>:photo</tt>,

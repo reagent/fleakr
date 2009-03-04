@@ -92,6 +92,22 @@ module Fleakr::Api
         vo.to_hash.should == {:is_public => 0, :is_family => 0, :is_friend => 1}
       end
       
+      it "should know the visibility is public if value is set to :everyone" do
+        vo = ViewOption.new(:viewable_by, :everyone)
+        vo.public?.should be(true)
+      end
+      
+      it "should know the visibility is not public if :everyone is not the only value" do
+        vo = ViewOption.new(:viewable_by, [:everyone, :family])
+        vo.public?.should be(false)
+      end
+      
+      it "should know that its visible to friends and family if specified as such" do
+        vo = ViewOption.new(:viewable_by, [:friends, :family])
+        vo.friends?.should be(true)
+        vo.family?.should be(true)
+      end
+      
     end
     
   end
