@@ -251,19 +251,19 @@ API requests.
 
 === 0.4.x
 
-* Allow passing of parameters to file uploads to allow for access control / naming
 * Implement remaining bits of person and photo-related API calls (read-only)
 
 === 0.5.x
 
 * Implement asynchronous file upload / replacement w/ ticket checking
-* Provide a better searching interface
+* Provide a better searching interface with ruby-like option syntax
 
 === Future
 
 * Implement save-able search results (e.g. Fleakr.search('ponies').save_to('/path', :medium))
 * Implement deeper associations for core elements (e.g. tags / etc..)
 * Implement write methods for photos & photosets
+* Implement flickr.places.* portion of API 
 
 == License
 
