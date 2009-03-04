@@ -63,7 +63,12 @@ module Fleakr::Api
       
       it "should be able to generate a hash representation of itself with tags joined on spaces" do
         to = TagOption.new(:tags, %w(bop bip))
-        to.to_hash.should == {:tags => 'bop bip'}
+        to.to_hash.should == {:tags => '"bop" "bip"'}
+      end
+      
+      it "should quote tag values with spaces" do
+        to = TagOption.new(:tags, ['tag', 'one with spaces'])
+        to.to_hash.should == {:tags => '"tag" "one with spaces"'}
       end
     end
     

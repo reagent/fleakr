@@ -65,11 +65,12 @@ module Fleakr
         @value = Array(self.value)
       end
     
-      # Hash representation of tag values (separated by spaces)
+      # Hash representation of tag values (separated by spaces).  Handles multi-word tags 
+      # by enclosing each tag in double quotes.
       #
       def to_hash
-        # TODO: handle tags with spaces?
-        {type => value.join(' ')}
+        tags = value.map {|tag| "\"#{tag}\"" }
+        {type => tags.join(' ')}
       end
       
     end
