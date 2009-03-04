@@ -169,7 +169,33 @@ Searches can also be scoped to other entities in the system (namely Users and Gr
     => [#<Fleakr::Objects::Photo:0x18a6960 @server_id="41", @id="81370156",
         @farm_id="1", @title="Clear and Serpent Danger", @secret="013091582a">]
 
-=== Authenticated Calls & Uploads
+=== Uploading Files
+
+Before you can upload files, you need to be able to make authenticated calls to the Flickr 
+API.  Skip to the next section (Authenticated Calls) for details on how to make this work.
+
+Uploading single files is simple:
+
+    >> Fleakr.upload('/path/to/image.jpg')
+    => [#<Fleakr::Objects::Photo:0x217fb54 @updated="1236133594", @server_id="3266", ...>]
+    
+Notice that the newly-uploaded image is returned.  You can further inspect / modify this as
+necessary.  The real magic is in uploading multiple files - the upload method takes a file
+glob:
+
+    >> Fleakr.upload('/path/to/images/*.jpg')
+    => [#<Fleakr::Objects::Photo:0x217faa0 ...>,
+        #<Fleakr::Objects::Photo:0x212fb18 ...>,
+        #<Fleakr::Objects::Photo:0x20e09c8 ...>]
+
+You can also set options on the file(s) that you're uploading:
+
+    >> Fleakr.upload('/path/to/party/images/*.jpg', :viewable_by => :everyone, 
+                                                    :title => 'Party Pics')
+
+The full list of options can be found in the Fleakr::Objects::Photo documentation.
+
+=== Authenticated Calls
 
 While read-only access to the API gets you quite a bit of data, you'll need to generate an
 authentication token if you want access to the more powerful features (like uploading your 
@@ -197,7 +223,9 @@ confirm access to get your mini-token. Now you're ready to make authenticated re
     Fleakr.token.value # => "34132412341235-12341234ef34"
 
 Once you use the mini-token once, it is no longer available.  To use the generated auth_token
-for future requests, just set Fleakr.auth_token to the generated value.
+for future requests, just set Fleakr.auth_token to the generated value.  Similarly, if you have
+an authenticated frob from Flickr (using authentication for desktop applications, for example)
+you can also set <tt>Fleakr.frob</tt> to the frob value returned from the API.
 
 === What Went Wrong?
 

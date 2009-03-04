@@ -3,6 +3,9 @@ module Fleakr
     
     # = Photo
     #
+    # Handles both the retrieval of Photo objects from various associations (e.g. User / Set) as 
+    # well as the ability to upload images to the Flickr site.
+    # 
     # == Attributes
     #
     # [id] The ID for this photo
@@ -59,8 +62,19 @@ module Fleakr
       
       has_many :images
 
-      # Upload the photo specified by <tt>filename</tt> to the user's Flickr account.  This
-      # call requires authentication.
+      # Upload the photo specified by <tt>filename</tt> to the user's Flickr account. When uploading,
+      # there are several options available (none are required):
+      #
+      # [:title] The title for this photo. Any string is allowed.
+      # [:description] The description for this photo. Any string is allowed.
+      # [:tags] A collection of tags for this photo. This can be a string or array of strings.
+      # [:viewable_by] Who can view this photo?  Acceptable values are one of <tt>:everyone</tt>,
+      #                <tt>:friends</tt> or <tt>:family</tt>.
+      # [:level] The safety level of this photo.  Acceptable values are one of <tt>:safe</tt>,
+      #          <tt>:moderate</tt>, or <tt>:restricted</tt>.
+      # [:type] The type of image this is.  Acceptable values are one of <tt>:photo</tt>,
+      #         <tt>:screenshot</tt>, or <tt>:other</tt>.
+      # [:hide?] Should this photo be hidden from public searches? Takes a boolean.
       #
       def self.upload(filename, options = {})
         response = Fleakr::Api::UploadRequest.with_response!(filename, :create, options)

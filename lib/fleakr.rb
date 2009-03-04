@@ -121,6 +121,10 @@ module Fleakr
   #  Fleakr.upload('/path/to/my/mug.jpg')
   #  Fleakr.upload('/User/Pictures/Party/*.jpg')
   #
+  # Additionally, options can be supplied as part of the upload that will apply to all files
+  # that are matched by the pattern passed to <tt>glob</tt>.  For a full list, see 
+  # Fleakr::Objects::Photo.
+  #
   def self.upload(glob, options = {})
     Dir[glob].map {|file| Fleakr::Objects::Photo.upload(file, options) }
   end

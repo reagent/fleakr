@@ -1,12 +1,17 @@
 module Fleakr
   module Api # :nodoc:
     
+    # = MethodRequest
+    # 
+    # Handles all API requests that are non-upload related.  For upload requests see the
+    # UploadRequest class.
+    #
     class MethodRequest
       attr_reader :parameters, :method
       
       # Makes a request to the Flickr API and returns a valid Response object.  If
       # there are errors on the response it will raise an ApiError exception.  See 
-      # #Fleakr::Api::MethodRequest.new for details about the additional parameters
+      # MethodRequest#new for details about the additional parameters
       #
       def self.with_response!(method, additional_parameters = {})
         request = self.new(method, additional_parameters)

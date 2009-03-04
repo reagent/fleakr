@@ -1,4 +1,4 @@
-class TrueClass
+class TrueClass # :nodoc:
   
   def to_i
     1

@@ -28,10 +28,11 @@ module Fleakr
         response
       end
       
-      # Create a new UploadRequest with the specified filename and options:
+      # Create a new UploadRequest with the specified filename, type, and options.  Type
+      # is one of <tt>:create</tt> or <tt>:update</tt> to specify whether we are saving a new
+      # image or replacing an existing one.  
       #
-      # [:type] Valid values are :create and :update and are used when uploading new 
-      #         photos or replacing existing ones
+      # For a list of available options, see the documentation in Fleakr::Objects::Photo
       #
       def initialize(filename, type = :create, options = {})
         @type    = type
@@ -41,6 +42,8 @@ module Fleakr
         @parameters << FileParameter.new('photo', filename)
       end
       
+      # A list of upload options for this upload request (see Fleakr::Api::Option)
+      #
       def upload_options
         option_list = @options.map {|key, value| Option.for(key, value) }
         option_list.inject({}) {|hash, option| hash.merge(option.to_hash)}
