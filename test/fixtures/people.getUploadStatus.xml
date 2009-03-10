@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<user id="31066442@N69" ispro="1">
+	<username>frootpantz</username>
+	<bandwidth max="2147483648" used="0" maxbytes="2147483648" usedbytes="0" remainingbytes="2147483648" maxkb="2097152" usedkb="0" remainingkb="2097152" unlimited="1" />
+	<filesize max="20971520" maxbytes="20971520" maxkb="20480" maxmb="20" />
+	<sets created="94" remaining="lots" />
+	<videosize maxbytes="157286400" maxkb="153600" maxmb="150" />
+	<videos uploaded="5" remaining="lots" />
+</user>
+
+</rsp>

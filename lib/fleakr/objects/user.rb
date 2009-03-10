@@ -43,13 +43,15 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :id, :from => 'user@nsid'
+      flickr_attribute :id, :from => 'user@id'
       flickr_attribute :username
       flickr_attribute :name, :from => 'person/realname'
       flickr_attribute :location
       flickr_attribute :photos_url, :from => 'person/photosurl'
       flickr_attribute :profile_url, :from => 'person/profileurl'
       flickr_attribute :photos_count, :from => 'person/photos/count'
+      flickr_attribute :sets_count, :from => 'user/sets@created'
+      flickr_attribute :videos_count, :from => 'user/videos@uploaded'
       flickr_attribute :icon_server, :from => 'person@iconserver'
       flickr_attribute :icon_farm, :from => 'person@iconfarm'
       flickr_attribute :pro, :from => 'person@ispro'
@@ -62,6 +64,7 @@ module Fleakr
 
       lazily_load :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
+      lazily_load :sets_count, :videos_count, :with => :load_statistics
 
       scoped_search
       
@@ -86,6 +89,11 @@ module Fleakr
       
       def load_info # :nodoc:
         response = Fleakr::Api::MethodRequest.with_response!('people.getInfo', :user_id => self.id)
+        self.populate_from(response.body)
+      end
+      
+      def load_statistics # :nodoc:
+        response = Fleakr::Api::MethodRequest.with_response!('people.getUploadStatus')
         self.populate_from(response.body)
       end
 
