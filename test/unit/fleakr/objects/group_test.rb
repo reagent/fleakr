@@ -23,9 +23,24 @@ module Fleakr::Objects
         
         should_have_a_value_for :id   => '13378274@N00'
         should_have_a_value_for :name => 'Group #1'
+        should_have_a_value_for :adult_flag => '1'
         
       end
+
+      it "should know that the group is adult-only" do
+        group = Group.new
+        group.stubs(:adult_flag).with().returns('1')
+        group.adult?.should be(true)
+      end
+      
+      it "should know that the group is not adult-only" do
+        group = Group.new
+        group.stubs(:adult_flag).with().returns('0')
+        group.adult?.should be(false)
+      end
+      
     end
     
   end
 end
+
