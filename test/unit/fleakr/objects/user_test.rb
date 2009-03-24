@@ -9,7 +9,6 @@ module Fleakr::Objects
     
     should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
-    should_autoload_when_accessing :sets_count, :videos_count, :with => :load_statistics
 
     describe "The User class" do
 
@@ -23,7 +22,6 @@ module Fleakr::Objects
         before do
           @object = User.new(Hpricot.XML(read_fixture('people.findByUsername')))
           @object.populate_from(Hpricot.XML(read_fixture('people.getInfo')))
-          @object.populate_from(Hpricot.XML(read_fixture('people.getUploadStatus')))
         end
 
         should_have_a_value_for :id           => '31066442@N69'
@@ -37,8 +35,6 @@ module Fleakr::Objects
         should_have_a_value_for :icon_farm    => '1'
         should_have_a_value_for :pro          => '1'
         should_have_a_value_for :admin        => '0'
-        should_have_a_value_for :sets_count   => '94'
-        should_have_a_value_for :videos_count => '5'
         
       end
 
@@ -51,13 +47,6 @@ module Fleakr::Objects
           @user.expects(:populate_from).with(response.body)
 
           @user.load_info
-        end
-        
-        it "should be able to retrieve usage information for the current user" do
-          response = mock_request_cycle :for => 'people.getUploadStatus'
-          @user.expects(:populate_from).with(response.body)
-          
-          @user.load_statistics
         end
 
         it "should be able to generate an icon URL when the :icon_server value is greater than zero" do

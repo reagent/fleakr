@@ -23,7 +23,6 @@ module Fleakr
       scoped_search
       
       # Is this group adult-only? (e.g. only 18+ allowed to view)
-      #
       def adult?
         (adult_flag == '1')
       end
