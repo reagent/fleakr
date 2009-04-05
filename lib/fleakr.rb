@@ -5,6 +5,7 @@ require 'uri'
 require 'cgi'
 require 'net/http'
 require 'hpricot'
+require 'forwardable'
 
 # Require only what we need from ActiveSupport
 require 'active_support/core_ext/array'

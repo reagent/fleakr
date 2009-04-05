@@ -31,6 +31,9 @@ module Fleakr
       SIZES = [:square, :thumbnail, :small, :medium, :large, :original]
 
       include Fleakr::Support::Object
+      extend Forwardable
+
+      def_delegators :context, :next, :previous
 
       flickr_attribute :id, :from => ['@id', 'photoid']
       flickr_attribute :title
@@ -96,6 +99,13 @@ module Fleakr
       def load_info # :nodoc:
         response = Fleakr::Api::MethodRequest.with_response!('photos.getInfo', :photo_id => self.id)
         self.populate_from(response.body)
+      end
+
+      def context
+        @context ||= begin
+          response = Fleakr::Api::MethodRequest.with_response!('photos.getContext', :photo_id => self.id)
+          PhotoContext.new(response.body)
+        end
       end
 
       # When was this photo posted?

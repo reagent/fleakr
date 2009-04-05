@@ -166,6 +166,51 @@ module Fleakr::Objects
           end
         end
         
+        it "should be able to retrieve the context for this photo" do
+          id = '1'
+          
+          context = stub()
+          
+          photo = Photo.new
+          photo.stubs(:id).with().returns(id)
+          
+          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => id}
+          PhotoContext.expects(:new).with(response.body).returns(context)
+          
+          photo.context.should == context
+        end
+        
+        it "should memoize the context data" do
+          id = '1'
+          
+          context = stub()
+          
+          photo = Photo.new
+          photo.stubs(:id).with().returns(id)
+          
+          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => id}
+          PhotoContext.expects(:new).once.returns(context)
+          
+          2.times { photo.context }
+        end
+        
+        it "should be able to retrieve the next photo" do
+          next_photo = stub()
+          
+          photo = Photo.new
+          photo.expects(:context).with().returns(mock {|m| m.expects(:next).with().returns(next_photo)})
+          
+          photo.next.should == next_photo
+        end
+        
+        it "should be able to retrieve the previous photo" do
+          previous_photo = stub()
+
+          photo = Photo.new
+          photo.expects(:context).with().returns(mock {|m| m.expects(:previous).with().returns(previous_photo)})
+
+          photo.previous.should == previous_photo
+        end
         
       end
     end
