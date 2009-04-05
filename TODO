@@ -1,0 +1,19 @@
+# TODO
+
+## 0.4.x
+
+* Implement remaining bits of person and photo-related API calls (read-only)
+* Add options to Photo finder to pass additional filters (safe_search, extras, ...)
+* Get tags for a photo
+* Get related tags (for a tag)
+
+## 0.5.x
+
+* Implement asynchronous file upload / replacement w/ ticket checking
+* Provide a better searching interface with ruby-like option syntax
+
+## Future
+
+* Store admin information for group (i.e. is the current user an admin for this group)
+* Get a list of all sets & pools to which this photo belongs
+* Get a list of recent photos uploaded from contacts
