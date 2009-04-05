@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<count>5584</count>
+<prevphoto id="12345" secret="abc234" server="3560" farm="4" title="Previous" url="/photos/frootpantz/12345/in/photostream/" thumb="http://farm4.static.flickr.com/3560/3369675369_d97d2b1345_s.jpg" media="photo" />
+<nextphoto id="12343" secret="abc123" server="3562" farm="4" title="Next" url="/photos/frootpantz/12343/in/photostream/" thumb="http://farm4.static.flickr.com/3562/3370497926_ba89f4343a_s.jpg" media="photo" />
+</rsp>
