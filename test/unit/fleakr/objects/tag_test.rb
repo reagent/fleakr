@@ -6,7 +6,7 @@ module Fleakr::Objects
     describe "The Tag class" do
       
       should_find_all :tags, :by => :photo_id, :call => 'tags.getListPhoto', :path => 'rsp/photo/tags/tag'
-      
+      should_find_all :tags, :by => :user_id, :call => 'tags.getListUser', :path => 'rsp/who/tags/tag'      
     end
     
     describe "An instance of the Tag class" do

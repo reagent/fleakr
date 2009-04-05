@@ -55,7 +55,7 @@ module Fleakr
       flickr_attribute :pro, :from => 'person@ispro'
       flickr_attribute :admin, :from => 'person@isadmin'
 
-      has_many :sets, :groups, :photos, :contacts
+      has_many :sets, :groups, :photos, :contacts, :tags
 
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'

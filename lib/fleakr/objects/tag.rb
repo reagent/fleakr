@@ -12,6 +12,7 @@ module Fleakr
       flickr_attribute :machine_flag, :from => '@machine_tag'
       
       find_all :by_photo_id, :call => 'tags.getListPhoto', :path => 'photo/tags/tag'
+      find_all :by_user_id, :call => 'tags.getListUser', :path => 'who/tags/tag'
       
       def author
         @author ||= User.find_by_id(author_id) unless author_id.nil?

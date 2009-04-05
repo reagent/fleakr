@@ -5,7 +5,7 @@ module Fleakr::Objects
 
     should_search_by :user_id
 
-    should_have_many :photos, :groups, :sets, :contacts
+    should_have_many :photos, :groups, :sets, :contacts, :tags
     
     should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
