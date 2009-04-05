@@ -14,6 +14,7 @@ module Fleakr::Objects
 
       should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
       should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user'
+      should_find_one :user, :by => :id, :with => :user_id, :call => 'people.getInfo', :path => 'rsp/person'
 
     end
 

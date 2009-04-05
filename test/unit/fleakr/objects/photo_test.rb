@@ -74,6 +74,8 @@ module Fleakr::Objects
         should_have_a_value_for :farm_id   => '4'
         should_have_a_value_for :server_id => '3250'
         should_have_a_value_for :secret    => 'cbc1804258'
+        should_have_a_value_for :owner_id  => '21775151@N06'
+        
       end
       
       context "when populating from the photo upload XML data" do
@@ -95,6 +97,7 @@ module Fleakr::Objects
         should_have_a_value_for :description   => 'A Tree'
         should_have_a_value_for :farm_id       => '4'
         should_have_a_value_for :server_id     => '3085'
+        should_have_a_value_for :owner_id      => '31066442@N69'
         should_have_a_value_for :secret        => 'secret'
         should_have_a_value_for :posted        => '1230274722'
         should_have_a_value_for :taken         => '2008-12-25 18:26:55'
@@ -210,6 +213,26 @@ module Fleakr::Objects
           photo.expects(:context).with().returns(mock {|m| m.expects(:previous).with().returns(previous_photo)})
 
           photo.previous.should == previous_photo
+        end
+        
+        it "should be able to find the owner of the photo" do
+          owner = stub()
+          
+          photo = Photo.new
+          photo.stubs(:owner_id).with().returns('1')
+          
+          User.expects(:find_by_id).with('1').returns(owner)
+          
+          photo.owner.should == owner
+        end
+        
+        it "should memoize the owner information" do
+          photo = Photo.new
+          photo.stubs(:owner_id).with().returns('1')
+          
+          User.expects(:find_by_id).with('1').once.returns(stub())
+          
+          2.times { photo.owner }
         end
         
       end

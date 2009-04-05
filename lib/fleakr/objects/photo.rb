@@ -40,6 +40,7 @@ module Fleakr
       flickr_attribute :description
       flickr_attribute :farm_id, :from => '@farm'
       flickr_attribute :server_id, :from => '@server'
+      flickr_attribute :owner_id, :from => ['@owner', 'owner@nsid']
       flickr_attribute :secret
       flickr_attribute :posted
       flickr_attribute :taken
@@ -48,7 +49,6 @@ module Fleakr
       flickr_attribute :url
 
       # TODO:
-      # * owner (user)
       # * visibility
       # * editability
       # * usage
@@ -106,6 +106,10 @@ module Fleakr
           response = Fleakr::Api::MethodRequest.with_response!('photos.getContext', :photo_id => self.id)
           PhotoContext.new(response.body)
         end
+      end
+
+      def owner
+        @owner ||= User.find_by_id(owner_id)
       end
 
       # When was this photo posted?
