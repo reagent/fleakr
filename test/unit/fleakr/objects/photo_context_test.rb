@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class PhotoContextTest < Test::Unit::TestCase
     
-    context "An instance of the PhotoContext class" do
+    describe "An instance of the PhotoContext class" do
       
       before { @context = PhotoContext.new }
       
