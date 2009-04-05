@@ -4,8 +4,6 @@
 
 * Implement remaining bits of person and photo-related API calls (read-only)
 * Add options to Photo finder to pass additional filters (safe_search, extras, ...)
-* Get tags for a photo
-* Get related tags (for a tag)
 
 ## 0.5.x
 
