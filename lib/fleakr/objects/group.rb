@@ -8,6 +8,10 @@ module Fleakr
     # [id] This group's ID
     # [name] The name of the group
     #
+    # == Associations
+    #
+    # [photos] The photos that are in this group
+    #
     class Group
 
       include Fleakr::Support::Object

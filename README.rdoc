@@ -119,7 +119,61 @@ Other sizes are available (:square, :thumbnail, :small, :medium, :large, :origin
 are accessed in the same way:
     
     >> photo.original.url
-    => "http://farm4.static.flickr.com/3250/2924549350_1cf67c2d47_o.jpg"    
+    => "http://farm4.static.flickr.com/3250/2924549350_1cf67c2d47_o.jpg"
+    
+=== Tags
+
+Tags are available for users and photos.  Retrieving them is easy:
+
+    >> user = Fleakr.user('the decapitator')
+    >> user.tags
+    => [#<Fleakr::Objects::Tag:0x190d5fc @value="ad">, 
+        #<Fleakr::Objects::Tag:0x1908a20 @value="ads">, ...
+    >> user.photos.first.tags
+    => [#<Fleakr::Objects::Tag:0x17b1b18 @machine_flag="0", @author_id="21775151@N06", ...
+
+All tags have values, but for tags associated with photos there is some additional information:
+
+    >> tag = user.photos.first.tags.first
+    >> tag.id
+    => "21729829-3263659141-427098"
+    >> tag.raw
+    => "decapitator"
+    >> tag.value
+    => "decapitator"
+    >> tag.to_s
+    => "decapitator"
+    >> tag.machine?
+    => false
+    >> tag.author
+    => #<Fleakr::Objects::User:0x1a149f0 @username="the decapitator", ... >
+    
+See Fleakr::Objects::Tag for more information.
+
+=== Comments
+
+Similar to tags, photosets and photos can each have comments:
+
+    >> user.sets.first.comments
+    => [#<Fleakr::Objects::Comment:0x19795cc ...
+    >> user.photos.first.comments
+    => [#<Fleakr::Objects::Comment:0x17bf0b0 @body="Dayum, that's some wishful thinking!" ...
+
+All comments have additional information:
+
+    >> comment = user.photos.first.comments.first
+    >> comment.id
+    => "21729829-3263659141-72157613553885978"
+    >> comment.body
+    => "Dayum, that's some wishful thinking!"
+    >> comment.to_s
+    => "Dayum, that's some wishful thinking!"
+    >> comment.url
+    => "http://www.flickr.com/photos/the_decapitator/3263659141/#comment72157613553885978"
+    >> comment.author
+    => #<Fleakr::Objects::User:0x178e3d4 @username="jaspertandy", ... >
+
+See Fleakr::Objects::Comment for more information.
 
 === Saving Images
 

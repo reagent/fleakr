@@ -13,6 +13,7 @@ module Fleakr
     # == Associations
     # 
     # [photos] The collection of photos for this set. See Fleakr::Objects::Photo
+    # [comments] All comments associated with this set. See Fleakr::Objects::Comment
     #
     class Set
 

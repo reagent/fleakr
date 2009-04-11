@@ -20,10 +20,14 @@ module Fleakr
     # [medium] The medium representation of this photo
     # [large] The large representation of this photo
     # [original] The original photo
+    # [previous] The previous photo based on the current context
+    # [next] The next photo based on the current context 
     #
     # == Associations
     #
     # [images] The underlying images for this photo.
+    # [tags] The tags for this photo.
+    # [comments] The comments associated with this photo
     #
     class Photo
 
@@ -47,7 +51,6 @@ module Fleakr
       # * visibility
       # * editability
       # * usage
-      # * notes
 
       find_all :by_set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
@@ -95,13 +98,15 @@ module Fleakr
         self.populate_from(response.body)
       end
 
-      def context
+      def context # :nodoc:
         @context ||= begin
           response = Fleakr::Api::MethodRequest.with_response!('photos.getContext', :photo_id => self.id)
           PhotoContext.new(response.body)
         end
       end
 
+      # The user who uploaded this photo.  See Fleakr::Objects::User for additional information.
+      # 
       def owner
         @owner ||= User.find_by_id(owner_id)
       end

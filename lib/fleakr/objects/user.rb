@@ -28,6 +28,7 @@ module Fleakr
     # [groups] A list of this user's public groups. See Fleakr::Objects::Group.
     # [photos] A list of this user's public photos (newest first).  See Fleakr::Objects::Photo.
     # [contacts] A list of this user's contacts - these are simply User objects
+    # [tags] The tags associated with this user
     #
     # == Examples
     #
