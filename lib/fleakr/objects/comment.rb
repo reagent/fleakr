@@ -6,6 +6,7 @@ module Fleakr
       include Fleakr::Support::Object
       
       find_all :by_photo_id, :call => 'photos.comments.getList', :path => 'comments/comment'
+      find_all :by_photoset_id, :call => 'photosets.comments.getList', :path => 'comments/comment'
       
       flickr_attribute :id
       flickr_attribute :author_id, :from => '@author'

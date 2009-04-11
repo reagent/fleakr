@@ -19,6 +19,7 @@ module Fleakr
       include Fleakr::Support::Object
 
       has_many :photos, :using => :photoset_id
+      has_many :comments, :using => :photoset_id
 
       flickr_attribute :id
       flickr_attribute :title

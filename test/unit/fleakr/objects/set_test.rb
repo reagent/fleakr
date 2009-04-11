@@ -4,6 +4,7 @@ module Fleakr::Objects
   class SetTest < Test::Unit::TestCase
 
     should_have_many :photos, :using => 'photoset_id'
+    should_have_many :comments, :using => 'photoset_id'
 
     describe "The Set class" do
       
