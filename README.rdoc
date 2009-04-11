@@ -148,7 +148,12 @@ All tags have values, but for tags associated with photos there is some addition
     >> tag.author
     => #<Fleakr::Objects::User:0x1a149f0 @username="the decapitator", ... >
     
-See Fleakr::Objects::Tag for more information.
+Each tag can also have related tags:
+
+    >> user.photos.first.tags[1].related.first.related.first.to_s
+    => "face"
+    
+You get the idea - see Fleakr::Objects::Tag for more information.
 
 === Comments
 
