@@ -8,18 +8,22 @@ module Fleakr
           @attributes ||= []
         end
       
-        def flickr_attribute(name, options = {})
-          self.attributes << Attribute.new(name, options[:from])
-          class_eval "attr_accessor :#{name}"
+        def flickr_attribute(*names_and_options)
+          options = names_and_options.extract_options!
+
+          names_and_options.each do |name|
+            self.attributes << Attribute.new(name, options[:from])
+            class_eval "attr_accessor :#{name}"
+          end
         end
       
         def has_many(*attributes)
-          options = attributes.extract_options!
           class_name = self.name
 
           attributes.each do |attribute|
-            target = "Fleakr::Objects::#{attribute.to_s.classify}"
-            finder_attribute = options[:using].nil? ? "#{class_name.demodulize.underscore}_id": options[:using]
+            target           = "Fleakr::Objects::#{attribute.to_s.classify}"
+            finder_attribute = "#{class_name.demodulize.underscore}_id"
+
             class_eval <<-CODE
               def #{attribute}
                 @#{attribute} ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id)

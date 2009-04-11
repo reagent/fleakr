@@ -12,6 +12,7 @@ class FlickrObject
   flickr_attribute :description, :from => 'desc'
   flickr_attribute :id, :from => '@nsid'
   flickr_attribute :photoset_id, :from => 'photoset@id'
+  flickr_attribute :tag, :category
   
   find_one :by_id, :call => 'people.getInfo'
   
@@ -27,7 +28,7 @@ module Fleakr
       end
       
       it "should know the names of all its attributes" do
-        FlickrObject.attributes.map {|a| a.name.to_s }.should == %w(name description id photoset_id)
+        FlickrObject.attributes.map {|a| a.name.to_s }.should == %w(name description id photoset_id tag category)
       end
       
       it "should be able to find by ID" do
@@ -56,7 +57,7 @@ module Fleakr
     describe "An instance method provided by the Flickr::Object module" do
       
       it "should have default reader methods" do
-        [:name, :description, :id, :photoset_id].each do |method_name|
+        [:name, :description, :id, :photoset_id, :tag, :category].each do |method_name|
           FlickrObject.new.respond_to?(method_name).should == true
         end
       end
@@ -67,6 +68,8 @@ module Fleakr
             <name>Fleakr</name>
             <desc>Awesome</desc>
             <photoset id="1" />
+            <tag>Tag</tag>
+            <category>Category</category>
           XML
 
           @object = FlickrObject.new
@@ -90,6 +93,14 @@ module Fleakr
           @object.populate_from(document)
           
           @object.id.should == '1'
+        end
+        
+        it "should have the correct value for :tag" do
+          @object.tag.should == 'Tag'
+        end
+        
+        it "should have the correct value for :category" do
+          @object.category.should == 'Category'
         end
       end
       

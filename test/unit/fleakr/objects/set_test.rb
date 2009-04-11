@@ -3,8 +3,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class SetTest < Test::Unit::TestCase
 
-    should_have_many :photos, :using => 'photoset_id'
-    should_have_many :comments, :using => 'photoset_id'
+    should_have_many :photos, :comments
 
     describe "The Set class" do
       

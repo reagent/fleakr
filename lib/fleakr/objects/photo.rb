@@ -36,26 +36,20 @@ module Fleakr
       def_delegators :context, :next, :previous
 
       flickr_attribute :id, :from => ['@id', 'photoid']
-      flickr_attribute :title
-      flickr_attribute :description
+      flickr_attribute :title, :description, :secret, :posted, :taken, :url
       flickr_attribute :farm_id, :from => '@farm'
       flickr_attribute :server_id, :from => '@server'
       flickr_attribute :owner_id, :from => ['@owner', 'owner@nsid']
-      flickr_attribute :secret
-      flickr_attribute :posted
-      flickr_attribute :taken
       flickr_attribute :updated, :from => '@lastupdate'
       flickr_attribute :comment_count, :from => 'comments'
-      flickr_attribute :url
 
       # TODO:
       # * visibility
       # * editability
       # * usage
       # * notes
-      # * tags
 
-      find_all :by_photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
+      find_all :by_set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
       

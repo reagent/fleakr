@@ -44,9 +44,8 @@ module Fleakr
       include Fleakr::Support::Object
 
       flickr_attribute :id, :from => 'user@nsid'
-      flickr_attribute :username
+      flickr_attribute :username, :location
       flickr_attribute :name, :from => 'person/realname'
-      flickr_attribute :location
       flickr_attribute :photos_url, :from => 'person/photosurl'
       flickr_attribute :profile_url, :from => 'person/profileurl'
       flickr_attribute :photos_count, :from => 'person/photos/count'

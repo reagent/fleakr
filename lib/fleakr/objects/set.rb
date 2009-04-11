@@ -18,12 +18,9 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      has_many :photos, :using => :photoset_id
-      has_many :comments, :using => :photoset_id
+      has_many :photos, :comments
 
-      flickr_attribute :id
-      flickr_attribute :title
-      flickr_attribute :description
+      flickr_attribute :id, :title, :description
       flickr_attribute :count, :from => '@photos'
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'

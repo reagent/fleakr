@@ -92,13 +92,15 @@ class Test::Unit::TestCase
   end
 
   def self.should_find_all(thing, options)
-    class_name  = thing.to_s.singularize.camelcase
-    klass       = "Fleakr::Objects::#{class_name}".constantize
-    object_type = class_name.downcase
+    class_name     = thing.to_s.singularize.camelcase
+    klass          = "Fleakr::Objects::#{class_name}".constantize
+    object_type    = class_name.downcase
     
     it "should be able to find all #{thing} by #{options[:by]}" do
       condition_value = '1'
-      response = mock_request_cycle :for => options[:call], :with => {options[:by] => condition_value}
+      finder_options = {(options[:using] || options[:by]) => condition_value}
+    
+      response = mock_request_cycle :for => options[:call], :with => finder_options
       
       stubs = []
       elements = (response.body/options[:path]).map

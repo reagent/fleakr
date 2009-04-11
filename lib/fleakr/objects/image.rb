@@ -24,9 +24,8 @@ module Fleakr
 
       include Fleakr::Support::Object
 
+      flickr_attribute :width, :height
       flickr_attribute :size,   :from => '@label'
-      flickr_attribute :width
-      flickr_attribute :height
       flickr_attribute :url,    :from => '@source'
       flickr_attribute :page,   :from => '@url'
 
