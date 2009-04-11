@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<comments photo_id="1">
+	<comment id="1" author="10490170@N04" authorname="blip" datecreate="1239217523" permalink="http://www.flickr.com/photos/frootpantz/3422268412/#comment72157616515348062">comment one</comment>
+	<comment id="2" author="10490170@N02" authorname="bleep" datecreate="1239217222" permalink="http://www.flickr.com/photos/frootpantz/3422268413/#comment72157616515348063">comment two</comment>
+</comments>
+</rsp>
