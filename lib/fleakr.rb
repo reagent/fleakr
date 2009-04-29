@@ -15,7 +15,7 @@ require 'active_support/core_ext/time'
 require 'active_support/inflector'
 require 'active_support/core_ext/string'
 
-require 'md5'
+require 'digest/md5'
 require 'loggable'
 
 require 'fleakr/api'

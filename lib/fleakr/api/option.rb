@@ -121,9 +121,9 @@ module Fleakr
      
       def value # :nodoc: 
         case @value
-          when :safe: 1
-          when :moderate: 2
-          when :restricted: 3
+          when :safe        then 1
+          when :moderate    then 2
+          when :restricted  then 3
         end
       end
       
@@ -143,9 +143,9 @@ module Fleakr
       
       def value # :nodoc:
         case @value
-          when :photo: 1
-          when :screenshot: 2
-          when :other: 3
+          when :photo       then 1
+          when :screenshot  then 2
+          when :other       then 3
         end
       end
       
