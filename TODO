@@ -1,12 +1,10 @@
 # TODO
 
-## 0.4.x
-
-* Implement remaining bits of person and photo-related API calls (read-only)
-* Add options to Photo finder to pass additional filters (safe_search, extras, ...)
-
 ## 0.5.x
 
+* Ruby 1.9 compatibility
+* Implement remaining bits of person and photo-related API calls (read-only)
+* Add options to Photo finder to pass additional filters (safe_search, extras, ...)
 * Kill the ridiculous name-spacing of classes
 * Implement asynchronous file upload / replacement w/ ticket checking
 * Provide a better searching interface with ruby-like option syntax
