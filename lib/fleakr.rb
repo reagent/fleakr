@@ -16,6 +16,7 @@ require 'active_support/inflector'
 require 'active_support/core_ext/string'
 
 require 'digest/md5'
+require 'fileutils'
 require 'loggable'
 
 require 'fleakr/api'

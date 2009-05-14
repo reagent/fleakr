@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Api
   class ParameterListTest < Test::Unit::TestCase
     
-    describe "An instance of the ParameterList class" do
+    context "An instance of the ParameterList class" do
       
-      before do
+      setup do
         @api_key = 'key'
         @secret  = 'foobar'
 
@@ -13,46 +13,46 @@ module Fleakr::Api
         @parameter_list = ParameterList.new
       end
       
-      it "should contain the :api_key by default" do
+      should "contain the :api_key by default" do
         @parameter_list[:api_key].name.should == 'api_key'
         @parameter_list[:api_key].value.should == @api_key
         @parameter_list[:api_key].include_in_signature?.should be(true)
       end
       
-      it "should be able to create an initial list of parameters" do
+      should "be able to create an initial list of parameters" do
         parameter_list = ParameterList.new(:one => 'two')
         parameter_list[:one].value.should == 'two'
       end
       
-      it "should be able to add parameters to its list" do
+      should "be able to add parameters to its list" do
         parameter = ValueParameter.new('foo', 'bar')
         
         @parameter_list << parameter
         @parameter_list['foo'].should == parameter
       end
       
-      it "should allow access to parameters by symbol" do
+      should "allow access to parameters by symbol" do
         parameter = ValueParameter.new('foo', 'bar')
         @parameter_list << parameter
         
         @parameter_list[:foo].should == parameter
       end
       
-      it "should overwrite existing values when a duplicate is added" do
+      should "overwrite existing values when a duplicate is added" do
         length = @parameter_list.instance_variable_get(:@list).length
         2.times {@parameter_list << ValueParameter.new('foo', 'bar') }
         
         @parameter_list.instance_variable_get(:@list).length.should == length + 1
       end
       
-      it "should be able to calculate the signature of the parameters" do
+      should "be able to calculate the signature of the parameters" do
         Fleakr.stubs(:shared_secret).with().returns(@secret)
         
         @parameter_list << ValueParameter.new('foo', 'bar')
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
-      it "should use the correct order when signing a list of multiple parameters" do
+      should "use the correct order when signing a list of multiple parameters" do
         Fleakr.stubs(:shared_secret).with().returns(@secret)
         
         @parameter_list << ValueParameter.new('z', 'a')
@@ -61,7 +61,7 @@ module Fleakr::Api
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}azapi_key#{@api_key}za")
       end
       
-      it "should ignore the parameters that aren't included in the signature" do
+      should "ignore the parameters that aren't included in the signature" do
         Fleakr.stubs(:shared_secret).with().returns(@secret)
         
         @parameter_list << ValueParameter.new('foo', 'bar')
@@ -70,34 +70,34 @@ module Fleakr::Api
         @parameter_list.signature.should == Digest::MD5.hexdigest("#{@secret}api_key#{@api_key}foobar")
       end
       
-      it "should be able to generate a boundary for post data" do
+      should "be able to generate a boundary for post data" do
         rand = '0.123'
         
         @parameter_list.stubs(:rand).with().returns(stub(:to_s => rand))
         @parameter_list.boundary.should == Digest::MD5.hexdigest(rand)
       end
       
-      it "should know that it doesn't need to sign the request by default" do
+      should "know that it doesn't need to sign the request by default" do
         @parameter_list.sign?.should be(false)
       end
       
-      it "should know that it needs to sign the request when a shared secret is available" do
+      should "know that it needs to sign the request when a shared secret is available" do
         Fleakr.expects(:shared_secret).with().returns(@secret)
         @parameter_list.sign?.should be(true)
       end
       
-      it "should know that it doesn't need to authenticate the request by default" do
+      should "know that it doesn't need to authenticate the request by default" do
         @parameter_list.authenticate?.should be(false)
       end
       
-      it "should know to authenticate the request when a token is available" do
+      should "know to authenticate the request when a token is available" do
         Fleakr.stubs(:token).with().returns(stub(:value => 'toke'))
         parameter_list = ParameterList.new
 
         parameter_list.authenticate?.should be(true)
       end
       
-      it "should not authenticate the request if it's been specifically told not to" do
+      should "not authenticate the request if it's been specifically told not to" do
         Fleakr.expects(:token).with().never
         
         parameter_list = ParameterList.new(:authenticate? => false)
@@ -105,14 +105,14 @@ module Fleakr::Api
       end
       
       
-      it "should know to authenticate the request when asked" do
+      should "know to authenticate the request when asked" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
         parameter_list = ParameterList.new(:authenticate? => true)
         parameter_list.authenticate?.should be(true)
       end
       
-      it "should contain the :auth_token parameter in the list if the request is to be authenticated" do
+      should "contain the :auth_token parameter in the list if the request is to be authenticated" do
         Fleakr.expects(:token).with().returns(stub(:value => 'toke'))
         
         parameter_list = ParameterList.new(:authenticate? => true)
@@ -123,7 +123,7 @@ module Fleakr::Api
         auth_param.include_in_signature?.should be(true)
       end
       
-      it "should include the signature in the list of parameters if the request is to be signed" do
+      should "include the signature in the list of parameters if the request is to be signed" do
         parameter_list = ParameterList.new
         
         parameter_list.stubs(:sign?).with().returns(true)
@@ -138,7 +138,7 @@ module Fleakr::Api
       
       context "with associated parameters" do
       
-        before do
+        setup do
           @p1 = ValueParameter.new('a', 'b')
           @p2 = ValueParameter.new('c', 'd')
       
@@ -151,11 +151,11 @@ module Fleakr::Api
           @parameter_list.stubs(:list).with().returns('a' => @p1, 'c' => @p2)
         end
       
-        it "should be able to generate a query representation of itself" do
+        should "be able to generate a query representation of itself" do
           @parameter_list.to_query.should == 'q1&q2'
         end
       
-        it "should be able to represent a form representation of itself" do
+        should "be able to represent a form representation of itself" do
           @parameter_list.stubs(:boundary).returns('bound')
           
           expected = 

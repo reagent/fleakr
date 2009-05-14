@@ -10,7 +10,7 @@ module Fleakr::Objects
     should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
 
-    describe "The User class" do
+    context "The User class" do
 
       should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
       should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user'
@@ -18,9 +18,9 @@ module Fleakr::Objects
 
     end
 
-    describe "An instance of User" do
+    context "An instance of User" do
       context "when populating the object from an XML document" do
-        before do
+        setup do
           @object = User.new(Hpricot.XML(read_fixture('people.findByUsername')))
           @object.populate_from(Hpricot.XML(read_fixture('people.getInfo')))
         end
@@ -41,16 +41,16 @@ module Fleakr::Objects
 
       context "in general" do
 
-        before { @user = User.new }
+        setup { @user = User.new }
 
-        it "should be able to retrieve additional information about the current user" do
+        should "be able to retrieve additional information about the current user" do
           response = mock_request_cycle :for => 'people.getInfo', :with => {:user_id => @user.id}
           @user.expects(:populate_from).with(response.body)
 
           @user.load_info
         end
 
-        it "should be able to generate an icon URL when the :icon_server value is greater than zero" do
+        should "be able to generate an icon URL when the :icon_server value is greater than zero" do
           @user.stubs(:icon_server).with().returns('1')
           @user.stubs(:icon_farm).with().returns('2')
           @user.stubs(:id).with().returns('45')
@@ -58,17 +58,17 @@ module Fleakr::Objects
           @user.icon_url.should == 'http://farm2.static.flickr.com/1/buddyicons/45.jpg'
         end
 
-        it "should return the default icon URL when the :icon_server value is zero" do
+        should "return the default icon URL when the :icon_server value is zero" do
           @user.stubs(:icon_server).with().returns('0')
           @user.icon_url.should == 'http://www.flickr.com/images/buddyicon.jpg'
         end
 
-        it "should return the default icon URL when the :icon_server value is nil" do
+        should "return the default icon URL when the :icon_server value is nil" do
           @user.stubs(:icon_server).with().returns(nil)
           @user.icon_url.should == 'http://www.flickr.com/images/buddyicon.jpg'
         end
         
-        it "should return a boolean value for :pro?" do
+        should "return a boolean value for :pro?" do
           @user.stubs(:pro).with().returns('0')
           @user.pro?.should be(false)
           
@@ -76,7 +76,7 @@ module Fleakr::Objects
           @user.pro?.should be(true)
         end
         
-        it "should return a boolean value for :admin?" do
+        should "return a boolean value for :admin?" do
           @user.stubs(:admin).with().returns('0')
           @user.admin?.should be(false)
           

@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class AuthenticationTokenTest < Test::Unit::TestCase
     
-    describe "The AuthenticationToken class" do
+    context "The AuthenticationToken class" do
       
-      it "should be able to create an instance from a mini_token" do
+      should "be able to create an instance from a mini_token" do
         token = '123-123-123'
         auth_token = stub()
         
@@ -16,7 +16,7 @@ module Fleakr::Objects
         AuthenticationToken.from_mini_token(token).should == auth_token
       end
       
-      it "should be able to create an instance from an auth_token" do
+      should "be able to create an instance from an auth_token" do
         token      = 'abc123'
         auth_token = stub()
 
@@ -27,7 +27,7 @@ module Fleakr::Objects
       end
       
       
-      it "should be able to create an instance from a frob" do
+      should "be able to create an instance from a frob" do
         frob       = '12345678901234567-abcde89012fg3456-7890123'
         auth_token = stub()
         
@@ -39,11 +39,11 @@ module Fleakr::Objects
       
     end
     
-    describe "An instance of the AuthenticationToken class" do
+    context "An instance of the AuthenticationToken class" do
       
       context "when populating from an XML document" do
         
-        before do
+        setup do
           @object = AuthenticationToken.new(Hpricot.XML(read_fixture('auth.getFullToken')))
         end
         

@@ -3,18 +3,18 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class TagTest < Test::Unit::TestCase
 
-    describe "The Tag class" do
+    context "The Tag class" do
       
       should_find_all :tags, :by => :photo_id, :call => 'tags.getListPhoto', :path => 'rsp/photo/tags/tag'
       should_find_all :tags, :by => :user_id, :call => 'tags.getListUser', :path => 'rsp/who/tags/tag'      
     end
     
-    describe "An instance of the Tag class" do
+    context "An instance of the Tag class" do
       
-      before { @tag = Tag.new }
+      setup { @tag = Tag.new }
       
       context "when populating from the tags_getListPhoto XML data" do
-        before do
+        setup do
           @object = Tag.new(Hpricot.XML(read_fixture('tags.getListPhoto')).at('rsp/photo/tags/tag'))
         end
         
@@ -26,7 +26,7 @@ module Fleakr::Objects
         
       end
       
-      it "should have an author" do
+      should "have an author" do
         user = stub()
         
         @tag.expects(:author_id).at_least_once.with().returns('1')
@@ -37,7 +37,7 @@ module Fleakr::Objects
         @tag.author.should == user
       end
       
-      it "should memoize the author data" do
+      should "memoize the author data" do
         @tag.expects(:author_id).at_least_once.with().returns('1')
         
         User.expects(:find_by_id).with('1').once.returns(stub())
@@ -45,13 +45,13 @@ module Fleakr::Objects
         2.times { @tag.author }
       end
       
-      it "should return nil for author if author_id is not present" do
+      should "return nil for author if author_id is not present" do
         @tag.expects(:author_id).with().returns(nil)
         
         @tag.author.should be(nil)
       end
       
-      it "should have related tags" do
+      should "have related tags" do
         @tag.expects(:value).with().returns('foo')
         
         response = mock_request_cycle :for => 'tags.getRelated', :with => {:tag => 'foo'}
@@ -69,7 +69,7 @@ module Fleakr::Objects
         @tag.related.should == stubs
       end
       
-      it "should memoize the data for related tags" do
+      should "memoize the data for related tags" do
         @tag.expects(:value).with().returns('foo')
         
         mock_request_cycle :for => 'tags.getRelated', :with => {:tag => 'foo'}
@@ -77,17 +77,17 @@ module Fleakr::Objects
         2.times { @tag.related }
       end
       
-      it "should be able to generate a string representation of itself" do
+      should "be able to generate a string representation of itself" do
         @tag.expects(:value).with().returns('foo')
         @tag.to_s.should == 'foo'
       end
       
-      it "should know that it is not a machine tag" do
+      should "know that it is not a machine tag" do
         @tag.expects(:machine_flag).with().returns('0')
         @tag.machine?.should be(false)
       end
       
-      it "should know that it is a machine tag" do
+      should "know that it is a machine tag" do
         @tag.expects(:machine_flag).with().returns('1')
         @tag.machine?.should be(true)
       end

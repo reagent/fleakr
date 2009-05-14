@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Api
   class ResponseTest < Test::Unit::TestCase
 
-    describe "An instance of Response" do
+    context "An instance of Response" do
 
-      it "should provide the response body as an Hpricot element" do
+      should "provide the response body as an Hpricot element" do
         response_xml = '<xml>'
         hpricot_stub = stub()
 
@@ -15,7 +15,7 @@ module Fleakr::Api
         response.body.should == hpricot_stub
       end
       
-      it "should memoize the Hpricot document" do
+      should "memoize the Hpricot document" do
         response = Response.new('<xml>')
         
         Hpricot.expects(:XML).with(kind_of(String)).once.returns(stub())
@@ -23,19 +23,19 @@ module Fleakr::Api
         2.times { response.body }
       end
       
-      it "should know if there are errors in the response" do
+      should "know if there are errors in the response" do
         response_xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp stat=\"fail\">\n\t<err code=\"1\" msg=\"User not found\" />\n</rsp>\n"
         response = Response.new(response_xml)
         
         response.error?.should be(true)
       end
       
-      it "should not have an error if there are no errors in the XML" do
+      should "not have an error if there are no errors in the XML" do
         response = Response.new(read_fixture('people.findByUsername'))
         response.error.should be(nil)
       end
       
-      it "should have an error if there is an error in the response" do
+      should "have an error if there is an error in the response" do
         response_xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp stat=\"fail\">\n\t<err code=\"1\" msg=\"User not found\" />\n</rsp>\n"
         response = Response.new(response_xml)
         

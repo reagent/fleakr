@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class FleakrTest < Test::Unit::TestCase
   
-  describe "The Fleakr module" do
+  context "The Fleakr module" do
     
     [:api_key, :shared_secret, :mini_token, :auth_token].each do |attribute|
-      it "should be able to set a value for :#{attribute}" do
+      should "be able to set a value for :#{attribute}" do
         value = 'value'
         
         Fleakr.send("#{attribute}=".to_sym, value)
@@ -13,13 +13,13 @@ class FleakrTest < Test::Unit::TestCase
       end
     end
     
-    it "should provide a means to find a user by his username" do
+    should "provide a means to find a user by his username" do
       user = stub()
       Fleakr::Objects::User.expects(:find_by_username).with('username').returns(user)
       Fleakr.user('username').should == user
     end
     
-    it "should fall back to finding a user by email if finding by username fails" do
+    should "fall back to finding a user by email if finding by username fails" do
       user = stub()
       email = 'user@host.com'
       
@@ -29,20 +29,20 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.user(email).should == user
     end
     
-    it "should be able to perform text searches" do
+    should "be able to perform text searches" do
       photos = [stub()]
       
       Fleakr::Objects::Search.expects(:new).with(:text => 'foo').returns(stub(:results => photos))
       Fleakr.search('foo').should == photos
     end
     
-    it "should be able to perform searches based on tags" do
+    should "be able to perform searches based on tags" do
       Fleakr::Objects::Search.expects(:new).with(:tags => %w(one two)).returns(stub(:results => []))
       Fleakr.search(:tags => %w(one two))
     end
    
     # TODO: refactor uploading tests?
-    it "should be able to upload a collection of images" do
+    should "be able to upload a collection of images" do
       glob      = '*.jpg'
       filenames = %w(one.jpg two.jpg)
       
@@ -54,7 +54,7 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(glob)
     end
     
-    it "should return recently uploaded photos" do
+    should "return recently uploaded photos" do
       filename  = '/path/to/image.jpg'
       new_image = stub()
       
@@ -64,7 +64,7 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(filename).should == [new_image]
     end
     
-    it "should be able to pass options for the uploaded files" do
+    should "be able to pass options for the uploaded files" do
       filename  = '/path/to/image.jpg'
       new_image = stub()
       
@@ -74,7 +74,7 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.upload(filename, :title => 'bop bip').should == [new_image]
     end
     
-    it "should be able to reset the cached token" do
+    should "be able to reset the cached token" do
       @token = stub()
       Fleakr.expects(:auth_token).with().at_least_once.returns('abc123')
       Fleakr::Objects::AuthenticationToken.expects(:from_auth_token).with('abc123').times(2).returns(@token)
@@ -83,7 +83,7 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.token # twice
     end
     
-    it "should not have a token by default" do
+    should "not have a token by default" do
       Fleakr.expects(:mini_token).with().returns(nil)
       Fleakr.expects(:auth_token).with().returns(nil)
       Fleakr.expects(:frob).with().returns(nil)
@@ -92,7 +92,7 @@ class FleakrTest < Test::Unit::TestCase
     end
     
     [:mini_token, :auth_token, :frob].each do |attribute|
-      it "should reset_token when :#{attribute} is set" do
+      should "reset_token when :#{attribute} is set" do
         Fleakr.expects(:reset_token).with().at_least_once
         Fleakr.send("#{attribute}=".to_sym, 'value')
       end
@@ -100,7 +100,7 @@ class FleakrTest < Test::Unit::TestCase
     
     context "when generating an AuthenticationToken from an auth_token string" do
 
-      before do
+      setup do
         @token = stub()
         
         Fleakr.expects(:auth_token).with().at_least_once.returns('abc123')
@@ -108,13 +108,13 @@ class FleakrTest < Test::Unit::TestCase
       end
 
       # Make sure to clear the cache
-      after { Fleakr.auth_token = nil }
+      teardown { Fleakr.auth_token = nil }
       
-      it "should return the token" do
+      should "return the token" do
         Fleakr.token.should == @token
       end
       
-      it "should cache the result" do
+      should "cache the result" do
         2.times { Fleakr.token }
       end
 
@@ -122,7 +122,7 @@ class FleakrTest < Test::Unit::TestCase
     
     context "when generating an AuthenticationToken from a frob string" do
 
-      before do
+      setup do
         @token = stub()
         
         Fleakr.expects(:auth_token).with().at_least_once.returns(nil)
@@ -131,13 +131,13 @@ class FleakrTest < Test::Unit::TestCase
       end
 
       # Make sure to clear the cache
-      after { Fleakr.frob = nil }
+      teardown { Fleakr.frob = nil }
       
-      it "should return the token" do
+      should "return the token" do
         Fleakr.token.should == @token
       end
       
-      it "should cache the result" do
+      should "cache the result" do
         2.times { Fleakr.token }
       end
 
@@ -145,7 +145,7 @@ class FleakrTest < Test::Unit::TestCase
     
     context "when generating an AuthenticationToken from a mini_token string" do
       
-      before do
+      setup do
         @token = stub()
 
         Fleakr.expects(:auth_token).with().at_least_once.returns(nil)
@@ -154,13 +154,13 @@ class FleakrTest < Test::Unit::TestCase
       end
       
       # Make sure to clear the cache
-      after { Fleakr.mini_token = nil }
+      teardown { Fleakr.mini_token = nil }
       
-      it "should return the token" do
+      should "return the token" do
         Fleakr.token.should == @token
       end
       
-      it "should cache the result" do
+      should "cache the result" do
         2.times { Fleakr.token }
       end
       

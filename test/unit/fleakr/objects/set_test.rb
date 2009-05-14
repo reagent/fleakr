@@ -5,16 +5,16 @@ module Fleakr::Objects
 
     should_have_many :photos, :comments
 
-    describe "The Set class" do
+    context "The Set class" do
       
       should_find_all :sets, :by => :user_id, :call => 'photosets.getList', :path => 'rsp/photosets/photoset'
       
     end
 
-    describe "An instance of the Set class" do
+    context "An instance of the Set class" do
       
       context "when populating from an XML document" do
-        before do
+        setup do
           @object = Set.new(Hpricot.XML(read_fixture('photosets.getList')).at('rsp/photosets/photoset'))
         end
         
@@ -26,7 +26,7 @@ module Fleakr::Objects
       end
       
       context "when saving the set" do
-        before do
+        setup do
           @tmp_dir = create_temp_directory
           @set_title = 'set'
           
@@ -34,9 +34,9 @@ module Fleakr::Objects
           @set.stubs(:title).with().returns(@set_title)
         end
         
-        after { FileUtils.rm_rf(@tmp_dir) }
+        teardown { FileUtils.rm_rf(@tmp_dir) }
 
-        it "should know the prefix string based on the number of photos in the set" do
+        should "know the prefix string based on the number of photos in the set" do
           set = Set.new
           set.stubs(:count).with().returns('5')
           set.file_prefix(0).should == '1_'
@@ -45,7 +45,7 @@ module Fleakr::Objects
           set.file_prefix(0).should == '01_'
         end
         
-        it "should save all files of the specified size to the specified directory" do
+        should "save all files of the specified size to the specified directory" do
           image = mock()
           image.expects(:save_to).with("#{@tmp_dir}/set", '1_')
           
@@ -59,7 +59,7 @@ module Fleakr::Objects
           @set.save_to(@tmp_dir, :small)
         end
         
-        it "should not create the directory if it already exists" do
+        should "not create the directory if it already exists" do
           FileUtils.mkdir("#{@tmp_dir}/set")
 
           @set.stubs(:photos).with().returns([])
@@ -69,7 +69,7 @@ module Fleakr::Objects
           @set.save_to(@tmp_dir, :small)
         end
         
-        it "should not raise errors when saving an image size that doesn't exist" do
+        should "not raise errors when saving an image size that doesn't exist" do
           @set.stubs(:photos).with().returns([stub(:large => nil)])
           lambda { @set.save_to(@tmp_dir, :large) }.should_not raise_error
         end

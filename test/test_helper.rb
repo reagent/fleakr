@@ -1,8 +1,9 @@
 $:.reject! { |e| e.include? 'TextMate' }
 
 require 'rubygems'
+require 'test/unit'
+require 'shoulda'
 require 'matchy'
-require 'context'
 require 'mocha'
 
 require File.dirname(__FILE__) + '/../lib/fleakr'
@@ -12,7 +13,7 @@ class Test::Unit::TestCase
   def self.should_autoload_when_accessing(*attributes)
     options = attributes.extract_options!
     attributes.each do |accessor_name|
-      it "should load the additional user information when accessing the :#{accessor_name} attribute" do
+      should "load the additional user information when accessing the :#{accessor_name} attribute" do
         klass = self.class.name.sub(/Test$/, '').constantize
               
         object = klass.new
@@ -23,13 +24,13 @@ class Test::Unit::TestCase
   end
 
   def self.should_have_a_value_for(attribute_test)
-    it "should have a value for :#{attribute_test.keys.first}" do
+    should "have a value for :#{attribute_test.keys.first}" do
       @object.send(attribute_test.keys.first).should == attribute_test.values.first
     end
   end
 
   def self.should_search_by(key)
-    it "should be able to perform a scoped search by :#{key}" do
+    should "be able to perform a scoped search by :#{key}" do
       photos = [stub()]
       search = stub(:results => photos)
       
@@ -53,7 +54,7 @@ class Test::Unit::TestCase
     
     attributes.each do |attribute|
       target_klass = "Fleakr::Objects::#{attribute.to_s.singularize.classify}".constantize
-      it "should be able to retrieve the #{class_name.downcase}'s #{attribute}" do
+      should "be able to retrieve the #{class_name.downcase}'s #{attribute}" do
         results = [stub()]
         object = this_klass.new
         object.stubs(:id).with().returns('1')
@@ -62,7 +63,7 @@ class Test::Unit::TestCase
         object.send(attribute).should == results
       end
       
-      it "should memoize the results for the #{class_name.downcase}'s #{attribute}" do
+      should "memoize the results for the #{class_name.downcase}'s #{attribute}" do
         object = this_klass.new
         
         target_klass.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
@@ -82,7 +83,7 @@ class Test::Unit::TestCase
     options[:with] = options[:by] if options[:with].nil?
     params = {options[:with] => condition_value}
 
-    it "should be able to find a #{thing} by #{options[:by]}" do
+    should "be able to find a #{thing} by #{options[:by]}" do
       stub = stub()
       response = mock_request_cycle :for => options[:call], :with => params
 
@@ -96,7 +97,7 @@ class Test::Unit::TestCase
     klass          = "Fleakr::Objects::#{class_name}".constantize
     object_type    = class_name.downcase
     
-    it "should be able to find all #{thing} by #{options[:by]}" do
+    should "be able to find all #{thing} by #{options[:by]}" do
       condition_value = '1'
       finder_options = {(options[:using] || options[:by]) => condition_value}
     

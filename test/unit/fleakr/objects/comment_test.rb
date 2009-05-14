@@ -3,17 +3,17 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class CommentTest < Test::Unit::TestCase
 
-    describe "The Comment class" do
+    context "The Comment class" do
 
       should_find_all :comments, :by => :photo_id, :call => 'photos.comments.getList', :path => 'rsp/comments/comment'
       should_find_all :comments, :by => :set_id, :using => :photoset_id, :call => 'photosets.comments.getList', :path => 'rsp/comments/comment'
 
     end
 
-    describe "An instance of the Comment class" do
+    context "An instance of the Comment class" do
 
       context "when populating from the photos_comments_getList XML data" do
-        before do
+        setup do
           @object = Comment.new(Hpricot.XML(read_fixture('photos.comments.getList')).at('rsp/comments/comment'))
         end
 
@@ -27,21 +27,21 @@ module Fleakr::Objects
       
       context "in general" do
         
-        before { @comment = Comment.new }
+        setup { @comment = Comment.new }
 
-        it "should have a value for :created_at" do
+        should "have a value for :created_at" do
           @comment.expects(:created).with().returns('1239217523')
           Time.expects(:at).with(1239217523).returns('time')
           
           @comment.created_at.should == 'time'
         end
 
-        it "should use the body as the string representation" do
+        should "use the body as the string representation" do
           @comment.expects(:body).with().returns('bod')
           @comment.to_s.should == 'bod'
         end
         
-        it "should be able to find the author of the comment" do
+        should "be able to find the author of the comment" do
           author = stub()
           
           
@@ -51,7 +51,7 @@ module Fleakr::Objects
           @comment.author.should == author
         end
         
-        it "should memoize the owner information" do
+        should "memoize the owner information" do
           @comment.stubs(:author_id).with().returns('1')
           
           User.expects(:find_by_id).with('1').once.returns(stub())

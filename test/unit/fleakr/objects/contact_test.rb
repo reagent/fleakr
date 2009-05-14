@@ -3,15 +3,18 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class ContactTest < Test::Unit::TestCase
 
-    describe "The Contact class" do
+    context "The Contact class" do
       
       should "return a list of users for a specified user's contacts" do
-        user_1, user_2 = [stub(), stub()]
+        # user_1, user_2 = [stub(), stub()]
+        user_1 = stub()
+        user_2 = stub()
+        
         contact_1, contact_2 = [stub(:to_user => user_1), stub(:to_user => user_2)]
         
         response = mock_request_cycle :for => 'contacts.getPublicList', :with => {:user_id => '1'}
         
-        contact_1_doc, contact_2_doc = (response.body/'rsp/contacts/contact').map
+        contact_1_doc, contact_2_doc = (response.body/'rsp/contacts/contact').to_a
         
         Contact.stubs(:new).with(contact_1_doc).returns(contact_1)
         Contact.stubs(:new).with(contact_2_doc).returns(contact_2)
@@ -21,9 +24,9 @@ module Fleakr::Objects
       
     end
 
-    describe "An instance of the Contact class" do
+    context "An instance of the Contact class" do
       context "when populating from an XML document" do
-        before do
+        setup do
           @object = Contact.new(Hpricot.XML(read_fixture('contacts.getPublicList')).at('contacts/contact'))
         end
 

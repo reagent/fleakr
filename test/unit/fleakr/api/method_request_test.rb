@@ -3,17 +3,17 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Api
   class MethodRequestTest < Test::Unit::TestCase
 
-    describe "An instance of MethodRequest" do
+    context "An instance of MethodRequest" do
 
       context "with API credentials" do
 
-        before do
+        setup do
           @api_key = 'f00b4r'
           Fleakr.stubs(:api_key).with().returns(@api_key)
           Fleakr.stubs(:shared_secret).with().returns('sekrit')
         end
 
-        it "should know the full query parameters" do
+        should "know the full query parameters" do
           request = MethodRequest.new('flickr.people.findByUsername', :username => 'foobar')
 
           request.parameters[:api_key].value.should  == @api_key
@@ -21,24 +21,25 @@ module Fleakr::Api
           request.parameters[:username].value.should == 'foobar'
         end
         
-        it "should translate a shorthand API call" do
+        should "translate a shorthand API call" do
           request = MethodRequest.new('people.findByUsername')
           request.parameters[:method].value.should == 'flickr.people.findByUsername'
         end
         
-        it "should know the endpoint with full parameters" do
+        should "know the endpoint with full parameters" do
           query_parameters = 'foo=bar'
         
           request = MethodRequest.new('people.getInfo')
           request.parameters.stubs(:to_query).returns(query_parameters)
         
-          uri_mock = mock() {|m| m.expects(:query=).with(query_parameters)}
+          uri_mock = mock()
+          uri_mock.expects(:query=).with(query_parameters)
           URI.expects(:parse).with("http://api.flickr.com/services/rest/").returns(uri_mock)
         
           request.__send__(:endpoint_uri).should == uri_mock
         end
         
-        it "should be able to make a request" do
+        should "be able to make a request" do
           endpoint_uri = stub()
           
           request = MethodRequest.new('people.findByUsername')
@@ -49,7 +50,7 @@ module Fleakr::Api
           request.send
         end
         
-        it "should create a response from the request" do
+        should "create a response from the request" do
           response_xml  = '<xml>'
           response_stub = stub()
         
@@ -62,7 +63,7 @@ module Fleakr::Api
           request.send.should == response_stub
         end
         
-        it "should be able to make a full request and response cycle" do
+        should "be able to make a full request and response cycle" do
           method = 'flickr.people.findByUsername'
           params = {:username => 'foobar'}
 
@@ -73,7 +74,7 @@ module Fleakr::Api
           MethodRequest.with_response!(method, params).should == response
         end
         
-        it "should raise an exception when the full request / response cycle has errors" do
+        should "raise an exception when the full request / response cycle has errors" do
           method = 'flickr.people.findByUsername'
           params = {:username => 'foobar'}
           

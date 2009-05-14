@@ -3,44 +3,44 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Api
   class FileParameterTest < Test::Unit::TestCase
     
-    describe "An instance of the FileParameter class" do
+    context "An instance of the FileParameter class" do
       
-      before do
+      setup do
         @temp_dir = File.expand_path(create_temp_directory)
         @filename = "#{@temp_dir}/image.jpg"
       end
       
-      after do
+      teardown do
         FileUtils.rm_rf(@temp_dir)
       end
       
-      it "should know not to include itself in the parameter signature" do
+      should "know not to include itself in the parameter signature" do
         parameter = FileParameter.new('photo', @filename)
         parameter.include_in_signature?.should be(false)
       end
       
       {'jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif'}.each do |ext, mime_type|
-        it "should know the correct MIME type for an extension of #{ext}" do
+        should "know the correct MIME type for an extension of #{ext}" do
           parameter = FileParameter.new('photo', "#{@temp_dir}/image.#{ext}")
           parameter.mime_type.should == mime_type
         end
       end
       
-      it "should retrieve the contents of the file when accessing the value" do
+      should "retrieve the contents of the file when accessing the value" do
         File.expects(:read).with(@filename).returns('bopbip')
         
         parameter = FileParameter.new('photo', @filename)
         parameter.value.should == 'bopbip'
       end
       
-      it "should cache the file contents after retrieving them" do
+      should "cache the file contents after retrieving them" do
         File.expects(:read).with(@filename).once.returns('bopbip')
         
         parameter = FileParameter.new('photo', @filename)
         2.times { parameter.value }
       end
       
-      it "should know how to generate a form representation of itself" do
+      should "know how to generate a form representation of itself" do
         filename  = 'image.jpg'
         mime_type = 'image/jpeg'
 

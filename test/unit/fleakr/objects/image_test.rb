@@ -3,17 +3,17 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class ImageTest < Test::Unit::TestCase
 
-    describe "The Image class" do
+    context "The Image class" do
 
       should_find_all :images, :by => :photo_id, :call => 'photos.getSizes', :path => 'sizes/size'
 
     end
 
-    describe "An instance of the Image class" do
+    context "An instance of the Image class" do
 
       context "when populating the object from an XML document" do
 
-        before do
+        setup do
           @object = Image.new(Hpricot.XML(read_fixture('photos.getSizes')).at('sizes/size'))
         end
 
@@ -27,7 +27,7 @@ module Fleakr::Objects
 
       context "in general" do
 
-        it "should know its filename" do
+        should "know its filename" do
           image = Image.new
           image.stubs(:url).with().returns('http://flickr.com/photos/foobar.jpg')
 
@@ -36,7 +36,7 @@ module Fleakr::Objects
 
         context "when saving the file" do
 
-          before do
+          setup do
             @tmp_dir = create_temp_directory
 
             @url = 'http://host.com/image.jpg'
@@ -50,7 +50,7 @@ module Fleakr::Objects
             Net::HTTP.expects(:get).with(URI.parse(@url)).returns(@image_data)
           end
 
-          after do
+          teardown do
             FileUtils.rm_rf(@tmp_dir)
           end
 

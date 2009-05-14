@@ -7,16 +7,16 @@ module Fleakr::Objects
     
     should_search_by :group_id
 
-    describe "The Group class" do
+    context "The Group class" do
       
       should_find_all :groups, :by => :user_id, :call => 'people.getPublicGroups', :path => 'rsp/groups/group'
       
     end
     
-    describe "An instance of the Group class" do
+    context "An instance of the Group class" do
       context "when initializing from an Hpricot document" do
         
-        before do
+        setup do
           doc = Hpricot.XML(read_fixture('people.getPublicGroups')).at('rsp/groups/group')
           @object = Group.new(doc)
         end
@@ -27,13 +27,13 @@ module Fleakr::Objects
         
       end
 
-      it "should know that the group is adult-only" do
+      should "know that the group is adult-only" do
         group = Group.new
         group.stubs(:adult_flag).with().returns('1')
         group.adult?.should be(true)
       end
       
-      it "should know that the group is not adult-only" do
+      should "know that the group is not adult-only" do
         group = Group.new
         group.stubs(:adult_flag).with().returns('0')
         group.adult?.should be(false)

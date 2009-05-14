@@ -8,7 +8,7 @@ module Fleakr::Objects
     should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :with => :load_info
     should_autoload_when_accessing :url, :description, :with => :load_info
 
-    describe "The Photo class" do
+    context "The Photo class" do
 
       should_find_all :photos, :by => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo'
       should_find_all :photos, :by => :set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'rsp/photoset/photo'
@@ -17,13 +17,12 @@ module Fleakr::Objects
       should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo'
 
       # TODO: refactor these 2 tests
-      it "should be able to upload a photo and return the new photo information" do
+      should "be able to upload a photo and return the new photo information" do
         filename = '/path/to/mugshot.jpg'
         photo = stub()
         
-        response = stub do |s|
-          s.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
-        end
+        response = stub()
+        response.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
         
         Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :create, {}).returns(response)
         Photo.expects(:find_by_id).with('123').returns(photo)
@@ -31,13 +30,12 @@ module Fleakr::Objects
         Photo.upload(filename).should == photo
       end
       
-      it "should be able to pass additional options when uploading a new file" do
+      should "be able to pass additional options when uploading a new file" do
         filename = '/path/to/mugshot.jpg'
         photo = stub()
         
-        response = stub do |s|
-          s.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
-        end
+        response = stub()
+        response.stubs(:body).with().returns(Hpricot.XML('<photoid>123</photoid>'))
         
         Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :create, {:title => 'foo'}).returns(response)
         Photo.expects(:find_by_id).with('123').returns(photo)
@@ -47,9 +45,9 @@ module Fleakr::Objects
 
     end
 
-    describe "An instance of the Photo class" do
+    context "An instance of the Photo class" do
       
-      it "should be able to replace the associated photo data" do
+      should "be able to replace the associated photo data" do
         filename = '/path/to/file.jpg'
         response = stub(:body => 'body')
         
@@ -65,7 +63,7 @@ module Fleakr::Objects
       end
       
       context "when populating from the people_getPublicPhotos XML data" do
-        before do
+        setup do
           @object = Photo.new(Hpricot.XML(read_fixture('people.getPublicPhotos')).at('rsp/photos/photo'))
         end
 
@@ -79,7 +77,7 @@ module Fleakr::Objects
       end
       
       context "when populating from the photo upload XML data" do
-        before do
+        setup do
           @object = Photo.new(Hpricot.XML('<photoid>123</photoid>'))
         end
         
@@ -87,7 +85,7 @@ module Fleakr::Objects
       end
       
       context "when populating from the photos_getInfo XML data" do
-        before do
+        setup do
           @object = Photo.new(Hpricot.XML(read_fixture('photos.getInfo')))
           
         end
@@ -109,12 +107,12 @@ module Fleakr::Objects
       
       context "in general" do
         
-        before do
+        setup do
           @photo = Photo.new
           @time = Time.parse('2009-08-01 00:00:00')
         end
         
-        it "should be able to retrieve additional information about the current user" do
+        should "be able to retrieve additional information about the current user" do
           photo_id = '1'
           photo = Photo.new
           photo.expects(:id).with().returns(photo_id)
@@ -125,22 +123,22 @@ module Fleakr::Objects
           photo.load_info
         end
         
-        it "should have a value for :posted_at" do
+        should "have a value for :posted_at" do
           @photo.expects(:posted).with().returns("#{@time.to_i}")
           @photo.posted_at.to_s.should == @time.to_s
         end
         
-        it "should have a value for :taken_at" do
+        should "have a value for :taken_at" do
           @photo.expects(:taken).with().returns(@time.strftime('%Y-%m-%d %H:%M:%S'))
           @photo.taken_at.to_s.should == @time.to_s
         end
         
-        it "should have a value for :updated_at" do
+        should "have a value for :updated_at" do
           @photo.expects(:updated).with().returns("#{@time.to_i}")
           @photo.updated_at.to_s.should == @time.to_s
         end
         
-        it "should have a collection of images by size" do
+        should "have a collection of images by size" do
           photo = Photo.new
           
           small_image, large_image = [stub(:size => 'Small'), stub(:size => 'Large')]
@@ -160,7 +158,7 @@ module Fleakr::Objects
         end
         
         [:square, :thumbnail, :small, :medium, :large, :original].each do |method|
-          it "should have a reader for the :#{method} image" do
+          should "have a reader for the :#{method} image" do
             photo = Photo.new
             image = stub()
             
@@ -169,7 +167,7 @@ module Fleakr::Objects
           end
         end
         
-        it "should be able to retrieve the context for this photo" do
+        should "be able to retrieve the context for this photo" do
           id = '1'
           
           context = stub()
@@ -183,7 +181,7 @@ module Fleakr::Objects
           photo.context.should == context
         end
         
-        it "should memoize the context data" do
+        should "memoize the context data" do
           id = '1'
           
           context = stub()
@@ -197,25 +195,30 @@ module Fleakr::Objects
           2.times { photo.context }
         end
         
-        it "should be able to retrieve the next photo" do
+        should "be able to retrieve the next photo" do
           next_photo = stub()
+          context = mock()
+          context.expects(:next).with().returns(next_photo)
           
           photo = Photo.new
-          photo.expects(:context).with().returns(mock {|m| m.expects(:next).with().returns(next_photo)})
+          
+          photo.expects(:context).with().returns(context)
           
           photo.next.should == next_photo
         end
         
-        it "should be able to retrieve the previous photo" do
+        should "be able to retrieve the previous photo" do
           previous_photo = stub()
+          context = mock()
+          context.expects(:previous).with().returns(previous_photo)
 
           photo = Photo.new
-          photo.expects(:context).with().returns(mock {|m| m.expects(:previous).with().returns(previous_photo)})
+          photo.expects(:context).with().returns(context)
 
           photo.previous.should == previous_photo
         end
         
-        it "should be able to find the owner of the photo" do
+        should "be able to find the owner of the photo" do
           owner = stub()
           
           photo = Photo.new
@@ -226,7 +229,7 @@ module Fleakr::Objects
           photo.owner.should == owner
         end
         
-        it "should memoize the owner information" do
+        should "memoize the owner information" do
           photo = Photo.new
           photo.stubs(:owner_id).with().returns('1')
           

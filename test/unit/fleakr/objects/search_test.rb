@@ -3,45 +3,45 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class SearchTest < Test::Unit::TestCase
     
-    describe "An instance of the Search class" do
+    context "An instance of the Search class" do
 
-      it "should be able to generate a list of tags from a single-valued parameter" do
+      should "be able to generate a list of tags from a single-valued parameter" do
         search = Search.new(:tags => 'foo')
         search.send(:tag_list).should == 'foo'
       end
       
-      it "should be able to generate a list of tags from multi-valued parameters" do
+      should "be able to generate a list of tags from multi-valued parameters" do
         search = Search.new(:tags => %w(foo bar))
         search.send(:tag_list).should == 'foo,bar'
       end
       
-      it "should be able to create parameters for the search" do
+      should "be able to create parameters for the search" do
         search = Search.new(:tags => %w(foo bar))
         search.send(:parameters).should == {:tags => 'foo,bar'}
       end
       
-      it "should preserve the original :tags parameter if it is a comma-separated string" do
+      should "preserve the original :tags parameter if it is a comma-separated string" do
         search = Search.new(:tags => 'one,two')
         search.send(:parameters).should == {:tags => 'one,two'}
       end
       
-      it "should not have any :tags parameters if none are supplied" do
+      should "not have any :tags parameters if none are supplied" do
         search = Search.new({})
         search.send(:parameters).should == {}
       end
       
-      it "should convert the search term into the appropriate parameter" do
+      should "convert the search term into the appropriate parameter" do
         search = Search.new(:text => 'foo')
         search.send(:parameters).should == {:text => 'foo'}
       end
       
-      it "should be able to search photos based on text" do
+      should "be able to search photos based on text" do
         response = mock_request_cycle :for => 'photos.search', :with => {:text => 'foo'}
         search = Search.new(:text => 'foo')
         search.results
       end
       
-      it "should be able to search photos based on tags" do
+      should "be able to search photos based on tags" do
         response = mock_request_cycle :for => 'photos.search', :with => {:tags => 'one,two'}
         
         photo_1, photo_2 = [stub(), stub()]
