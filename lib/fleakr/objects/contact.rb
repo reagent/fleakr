@@ -16,6 +16,12 @@ module Fleakr
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
       
+      # Retrieve a list of contacts for an authenticated user
+      def self.find_all_contacts(params={})
+        response = Fleakr::Api::MethodRequest.with_response!('contacts.getList',params)
+        (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
+      end
+      
       def to_user
         user = User.new
         self.class.attributes.each do |attribute|

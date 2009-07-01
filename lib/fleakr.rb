@@ -130,6 +130,13 @@ module Fleakr
   def self.upload(glob, options = {})
     Dir[glob].map {|file| Fleakr::Objects::Photo.upload(file, options) }
   end
+  
+  # Get all contacts for an authenticated account
+  # Pass in optional params
+  # [filter]=friends|family|both|neither
+  def self.contacts(params={})
+    Fleakr::Objects::Contact.find_all_contacts(params)
+  end
 
   # Get the authentication token needed for authenticated requests.  Will either use
   # a valid auth_token (if available) or a mini-token to generate the auth_token.

@@ -7,7 +7,7 @@ module Fleakr::Objects
 
     should_have_many :photos, :groups, :sets, :contacts, :tags
     
-    should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
+    should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count,  :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
 
     context "The User class" do

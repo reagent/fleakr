@@ -90,18 +90,19 @@ module Fleakr::Objects
           
         end
         
-        should_have_a_value_for :id            => '1'
-        should_have_a_value_for :title         => 'Tree'
-        should_have_a_value_for :description   => 'A Tree'
-        should_have_a_value_for :farm_id       => '4'
-        should_have_a_value_for :server_id     => '3085'
-        should_have_a_value_for :owner_id      => '31066442@N69'
-        should_have_a_value_for :secret        => 'secret'
-        should_have_a_value_for :posted        => '1230274722'
-        should_have_a_value_for :taken         => '2008-12-25 18:26:55'
-        should_have_a_value_for :updated       => '1230276652'
-        should_have_a_value_for :comment_count => '0'
-        should_have_a_value_for :url           => 'http://www.flickr.com/photos/yes/1'
+        should_have_a_value_for :id             => '1'
+        should_have_a_value_for :title          => 'Tree'
+        should_have_a_value_for :description    => 'A Tree'
+        should_have_a_value_for :farm_id        => '4'
+        should_have_a_value_for :server_id      => '3085'
+        should_have_a_value_for :owner_id       => '31066442@N69'
+        should_have_a_value_for :secret         => 'secret'
+        should_have_a_value_for :originalsecret => 'sekrit'
+        should_have_a_value_for :posted         => '1230274722'
+        should_have_a_value_for :taken          => '2008-12-25 18:26:55'
+        should_have_a_value_for :updated        => '1230276652'
+        should_have_a_value_for :comment_count  => '0'
+        should_have_a_value_for :url            => 'http://www.flickr.com/photos/yes/1'
         
       end
       
