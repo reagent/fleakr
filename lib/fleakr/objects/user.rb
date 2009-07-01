@@ -61,7 +61,7 @@ module Fleakr
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
       find_one :by_id, :using => :user_id, :call => 'people.getInfo'
 
-      lazily_load :name, :photos_url, :profile_url, :photos_count, :with => :load_info
+      lazily_load :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
 
       scoped_search

@@ -5,7 +5,7 @@ module Fleakr
       include Fleakr::Support::Object
 
       flickr_attribute :id, :from => '@nsid'
-      flickr_attribute :username
+      flickr_attribute :username,:realname,:location
       flickr_attribute :icon_server, :from => '@iconserver'
       flickr_attribute :icon_farm,   :from => '@iconfarm'
 
@@ -19,7 +19,7 @@ module Fleakr
       # Retrieve a list of contacts for an authenticated user
       def self.find_all_contacts(params={})
         response = Fleakr::Api::MethodRequest.with_response!('contacts.getList',params)
-        (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
+        (response.body/'contacts/contact').map {|c| Contact.new(c) }
       end
       
       def to_user
