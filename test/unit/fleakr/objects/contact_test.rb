@@ -35,7 +35,7 @@ module Fleakr::Objects
     end
 
     context "An instance of the Contact class" do
-      context "when populating from an XML document" do
+      context "when populating from an XML document with public contacts" do
         setup do
           @object = Contact.new(Hpricot.XML(read_fixture('contacts.getPublicList')).at('contacts/contact'))
         end
@@ -46,6 +46,21 @@ module Fleakr::Objects
         should_have_a_value_for :icon_farm   => '3'
 
       end
+      
+      context "when populating from an XML document with authenticated user's contacts" do
+        setup do
+          @object = Contact.new(Hpricot.XML(read_fixture('contacts.getList')).at('contacts/contact'))
+        end
+
+        should_have_a_value_for :id          => '9302864@N42'
+        should_have_a_value_for :username    => 'blinky'
+        should_have_a_value_for :icon_server => '2263'
+        should_have_a_value_for :icon_farm   => '3'
+        should_have_a_value_for :realname   =>  'Mr Blinky'
+        should_have_a_value_for :location   =>  'Middletown'
+
+      end
+
 
       context "in general" do
         
@@ -55,7 +70,7 @@ module Fleakr::Objects
           
           User.stubs(:new).returns(user)
           
-          [:id, :username, :icon_server, :icon_farm].each do |method|
+          [:id, :username, :icon_server, :icon_farm, :realname, :location].each do |method|
             contact.stubs(method).with().returns(method.to_s)
             user.expects("#{method}=".to_sym).with(method.to_s)
           end
