@@ -18,7 +18,7 @@ spec = Gem::Specification.new do |s|
   s.homepage         = 'http://sneaq.net'
   s.files            = %w(README.rdoc Rakefile) + Dir.glob("{lib,test}/**/*")
   
-  s.add_dependency('hpricot', '~> 0.8.1')
+  s.add_dependency('hpricot', '~> 0.6.164')
   s.add_dependency('activesupport', '~> 2.0')
   s.add_dependency('loggable', '~> 0.2.0')
 end
