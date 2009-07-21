@@ -5,7 +5,8 @@ module Fleakr
       include Fleakr::Support::Object
 
       flickr_attribute :id, :from => '@nsid'
-      flickr_attribute :username,:realname,:location
+      flickr_attribute :username, :location
+      flickr_attribute :name, :from => '@realname'
       flickr_attribute :icon_server, :from => '@iconserver'
       flickr_attribute :icon_farm,   :from => '@iconfarm'
 
@@ -22,6 +23,7 @@ module Fleakr
         (response.body/'contacts/contact').map {|c| Contact.new(c) }
       end
       
+      # TODO: deprecate in favor of shared behavior as a module
       def to_user
         user = User.new
         self.class.attributes.each do |attribute|

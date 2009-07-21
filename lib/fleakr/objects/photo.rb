@@ -46,7 +46,7 @@ module Fleakr
       flickr_attribute :owner_id, :from => ['@owner', 'owner@nsid']
       flickr_attribute :updated, :from => '@lastupdate'
       flickr_attribute :comment_count, :from => 'comments'
-      flickr_attribute :originalsecret
+      flickr_attribute :original_secret, :from => '@originalsecret'
 
       # TODO:
       # * visibility

@@ -6,9 +6,7 @@ module Fleakr::Objects
     context "The Contact class" do
       
       should "return a list of users for a specified user's contacts" do
-        # user_1, user_2 = [stub(), stub()]
-        user_1 = stub()
-        user_2 = stub()
+        user_1, user_2 = stub(), stub()
 
         contact_1, contact_2 = [stub(:to_user => user_1), stub(:to_user => user_2)]
 
@@ -52,12 +50,12 @@ module Fleakr::Objects
           @object = Contact.new(Hpricot.XML(read_fixture('contacts.getList')).at('contacts/contact'))
         end
 
-        should_have_a_value_for :id          => '9302864@N42'
-        should_have_a_value_for :username    => 'blinky'
-        should_have_a_value_for :icon_server => '2263'
-        should_have_a_value_for :icon_farm   => '3'
-        should_have_a_value_for :realname   =>  'Mr Blinky'
-        should_have_a_value_for :location   =>  'Middletown'
+        should_have_a_value_for :id           => '9302864@N42'
+        should_have_a_value_for :username     => 'blinky'
+        should_have_a_value_for :icon_server  => '2263'
+        should_have_a_value_for :icon_farm    => '3'
+        should_have_a_value_for :name         => 'Mr Blinky'
+        should_have_a_value_for :location     => 'Middletown'
 
       end
 
@@ -70,7 +68,7 @@ module Fleakr::Objects
           
           User.stubs(:new).returns(user)
           
-          [:id, :username, :icon_server, :icon_farm, :realname, :location].each do |method|
+          [:id, :username, :icon_server, :icon_farm, :name, :location].each do |method|
             contact.stubs(method).with().returns(method.to_s)
             user.expects("#{method}=".to_sym).with(method.to_s)
           end
