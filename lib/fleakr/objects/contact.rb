@@ -11,20 +11,20 @@ module Fleakr
       flickr_attribute :icon_farm,   :from => '@iconfarm'
 
       # Retrieve a list of contacts for the specified user ID and return an initialized
-      # collection of #User objects
+      # collection of User objects
       def self.find_all_by_user_id(user_id)
         response = Fleakr::Api::MethodRequest.with_response!('contacts.getPublicList', :user_id => user_id)
         (response.body/'contacts/contact').map {|c| Contact.new(c).to_user }
       end
       
       # Retrieve a list of contacts for an authenticated user
-      def self.find_all_contacts(params={})
-        response = Fleakr::Api::MethodRequest.with_response!('contacts.getList',params)
+      def self.find_all(params = {})
+        response = Fleakr::Api::MethodRequest.with_response!('contacts.getList', params)
         (response.body/'contacts/contact').map {|c| Contact.new(c) }
       end
       
       # TODO: deprecate in favor of shared behavior as a module
-      def to_user
+      def to_user # :nodoc:
         user = User.new
         self.class.attributes.each do |attribute|
           attribute_name = attribute.name

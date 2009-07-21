@@ -131,11 +131,25 @@ module Fleakr
     Dir[glob].map {|file| Fleakr::Objects::Photo.upload(file, options) }
   end
   
-  # Get all contacts for an authenticated account
-  # Pass in optional params
-  # [filter]=friends|family|both|neither
-  def self.contacts(params={})
-    Fleakr::Objects::Contact.find_all_contacts(params)
+  # Get all contacts for the currently authenticated user.  The provided contact type can be
+  # one of the following:
+  #
+  # [:friends] Only contacts who are friends (and not family)
+  # [:family] Only contacts who are family (and not friends)
+  # [:both] Only contacts who are both friends and family
+  # [:neither] Only contacts who are neither friends nor family
+  #
+  # Additional parameters supported are:
+  #
+  # [:page] The page of results to return
+  # [:per_page] The number of contacts to retrieve per page
+  #
+  def self.contacts(contact_type = nil, additional_options = {})
+    options = {}
+    options.merge!(:filter => contact_type) unless contact_type.nil?
+    options.merge!(additional_options)
+    
+    Fleakr::Objects::Contact.find_all(options)
   end
 
   # Get the authentication token needed for authenticated requests.  Will either use

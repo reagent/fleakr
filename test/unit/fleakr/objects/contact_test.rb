@@ -27,7 +27,7 @@ module Fleakr::Objects
 
         Contact.stubs(:new).with(contact_1_doc).returns(@contact_1)
         Contact.stubs(:new).with(contact_2_doc).returns(@contact_2)
-        Contact.find_all_contacts().should == [@user_1, @user_2]
+        Contact.find_all.should == [@user_1, @user_2]
       end
       
     end

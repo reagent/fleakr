@@ -29,6 +29,21 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.user(email).should == user
     end
     
+    should "find all contacts for the authenticated user" do
+      Fleakr::Objects::Contact.expects(:find_all).with({}).returns('contacts')
+      Fleakr.contacts.should == 'contacts'
+    end
+    
+    should "allow filtering when finding contacts for the authenticated user" do
+      Fleakr::Objects::Contact.expects(:find_all).with(:filter => :friends).returns('contacts')
+      Fleakr.contacts(:friends).should == 'contacts'
+    end
+    
+    should "allow passing of additional parameters when finding contacts for the authenticated user" do
+      Fleakr::Objects::Contact.expects(:find_all).with(:filter => :friends, :page => 1).returns('contacts')
+      Fleakr.contacts(:friends, :page => 1).should == 'contacts'
+    end
+    
     should "be able to perform text searches" do
       photos = [stub()]
       
