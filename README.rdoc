@@ -89,7 +89,28 @@ When accessing a set, you can also grab all the photos that are in that set:
     => #<Fleakr::Objects::Photo:0x1140108 ... >
     >> user.sets.first.photos.first.title
     => "Untitled1"
+
+=== Contacts
+
+Besides pulling back a given user's public contacts list, you can also retrieve the list of 
+contacts for the currently authenticated user (see below about authentication).  For example,
+you can retrieve all contacts:
+
+    >> Fleakr.contacts
+    => [#<Fleakr::Objects::Contact:0x111ff84 @username="bryan.ray" ...>]
     
+Or just the contacts marked as 'family':
+    
+    >> Fleakr.contacts(:family)
+    => [#<Fleakr::Objects::Contact:0x12db42c @username="Grandbob" ...>]
+    
+Or a specific page of contacts marked as 'friends':
+    
+    >> Fleakr.contacts(:friends, :page => 3, :per_page => 5)
+    => [#<Fleakr::Objects::Contact:0x12a6c54 @username="Louise and BCG" ...>]
+
+See the documentation for Fleakr.contacts for what options are available.
+
 === Photos
 
 Each photo object contains metadata about a collection of images, each representing different
@@ -305,6 +326,16 @@ just the requests you need to tune the log level:
     
 Even if something doesn't go wrong, this is a good way to get a sense for when you're making
 API requests.
+
+== Contributors
+
+While Fleakr started as a labor of love for me, I'm glad that others have been interested
+in this project enough to contribute their ideas and code:
+
+* {John Guenin}[http://github.com/johng]
+* {Thomas Olausson}[http://github.com/latompa]
+
+Thanks!
 
 == Roadmap / TODO
 

@@ -12,6 +12,7 @@ module Fleakr
     # [title] The title of this photo
     # [description] The description of this photo
     # [secret] This photo's secret (used for sharing photo without permissions checking)
+    # [original_secret] This photo's original secret
     # [comment_count] Count of the comments attached to this photo
     # [url] This photo's page on Flickr
     # [square] The tiny square representation of this photo
