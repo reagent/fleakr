@@ -4,8 +4,6 @@ require 'rake/testtask'
 
 require 'lib/fleakr/version'
 
-task :default => :test
-
 spec = Gem::Specification.new do |s|
   s.name             = 'fleakr'
   s.version          = Fleakr::Version.to_s
@@ -31,6 +29,23 @@ Rake::TestTask.new do |t|
   t.libs << 'test'
   t.test_files = FileList["test/**/*_test.rb"]
   t.verbose = true
+end
+
+begin
+  require 'rcov/rcovtask'
+
+  Rcov::RcovTask.new(:coverage) do |t|
+    t.libs       = ['test']
+    t.test_files = FileList["test/**/*_test.rb"]
+    t.verbose    = true
+    t.rcov_opts  = ['--text-report', "-x #{Gem.path}", '-x /Library/Ruby', '-x /usr/lib/ruby']
+  end
+  
+  task :default => :coverage
+  
+rescue LoadError
+  warn "\n**** Install rcov (sudo gem install relevance-rcov) to get coverage stats ****\n"
+  task :default => :test
 end
 
 desc 'Generate the gemspec to serve this Gem from Github'
