@@ -39,7 +39,7 @@ class Test::Unit::TestCase
       instance = klass.new
       instance.stubs(:id).with().returns('1')
       
-      Fleakr::Objects::Search.expects(:new).with(:text => 'foo', key => '1').returns(search)
+      Fleakr::Objects::Search.expects(:new).with('foo', key => '1').returns(search)
       
       instance.search('foo').should == photos
     end

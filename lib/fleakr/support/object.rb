@@ -63,8 +63,9 @@ module Fleakr
           key = "#{self.name.demodulize.underscore.downcase}_id".to_sym
 
           class_eval <<-CODE
-            def search(search_text)
-              Fleakr::Objects::Search.new(:text => search_text, :#{key} => self.id).results
+            def search(*parameters)
+              parameters << {:#{key} => self.id}
+              Fleakr::Objects::Search.new(*parameters).results
             end
           CODE
         end

@@ -5,6 +5,16 @@ module Fleakr::Objects
     
     context "An instance of the Search class" do
 
+      should "have a list of tags" do
+        search = Search.new(:tags => %w(a b c))
+        search.tags.should == %w(a b c)
+      end
+      
+      should "have convert tags into an array" do
+        search = Search.new(:tags => 'a')
+        search.tags.should == ['a']
+      end
+
       should "be able to generate a list of tags from a single-valued parameter" do
         search = Search.new(:tags => 'foo')
         search.send(:tag_list).should == 'foo'
@@ -33,6 +43,16 @@ module Fleakr::Objects
       should "convert the search term into the appropriate parameter" do
         search = Search.new(:text => 'foo')
         search.send(:parameters).should == {:text => 'foo'}
+      end
+      
+      should "convert a single string parameter into a text search" do
+        search = Search.new('term')
+        search.send(:parameters).should == {:text => 'term'}
+      end
+      
+      should "be able to handle a combination of text and options" do
+        search = Search.new('term', :tags => %w(a b))
+        search.send(:parameters).should == {:text => 'term', :tags => 'a,b'}
       end
       
       should "be able to search photos based on text" do
