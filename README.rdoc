@@ -327,6 +327,18 @@ just the requests you need to tune the log level:
 Even if something doesn't go wrong, this is a good way to get a sense for when you're making
 API requests.
 
+== Contributing
+
+If there is a feature that you would like to contribute, I gladly accept pull requests.  There 
+are a few things that make my life easier when integrating your changes:
+
+* Verify that all tests are passing (run `rake` from the project root)
+* Keep your commits small, focused, and tested - this allows me to apply changes cleanly
+* Leave the Rakefile and version information intact - if you really want to make changes, 
+  please do so in a separate commit.
+
+Once your changes are applied, I will add you to the list of contributors.
+
 == Contributors
 
 While Fleakr started as a labor of love for me, I'm glad that others have been interested
@@ -339,17 +351,14 @@ Thanks!
 
 == Roadmap / TODO
 
-=== 0.4.x
-
-* Implement remaining bits of person and photo-related API calls (read-only)
-
 === 0.5.x
 
-* Implement asynchronous file upload / replacement w/ ticket checking
+* Implement remaining bits of person and photo-related API calls (read-only)
 * Provide a better searching interface with ruby-like option syntax
 
 === Future
 
+* Implement asynchronous file upload / replacement w/ ticket checking
 * Implement save-able search results (e.g. Fleakr.search('ponies').save_to('/path', :medium))
 * Implement deeper associations for core elements (e.g. tags / etc..)
 * Implement write methods for photos & photosets
