@@ -18,11 +18,36 @@ module Fleakr::Objects
           @object = Set.new(Hpricot.XML(read_fixture('photosets.getList')).at('rsp/photosets/photoset'))
         end
         
-        should_have_a_value_for :id          => '72157609490909659'
-        should_have_a_value_for :title       => 'Second Set'
-        should_have_a_value_for :description => 'This is the second set.'
-        should_have_a_value_for :count       => '138'
+        should_have_a_value_for :id               => '72157609490909659'
+        should_have_a_value_for :title            => 'Second Set'
+        should_have_a_value_for :description      => 'This is the second set.'
+        should_have_a_value_for :count            => '138'
+        should_have_a_value_for :primary_photo_id => '3044180117'
         
+      end
+      
+      should "know the primary photo in the set" do
+        id    = '1'
+        photo = stub()
+        
+        Photo.expects(:find_by_id).with(id).returns(photo)
+        
+        set = Set.new
+        set.stubs(:primary_photo_id).with().returns(id)
+        
+        set.primary_photo.should == photo
+      end
+      
+      should "memoize the primary photo" do
+        id    = '1'
+        photo = stub()
+        
+        Photo.expects(:find_by_id).with(id).once.returns(photo)
+        
+        set = Set.new
+        set.stubs(:primary_photo_id).with().returns(id)
+        
+        2.times { set.primary_photo }
       end
       
       context "when saving the set" do

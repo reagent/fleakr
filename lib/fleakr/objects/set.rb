@@ -22,6 +22,7 @@ module Fleakr
       has_many :photos, :comments
 
       flickr_attribute :id, :title, :description
+      flickr_attribute :primary_photo_id, :from => '@primary'
       flickr_attribute :count, :from => '@photos'
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
@@ -44,6 +45,14 @@ module Fleakr
       def file_prefix(index) # :nodoc:
         sprintf("%0#{self.count.length}d_", (index + 1))
       end
+
+      def primary_photo
+        @primary_photo ||= Photo.find_by_id(primary_photo_id)
+      end
+      
+      # def primary_photo
+      #   Photo.find_by_id(self.primary)
+      # end
 
     end
   end
