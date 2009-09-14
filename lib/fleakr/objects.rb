@@ -1,4 +1,5 @@
 require 'fleakr/objects/authentication_token'
+require 'fleakr/objects/collection'
 require 'fleakr/objects/contact'
 require 'fleakr/objects/error'
 require 'fleakr/objects/group'

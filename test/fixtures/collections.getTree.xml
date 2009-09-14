@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<collections>
+	<collection id="123-456" title="Top-Level Collection 1" description="Description 1" iconlarge="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_l.jpg" iconsmall="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_s.jpg">
+	  <collection id="123-457" title="Second-Level Collection 1" description="Description 2" iconlarge="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_l.jpg" iconsmall="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_s.jpg">	  
+  		<collection id="123-789" title="Third-Level Collection 1" description="Description 3" iconlarge="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_l.jpg" iconsmall="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_s.jpg">
+  			<set id="1234" title="Set 1" description="" />
+  			<set id="1235" title="Set 2" description="" />
+  		</collection>
+  		<collection id="123-101" title="Third-Level Collection 2" description="Description 4" iconlarge="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_l.jpg" iconsmall="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_s.jpg">
+  			<set id="1236" title="Set 3" description="" />
+  			<set id="1237" title="Set 4" description="" />
+  		</collection>
+		</collection>
+	</collection>
+  <collection id="123-102" title="Top-Level Collection 2" description="Description 5" iconlarge="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_l.jpg" iconsmall="http://farm4.static.flickr.com/3573/cols/72157617429277370_1691956f71_s.jpg">	
+		<set id="1238" title="Set 5" description="" />
+		<set id="1239" title="Set 6" description="" />
+  </collection>
+</collections>
+</rsp>

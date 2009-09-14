@@ -29,6 +29,7 @@ module Fleakr
     # [photos] A list of this user's public photos (newest first).  See Fleakr::Objects::Photo.
     # [contacts] A list of this user's contacts - these are simply User objects
     # [tags] The tags associated with this user
+    # [collections] The top-level collections that this user has created. See Fleakr::Objects::Collection.
     #
     # == Examples
     #
@@ -55,7 +56,7 @@ module Fleakr
       flickr_attribute :pro, :from => 'person@ispro'
       flickr_attribute :admin, :from => 'person@isadmin'
 
-      has_many :sets, :groups, :photos, :contacts, :tags
+      has_many :sets, :groups, :photos, :contacts, :tags, :collections
 
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'

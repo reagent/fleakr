@@ -88,11 +88,14 @@ module Fleakr
     
       module InstanceMethods
       
+        attr_reader :document
+      
         def initialize(document = nil)
           self.populate_from(document) unless document.nil?
         end
       
         def populate_from(document)
+          @document = document
           self.class.attributes.each do |attribute|
             value = attribute.value_from(document)
             self.send("#{attribute.name}=".to_sym, value) unless value.nil?

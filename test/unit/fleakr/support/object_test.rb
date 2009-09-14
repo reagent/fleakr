@@ -72,8 +72,10 @@ module Fleakr
             <category>Category</category>
           XML
 
+          @document = Hpricot.XML(xml)
+
           @object = FlickrObject.new
-          @object.populate_from(Hpricot.XML(xml))
+          @object.populate_from(@document)
         end
         
         should "have the correct value for :name" do
@@ -101,6 +103,10 @@ module Fleakr
         
         should "have the correct value for :category" do
           @object.category.should == 'Category'
+        end
+        
+        should "maintain a reference to the original document" do
+          @object.document.should == @document
         end
       end
       

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<collection id="34762917-72157619347181335" child_count="5" datecreate="1244460707" iconlarge="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_l.jpg" iconsmall="http://farm4.static.flickr.com/3603/cols/72157619347181335_30d89a2682_s.jpg" server="3603" secret="30d89a2682">
+	<title>Work</title>
+	<description>Sample Collection</description>
+	<iconphotos>
+		<photo id="3509228143" owner="34808239@N06" secret="2ed3119372" server="3637" farm="4" title="" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3509261341" owner="34808239@N06" secret="43a07ee13c" server="3638" farm="4" title="Saab 9X Air" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3488255219" owner="34808239@N06" secret="b94e2c39c1" server="3624" farm="4" title="" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3488219705" owner="34808239@N06" secret="d26642a09b" server="3560" farm="4" title="stellaUK_1" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3489034148" owner="34808239@N06" secret="89d6f94800" server="3577" farm="4" title="abba_kalles_3" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3488220307" owner="34808239@N06" secret="a96a8acbb0" server="3578" farm="4" title="abba_kalles_1" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3489034014" owner="34808239@N06" secret="d392cca5d6" server="3124" farm="4" title="abba_kalles_2" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3489033670" owner="34808239@N06" secret="4f08e7368c" server="3547" farm="4" title="stellaUK_3" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3488219913" owner="34808239@N06" secret="6bcdeb4bf6" server="3310" farm="4" title="stellaUK_2" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3509261445" owner="34808239@N06" secret="595cc58f50" server="3313" farm="4" title="Saab 9X Air" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3488255345" owner="34808239@N06" secret="de5f1b9133" server="3644" farm="4" title="" ispublic="1" isfriend="0" isfamily="0" />
+		<photo id="3509228095" owner="34808239@N06" secret="3b0a661db7" server="3392" farm="4" title="" ispublic="1" isfriend="0" isfamily="0" />
+	</iconphotos>
+</collection>
+</rsp>
