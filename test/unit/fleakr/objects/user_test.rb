@@ -15,6 +15,7 @@ module Fleakr::Objects
       should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
       should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user'
       should_find_one :user, :by => :id, :with => :user_id, :call => 'people.getInfo', :path => 'rsp/person'
+      should_find_one :user, :by => :url, :call => 'urls.lookupUser', :path => 'rsp/user'
 
     end
 
@@ -36,6 +37,17 @@ module Fleakr::Objects
         should_have_a_value_for :icon_farm    => '1'
         should_have_a_value_for :pro          => '1'
         should_have_a_value_for :admin        => '0'
+        
+      end
+      
+      context "when populating an object from the urls.lookupUser API call" do
+        setup do
+          document = Hpricot.XML(read_fixture('urls.lookupUser'))
+          @object = User.new(document)
+        end
+        
+        should_have_a_value_for :id       => '123456'
+        should_have_a_value_for :username => 'frootpantz'
         
       end
 

@@ -29,6 +29,27 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.user(email).should == user
     end
     
+    should "fall back to finding a user by URL if username and email both fail" do
+      user = stub()
+      url = 'http://flickr.com/photos/user'
+      
+      Fleakr::Objects::User.stubs(:find_by_username).with(url).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_email).with(url).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.expects(:find_by_url).with(url).returns(user)
+            
+      Fleakr.user(url).should == user
+    end
+
+    should "not return nil if a user cannot be found" do
+      data = 'data'
+      
+      Fleakr::Objects::User.stubs(:find_by_username).with(data).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_email).with(data).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_url).with(data).raises(Fleakr::ApiError)
+            
+      Fleakr.user(data).should be_nil
+    end
+    
     should "find all contacts for the authenticated user" do
       Fleakr::Objects::Contact.expects(:find_all).with({}).returns('contacts')
       Fleakr.contacts.should == 'contacts'

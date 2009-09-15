@@ -45,7 +45,7 @@ module Fleakr
 
       include Fleakr::Support::Object
 
-      flickr_attribute :id, :from => 'user@nsid'
+      flickr_attribute :id, :from => ['user@id', 'user@nsid']
       flickr_attribute :username, :location
       flickr_attribute :name, :from => 'person/realname'
       flickr_attribute :photos_url, :from => 'person/photosurl'
@@ -61,6 +61,7 @@ module Fleakr
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
       find_one :by_id, :using => :user_id, :call => 'people.getInfo'
+      find_one :by_url, :call => 'urls.lookupUser'
 
       lazily_load :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info

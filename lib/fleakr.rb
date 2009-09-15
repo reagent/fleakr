@@ -88,18 +88,22 @@ module Fleakr
   mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token, :frob
 
   # Find a user based on some unique user data.  This method will try to find
-  # the user based on username and will fall back to email if that fails.  Example:
+  # the user based on several methods, starting with username and falling back to email and URL
+  # sequentially if these methods fail. Example:
   #
   #  Fleakr.api_key = 'ABC123'
-  #  Fleakr.user('the decapitator') # => #<Fleakr::Objects::User:0x692648 @username="the decapitator", @id="21775151@N06">
-  #  Fleakr.user('user@host.com')   # => #<Fleakr::Objects::User:0x11f484c @username="bckspcr", @id="84481630@N00">
+  #  Fleakr.user('the decapitator')
+  #  Fleakr.user('user@host.com')
+  #  Fleakr.user('http://www.flickr.com/photos/the_decapitator/')
   #
   def self.user(user_data)
-    begin
-      Objects::User.find_by_username(user_data)
-    rescue ApiError
-      Objects::User.find_by_email(user_data)
+    user = nil
+    [:username, :email, :url].each do |attribute|
+      if user.nil?
+        user = Objects::User.send("find_by_#{attribute}", user_data) rescue nil
+      end
     end
+    user
   end
   
   # Search all photos on the Flickr site.  By default, this searches based on text, but you can pass
