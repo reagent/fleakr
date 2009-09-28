@@ -50,10 +50,6 @@ module Fleakr
         @primary_photo ||= Photo.find_by_id(primary_photo_id)
       end
       
-      # def primary_photo
-      #   Photo.find_by_id(self.primary)
-      # end
-
     end
   end
 end
