@@ -49,7 +49,7 @@ rescue LoadError
 end
 
 desc 'Generate the gemspec to serve this Gem from Github'
-task :github do
+task :gemspec do
   file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
   File.open(file, 'w') {|f| f << spec.to_ruby }
   puts "Created gemspec: #{file}"
