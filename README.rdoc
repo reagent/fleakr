@@ -44,10 +44,15 @@ user by his username:
     >> user = Fleakr.user('the decapitator')
     => #<Fleakr::Objects::User:0x692648 @username="the decapitator", @id="21775151@N06">
 
-Or by email:
+By email:
 
     >> user = Fleakr.user('user@host.com')
     => #<Fleakr::Objects::User:0x11f484c @username="bckspcr", @id="84481630@N00">
+    
+Or even by URL:
+
+    >> user = Fleakr.user('http://www.flickr.com/photos/the_decapitator/')
+    => #<Fleakr::Objects::User:0x113440c @username="the decapitator", @id="21775151@N06">
 
 Once you have a user, you can find his associated sets:
 
@@ -201,6 +206,26 @@ All comments have additional information:
 
 See Fleakr::Objects::Comment for more information.
 
+=== Collections
+
+An individual can have zero or more collections associated with his account.  These collections,
+in turn, can have either collections or sets associated with them. For example:
+
+    >> user = Fleakr.user('username')
+    >> user.collections.length
+    => 1
+    >> user.collections.first.title
+    => "The Year in Pictures"
+    >> user.collections.first.collections.length
+    => 2
+    >> user.collections.first.collections.first.sets.length
+    => 3
+    >> user.collections.first.collections.first.sets.first.title
+    => "A Trip to Yosemite"
+
+Note that collections are limited to Flickr pro members. See Fleakr::Objects::Collection for more 
+information.
+
 === Saving Images
 
 If a photo interests you, save it down to a directory of your choosing:
@@ -344,8 +369,10 @@ Once your changes are applied, I will add you to the list of contributors.
 While Fleakr started as a labor of love for me, I'm glad that others have been interested
 in this project enough to contribute their ideas and code:
 
+* {Mark Dickson}[http://github.com/ideaoforder]
 * {John Guenin}[http://github.com/johng]
 * {Thomas Olausson}[http://github.com/latompa]
+* {Robert Sköld}[http://github.com/slaskis]
 
 Thanks!
 

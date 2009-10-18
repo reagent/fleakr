@@ -23,7 +23,7 @@ module Fleakr
       find_one :by_id, :call => 'collections.getInfo', :path => 'collection'
       find_all :by_user_id, :call => 'collections.getTree', :path => 'collections/collection'
 
-      # When was this photo created?
+      # When was this collection created?
       #
       def created_at
         Time.at(created.to_i)
