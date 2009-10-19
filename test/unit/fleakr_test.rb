@@ -134,6 +134,20 @@ class FleakrTest < Test::Unit::TestCase
       end
     end
     
+    should "be able to generate the authorization_url with default permissions" do
+      request = stub() {|r| r.stubs(:authorization_url).with().returns('auth_url') }
+      Fleakr::Api::AuthenticationRequest.expects(:new).with(:perms => :read).returns(request)
+      
+      Fleakr.authorization_url.should == 'auth_url'
+    end
+    
+    should "be able to specify different permissions when generating the authorization_url" do
+      request = stub() {|r| r.stubs(:authorization_url).with().returns('auth_url') }
+      Fleakr::Api::AuthenticationRequest.expects(:new).with(:perms => :delete).returns(request)
+      
+      Fleakr.authorization_url(:delete).should == 'auth_url'
+    end
+    
     context "when generating an AuthenticationToken from an auth_token string" do
 
       setup do

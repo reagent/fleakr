@@ -13,6 +13,11 @@ module Fleakr::Api
           Fleakr.stubs(:shared_secret).with().returns('sekrit')
         end
 
+        should "know the endpoint URL" do
+          request = MethodRequest.new('people.findByUsername')
+          request.endpoint_url.should == 'http://api.flickr.com/services/rest/'
+        end
+
         should "know the full query parameters" do
           request = MethodRequest.new('flickr.people.findByUsername', :username => 'foobar')
 
@@ -24,19 +29,6 @@ module Fleakr::Api
         should "translate a shorthand API call" do
           request = MethodRequest.new('people.findByUsername')
           request.parameters[:method].value.should == 'flickr.people.findByUsername'
-        end
-        
-        should "know the endpoint with full parameters" do
-          query_parameters = 'foo=bar'
-        
-          request = MethodRequest.new('people.getInfo')
-          request.parameters.stubs(:to_query).returns(query_parameters)
-        
-          uri_mock = mock()
-          uri_mock.expects(:query=).with(query_parameters)
-          URI.expects(:parse).with("http://api.flickr.com/services/rest/").returns(uri_mock)
-        
-          request.__send__(:endpoint_uri).should == uri_mock
         end
         
         should "be able to make a request" do

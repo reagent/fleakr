@@ -7,7 +7,10 @@ module Fleakr
     # UploadRequest class.
     #
     class MethodRequest
-      attr_reader :parameters, :method
+      
+      include Fleakr::Support::Request
+      
+      attr_reader :method
       
       # Makes a request to the Flickr API and returns a valid Response object.  If
       # there are errors on the response it will raise an ApiError exception.  See 
@@ -35,8 +38,7 @@ module Fleakr
       # behavior is to authenticate all calls when we have a token).
       #
       def initialize(method, additional_parameters = {})
-        @parameters = ParameterList.new(additional_parameters)
-        
+        super(additional_parameters)
         self.method = method
       end
    
@@ -45,19 +47,16 @@ module Fleakr
         @parameters << ValueParameter.new('method', @method)
       end
 
+      def endpoint_url
+        'http://api.flickr.com/services/rest/'
+      end
+
       def send # :nodoc:
         logger.info("Sending request to: #{endpoint_uri}")
         response_xml = Net::HTTP.get(endpoint_uri)
         logger.debug("Response data:\n#{response_xml}")
         
         Response.new(response_xml)
-      end
-      
-      private
-      def endpoint_uri
-        uri = URI.parse('http://api.flickr.com/services/rest/')
-        uri.query = self.parameters.to_query
-        uri
       end
       
     end

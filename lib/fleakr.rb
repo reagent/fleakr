@@ -19,9 +19,9 @@ require 'digest/md5'
 require 'fileutils'
 require 'loggable'
 
+require 'fleakr/support'
 require 'fleakr/api'
 require 'fleakr/core_ext'
-require 'fleakr/support'
 require 'fleakr/objects'
 
 # = Fleakr: A small, yet powerful, gem to interface with Flickr photostreams
@@ -154,6 +154,18 @@ module Fleakr
     options.merge!(additional_options)
     
     Fleakr::Objects::Contact.find_all(options)
+  end
+
+  # Generate an authorization URL to redirect users to.  This defaults to 
+  # 'read' permission, but others are available when passed to this method:
+  #
+  #  * :read - permission to read private information (default)
+  #  * :write - permission to add, edit and delete photo metadata (includes 'read')
+  #  * :delete - permission to delete photos (includes 'write' and 'read')
+  #
+  def self.authorization_url(permissions = :read)
+    request = Fleakr::Api::AuthenticationRequest.new(:perms => permissions)
+    request.authorization_url
   end
 
   # Get the authentication token needed for authenticated requests.  Will either use
