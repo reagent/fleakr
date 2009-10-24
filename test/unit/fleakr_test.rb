@@ -15,7 +15,7 @@ class FleakrTest < Test::Unit::TestCase
     
     should "provide a means to find a user by his username" do
       user = stub()
-      Fleakr::Objects::User.expects(:find_by_username).with('username').returns(user)
+      Fleakr::Objects::User.expects(:find_by_username).with('username', {}).returns(user)
       Fleakr.user('username').should == user
     end
     
@@ -23,8 +23,8 @@ class FleakrTest < Test::Unit::TestCase
       user = stub()
       email = 'user@host.com'
       
-      Fleakr::Objects::User.stubs(:find_by_username).with(email).raises(Fleakr::ApiError)
-      Fleakr::Objects::User.expects(:find_by_email).with(email).returns(user)
+      Fleakr::Objects::User.stubs(:find_by_username).with(email, {}).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.expects(:find_by_email).with(email, {}).returns(user)
       
       Fleakr.user(email).should == user
     end
@@ -33,9 +33,9 @@ class FleakrTest < Test::Unit::TestCase
       user = stub()
       url = 'http://flickr.com/photos/user'
       
-      Fleakr::Objects::User.stubs(:find_by_username).with(url).raises(Fleakr::ApiError)
-      Fleakr::Objects::User.stubs(:find_by_email).with(url).raises(Fleakr::ApiError)
-      Fleakr::Objects::User.expects(:find_by_url).with(url).returns(user)
+      Fleakr::Objects::User.stubs(:find_by_username).with(url, {}).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_email).with(url, {}).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.expects(:find_by_url).with(url, {}).returns(user)
             
       Fleakr.user(url).should == user
     end
@@ -43,11 +43,17 @@ class FleakrTest < Test::Unit::TestCase
     should "not return nil if a user cannot be found" do
       data = 'data'
       
-      Fleakr::Objects::User.stubs(:find_by_username).with(data).raises(Fleakr::ApiError)
-      Fleakr::Objects::User.stubs(:find_by_email).with(data).raises(Fleakr::ApiError)
-      Fleakr::Objects::User.stubs(:find_by_url).with(data).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_username).with(data, {}).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_email).with(data, {}).raises(Fleakr::ApiError)
+      Fleakr::Objects::User.stubs(:find_by_url).with(data, {}).raises(Fleakr::ApiError)
             
       Fleakr.user(data).should be_nil
+    end
+    
+    should "provide additional options to the finder call if supplied" do
+      user = stub()
+      Fleakr::Objects::User.expects(:find_by_username).with('username', :auth_token => 'toke').returns(user)
+      Fleakr.user('username', :auth_token => 'toke').should == user
     end
     
     should "find all contacts for the authenticated user" do

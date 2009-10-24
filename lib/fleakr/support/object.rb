@@ -26,7 +26,7 @@ module Fleakr
 
             class_eval <<-CODE
               def #{attribute}
-                @#{attribute} ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id)
+                @#{attribute} ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, self.authentication_options)
               end
             CODE
           end
@@ -41,7 +41,7 @@ module Fleakr
               options.merge!(:#{attribute} => value)
               
               response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', options)
-              (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e) }
+              (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e, options) }
             end
           CODE
         end
@@ -54,7 +54,7 @@ module Fleakr
               options.merge!(:#{attribute} => value)
               
               response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', options)
-              #{self.name}.new(response.body)
+              #{self.name}.new(response.body, options)
             end
           CODE
         end
@@ -64,7 +64,10 @@ module Fleakr
 
           class_eval <<-CODE
             def search(*parameters)
-              parameters << {:#{key} => self.id}
+              options = {:#{key} => self.id}
+              options.merge!(self.authentication_options)
+              
+              parameters << options
               Fleakr::Objects::Search.new(*parameters).results
             end
           CODE
@@ -88,10 +91,11 @@ module Fleakr
     
       module InstanceMethods
       
-        attr_reader :document
+        attr_reader :document, :authentication_options
       
-        def initialize(document = nil)
+        def initialize(document = nil, options = {})
           self.populate_from(document) unless document.nil?
+          @authentication_options = options.extract!(:auth_token)
         end
       
         def populate_from(document)

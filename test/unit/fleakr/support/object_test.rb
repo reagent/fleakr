@@ -36,18 +36,19 @@ module Fleakr
         flickr_object = stub()
         
         response = mock_request_cycle :for => 'people.getInfo', :with => {:id => id}
-        FlickrObject.expects(:new).with(response.body).returns(flickr_object)
+        FlickrObject.expects(:new).with(response.body, :id => id).returns(flickr_object)
         
         FlickrObject.find_by_id(id).should == flickr_object
       end
       
       should "be able to pass parameters to the :find_by_id method" do
-        id = 1
-        params = {:authenticate? => true}
+        id            = 1
+        params        = {:authenticate? => true}
+        full_params   = {:id => id, :authenticate? => true}
         flickr_object = stub()
-        
-        response = mock_request_cycle :for => 'people.getInfo', :with => {:id => id, :authenticate? => true}
-        FlickrObject.expects(:new).with(response.body).returns(flickr_object)
+
+        response = mock_request_cycle :for => 'people.getInfo', :with => full_params
+        FlickrObject.expects(:new).with(response.body, full_params).returns(flickr_object)
         
         FlickrObject.find_by_id(id, params).should == flickr_object
       end
@@ -60,6 +61,11 @@ module Fleakr
         [:name, :description, :id, :photoset_id, :tag, :category].each do |method_name|
           FlickrObject.new.respond_to?(method_name).should == true
         end
+      end
+      
+      should "be able to capture the :auth_token from options sent along to the new object" do
+        object = EmptyObject.new(nil, {:foo => 'bar', :auth_token => 'toke'})
+        object.authentication_options.should == {:auth_token => 'toke'}
       end
       
       context "when populating data from an XML document" do

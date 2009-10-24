@@ -95,11 +95,11 @@ module Fleakr
   #  Fleakr.user('user@host.com')
   #  Fleakr.user('http://www.flickr.com/photos/the_decapitator/')
   #
-  def self.user(user_data)
+  def self.user(user_data, options = {})
     user = nil
     [:username, :email, :url].each do |attribute|
       if user.nil?
-        user = Objects::User.send("find_by_#{attribute}", user_data) rescue nil
+        user = Objects::User.send("find_by_#{attribute}", user_data, options) rescue nil
       end
     end
     user

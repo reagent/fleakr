@@ -59,7 +59,7 @@ class Test::Unit::TestCase
         object = this_klass.new
         object.stubs(:id).with().returns('1')
 
-        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).with('1').returns(results)
+        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).with('1', {}).returns(results)
         object.send(attribute).should == results
       end
       
@@ -87,7 +87,7 @@ class Test::Unit::TestCase
       stub = stub()
       response = mock_request_cycle :for => options[:call], :with => params
 
-      klass.expects(:new).with(response.body).returns(stub)
+      klass.expects(:new).with(response.body, params).returns(stub)
       klass.send("find_by_#{options[:by]}".to_sym, condition_value).should == stub
     end
   end
@@ -111,7 +111,7 @@ class Test::Unit::TestCase
         stub = stub()
         stubs << stub
         
-        klass.expects(:new).with(element).returns(stub)
+        klass.expects(:new).with(element, finder_options).returns(stub)
       end
       
       klass.send("find_all_by_#{options[:by]}".to_sym, condition_value).should == stubs
