@@ -39,7 +39,7 @@ module Fleakr
         @options = options
         
         @parameters = ParameterList.new(upload_options)
-        @parameters << FileParameter.new('photo', filename)
+        parameters.add_upload_option(:photo, filename)
       end
       
       # A list of upload options for this upload request (see Fleakr::Api::Option)

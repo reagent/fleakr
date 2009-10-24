@@ -5,7 +5,10 @@ module Fleakr
       attr_reader :parameters
 
       def initialize(additional_parameters = {})
-        @parameters = Fleakr::Api::ParameterList.new(additional_parameters)
+        authenticate = additional_parameters.delete(:authenticate?)
+        authenticate = authenticate.nil? ? true : authenticate
+        
+        @parameters = Fleakr::Api::ParameterList.new(additional_parameters, authenticate)
       end
 
       def endpoint_uri

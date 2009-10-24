@@ -5,11 +5,6 @@ module Fleakr::Api
 
     context "An instance of the UploadRequest class" do
 
-      setup do
-        @secret = 'sekrit'
-        Fleakr.stubs(:shared_secret).with().returns(@secret)
-      end
-      
       should "have a collection of upload_options" do
         request = UploadRequest.new('foo', :create, {:title => 'foo', :tags => %w(a b)})
         
@@ -23,15 +18,10 @@ module Fleakr::Api
       
       should "create a file parameter on initialization" do
         filename = '/path/to/image.jpg'
-
-        parameter = stub()
-        FileParameter.expects(:new).with('photo', filename).returns(parameter)
-
-        parameter_list = mock()
-        parameter_list.expects(:<<).with(parameter)
         
-        ParameterList.expects(:new).with({}).returns(parameter_list)
-
+        parameter_list = mock() {|p| p.expects(:add_upload_option).with(:photo, filename) }
+        UploadRequest.any_instance.stubs(:parameters).with().returns(parameter_list)
+        
         UploadRequest.new(filename)
       end
       
@@ -41,14 +31,14 @@ module Fleakr::Api
         
         Option.expects(:for).with(:title, 'foo').returns(option)
         
-        ParameterList.expects(:new).with({:title => 'foo'}).returns(stub(:<<))
+        ParameterList.expects(:new).with({:title => 'foo'}).returns(stub(:add_upload_option))
         
         UploadRequest.new('filename', :create, {:title => 'foo'})
       end
 
       context "after initialization" do
 
-        setup { ParameterList.stubs(:new).returns(stub(:<< => nil)) }
+        setup { ParameterList.stubs(:new).returns(stub(:add_upload_option => nil)) }
 
         should "default the type to :create" do
           request = UploadRequest.new('file')

@@ -16,9 +16,16 @@ module Fleakr
       
       should "have a collection of parameters" do
         params = {:perms => 'read'}
-        Fleakr::Api::ParameterList.expects(:new).with(params).returns('params')
+        Fleakr::Api::ParameterList.expects(:new).with(params, true).returns('params')
         
         request = BasicRequest.new(params)
+        request.parameters.should == 'params'
+      end
+      
+      should "know not to authenticate the request if asked not to" do
+        Fleakr::Api::ParameterList.expects(:new).with({:perms => 'read'}, false).returns('params')
+        
+        request = BasicRequest.new(:perms => 'read', :authenticate? => false)
         request.parameters.should == 'params'
       end
       

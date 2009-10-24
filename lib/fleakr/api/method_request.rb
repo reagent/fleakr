@@ -19,7 +19,7 @@ module Fleakr
       def self.with_response!(method, additional_parameters = {})
         request = self.new(method, additional_parameters)
         response = request.send
-
+        
         raise(Fleakr::ApiError, "Code: #{response.error.code} - #{response.error.message}") if response.error?
 
         response
@@ -44,7 +44,7 @@ module Fleakr
    
       def method=(method) # :nodoc:
         @method = method.sub(/^(flickr\.)?/, 'flickr.')
-        @parameters << ValueParameter.new('method', @method)
+        parameters.add_option(:method, @method)
       end
 
       def endpoint_url

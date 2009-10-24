@@ -9,89 +9,116 @@ module Fleakr
     #
     class ParameterList
       
+      attr_reader :upload_options # :nodoc:
+      
       # Create a new parameter list with optional parameters:
-      # [:authenticate?] Request will automatically be authenticated if Fleakr.token is available
-      #                  set this to false to force it not to authenticate
       #
-      # Any additional name / value pairs will be created as individual 
-      # ValueParameters as part of the list.  Example:
+      #   list = Fleakr::Api::ParameterList.new(:username => 'reagent')
+      # 
+      # You can also disable the sending of the authentication token using
+      # the second parameter:
       #
-      #   >> list = Fleakr::Api::ParameterList.new(:foo => 'bar')
-      #   => #<Fleakr::Api::ParameterList:0x1656e6c @list=... >
-      #   >> list[:foo]
-      #   => #<Fleakr::Api::ValueParameter:0x1656da4 @include_in_signature=true, @name="foo", @value="bar">
+      #   list = Fleakr::Api::ParameterList.new({}, false)
       #
-      def initialize(options = {})
-        # TODO: need to find a way to move the unexpected behavior in Fleakr.token elsewhere
-        @api_options = options.extract!(:authenticate?)
-        
-        @list = Hash.new
+      def initialize(options = {}, send_authentication_token = true)
+        @send_authentication_token = send_authentication_token
+        @options                   = options
+        @upload_options            = {}
+      end
 
-        options.each {|k,v| self << ValueParameter.new(k.to_s, v) }
-
-        self << ValueParameter.new('api_key', Fleakr.api_key)
-        self << ValueParameter.new('auth_token', Fleakr.token.value) if authenticate?
+      # Should we send an authentication token as part of this list of parameters?
+      # By default this is true if the token is available as a global value or if 
+      # the :auth_token key/value is part of the initial list.  You can override this
+      # in the constructor.
+      # 
+      def send_authentication_token?
+        @send_authentication_token && !authentication_token.nil?
       end
       
-      # Add a new parameter (ValueParameter / FileParameter) to the list
+      # The default options to send as part of the parameter list, defaults to
+      # sending the API key
       #
-      def <<(parameter)
-        @list.merge!(parameter.name => parameter)
+      def default_options
+        {:api_key => Fleakr.api_key}
       end
       
-      # Should this parameter list be signed?
+      # Should this parameter list be signed? This will be true if Fleakr.shared_secret
+      # is set, false if not.
       #
       def sign?
         !Fleakr.shared_secret.blank?
-      end
-      
-      # Should we send the auth_token with the request?
-      #
-      def authenticate?
-        @api_options.has_key?(:authenticate?) ? @api_options[:authenticate?] : !Fleakr.token.blank?
-      end
-      
-      # Access an individual parameter by key (symbol or string)
-      #
-      def [](key)
-        list[key.to_s]
-      end
-      
-      def boundary # :nodoc:
-        @boundary ||= Digest::MD5.hexdigest(rand.to_s)
       end
       
       # Generate the query string representation of this parameter 
       # list - e.g. <tt>foo=bar&blee=baz</tt>
       #
       def to_query
-        list.values.map {|element| element.to_query }.join('&')
+        list.map {|element| element.to_query }.join('&')
       end
       
       # Generate the form representation of this parameter list including the
       # boundary
       #
       def to_form
-        form = list.values.map {|p| "--#{self.boundary}\r\n#{p.to_form}" }.join
-        form << "--#{self.boundary}--"
+        form = list.map {|p| "--#{boundary}\r\n#{p.to_form}" }.join
+        form << "--#{boundary}--"
 
         form
       end
       
+      # Retrieve the authentication token from either the list of parameters
+      # or the global value (e.g. Fleakr.token)
+      #
+      def authentication_token
+        Fleakr.token.nil? ? @options[:auth_token] : Fleakr.token.value
+      end
+      
+      # Add an option to the list that should be sent with a request.
+      #
+      def add_option(name, value)
+        @options.merge!(name => value)
+      end
+      
+      # Add an option that should be sent with an upload request.
+      #
+      def add_upload_option(name, value)
+        @upload_options.merge!(name => value)
+      end
+      
+      def options # :nodoc:
+        options = default_options.merge(@options)
+        options.merge!(:auth_token => authentication_token) if send_authentication_token?
+        
+        options
+      end
+      
+      def boundary # :nodoc:
+        @boundary ||= Digest::MD5.hexdigest(rand.to_s)
+      end
+      
       def signature # :nodoc:
-        parameters_to_sign = @list.values.reject {|p| !p.include_in_signature? }
-        signature_text = parameters_to_sign.sort.map {|p| "#{p.name}#{p.value}" }.join
+        sorted_options = options_without_signature.sort {|a,b| a[0].to_s <=> b[0].to_s }
+        signature_text = sorted_options.map {|o| "#{o[0]}#{o[1]}" }.join
 
         Digest::MD5.hexdigest("#{Fleakr.shared_secret}#{signature_text}")
       end
       
-      private
-      def list
-        list = @list
-        list.merge!('api_sig' => ValueParameter.new('api_sig', signature, false)) if self.sign?
-        
-        list
+      def options_without_signature # :nodoc:
+        options.reject {|k,v| k.to_s == 'api_sig'}
       end
+      
+      def options_with_signature # :nodoc:
+        options_without_signature.merge(:api_sig => signature)
+      end
+      
+      def list # :nodoc:
+        options_for_list = sign? ? options_with_signature : options_without_signature 
+        value_parameters = options_for_list.map {|k,v| ValueParameter.new(k, v) }
+        file_parameters  = upload_options.map {|k,v| FileParameter.new(k, v) }
+
+        value_parameters + file_parameters
+      end
+
     end
   end
 end
