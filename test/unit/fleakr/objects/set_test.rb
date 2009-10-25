@@ -4,16 +4,19 @@ module Fleakr::Objects
   class SetTest < Test::Unit::TestCase
 
     should_have_many :photos, :comments
+    
+    should_autoload_when_accessing :user_id, :with => :load_info
 
     context "The Set class" do
       
       should_find_all :sets, :by => :user_id, :call => 'photosets.getList', :path => 'rsp/photosets/photoset'
+      should_find_one :set, :by => :id, :with => :photoset_id, :call => 'photosets.getInfo', :path => 'rsp/photoset'
       
     end
 
     context "An instance of the Set class" do
       
-      context "when populating from an XML document" do
+      context "when populating from photosets.getList" do
         setup do
           @object = Set.new(Hpricot.XML(read_fixture('photosets.getList')).at('rsp/photosets/photoset'))
         end
@@ -24,6 +27,23 @@ module Fleakr::Objects
         should_have_a_value_for :count            => '138'
         should_have_a_value_for :primary_photo_id => '3044180117'
         
+      end
+      
+      context "when populating from photosets.getInfo" do
+        setup do
+          @object = Set.new
+          @object.populate_from(Hpricot.XML(read_fixture('photosets.getInfo')))
+        end
+        
+        should_have_a_value_for :user_id => '43955217@N05'
+      end
+      
+      should "know the URL for the photoset" do
+        s = Set.new
+        s.stubs(:user_id).with().returns('123')
+        s.stubs(:id).with().returns('456')
+        
+        s.url.should == "http://www.flickr.com/photos/123/sets/456/"
       end
       
       should "know the primary photo in the set" do

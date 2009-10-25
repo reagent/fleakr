@@ -24,8 +24,13 @@ module Fleakr
       flickr_attribute :id, :title, :description
       flickr_attribute :primary_photo_id, :from => '@primary'
       flickr_attribute :count, :from => '@photos'
+      flickr_attribute :user_id, :from => '@owner'
 
       find_all :by_user_id, :call => 'photosets.getList', :path => 'photosets/photoset'
+      
+      find_one :by_id, :using => :photoset_id, :call => 'photosets.getInfo', :path => 'photoset'
+
+      lazily_load :user_id, :with => :load_info
 
       # Save all photos in this set to the specified directory for the specified size.  Allowed
       # Sizes include <tt>:square</tt>, <tt>:small</tt>, <tt>:thumbnail</tt>, <tt>:medium</tt>,  
@@ -48,6 +53,15 @@ module Fleakr
 
       def primary_photo
         @primary_photo ||= Photo.find_by_id(primary_photo_id)
+      end
+      
+      def url
+        "http://www.flickr.com/photos/#{user_id}/sets/#{id}/"
+      end
+   
+      def load_info # :nodoc:
+        response = Fleakr::Api::MethodRequest.with_response!('photosets.getInfo', :photoset_id => self.id)
+        self.populate_from(response.body)
       end
       
     end
