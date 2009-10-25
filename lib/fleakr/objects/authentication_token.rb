@@ -54,6 +54,10 @@ module Fleakr
         self.new(response.body)
       end
       
+      def user
+        User.find_by_id(user_id)
+      end
+      
     end
     
   end

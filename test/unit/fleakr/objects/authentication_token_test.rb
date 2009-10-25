@@ -41,6 +41,15 @@ module Fleakr::Objects
     
     context "An instance of the AuthenticationToken class" do
       
+      should "have an associated user" do
+        token = AuthenticationToken.new
+        token.stubs(:user_id).with().returns('1')
+        
+        User.expects(:find_by_id).with('1').returns('user')
+        
+        token.user.should == 'user'
+      end
+      
       context "when populating from an XML document" do
         
         setup do

@@ -67,10 +67,10 @@ module Fleakr
       end
       
       # Retrieve the authentication token from either the list of parameters
-      # or the global value (e.g. Fleakr.token)
+      # or the global value (e.g. Fleakr.auth_token)
       #
       def authentication_token
-        Fleakr.token.nil? ? @options[:auth_token] : Fleakr.token.value
+        Fleakr.auth_token.nil? ? @options[:auth_token] : Fleakr.auth_token
       end
       
       # Add an option to the list that should be sent with a request.

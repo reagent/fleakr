@@ -99,14 +99,14 @@ module Fleakr::Api
       end
       
       should "know the auth token when available as a global value" do
-        Fleakr.stubs(:token).with().returns(stub(:value => 'toke'))
+        Fleakr.stubs(:auth_token).with().returns('toke')
         
         pl = ParameterList.new
         pl.authentication_token.should == 'toke'
       end
       
       should "know that there is no authentication token if it is not available as a param or global value" do
-        Fleakr.stubs(:token).with().returns(nil)
+        Fleakr.stubs(:auth_token).with().returns(nil)
         
         pl = ParameterList.new
         pl.authentication_token.should be_nil

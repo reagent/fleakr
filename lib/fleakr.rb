@@ -84,7 +84,7 @@ module Fleakr
   # Generic catch-all exception for any API errors
   class ApiError < StandardError; end
 
-  mattr_accessor :api_key, :shared_secret, :mini_token, :auth_token, :frob
+  mattr_accessor :api_key, :shared_secret, :auth_token
 
   # Find a user based on some unique user data.  This method will try to find
   # the user based on several methods, starting with username and falling back to email and URL
@@ -167,34 +167,25 @@ module Fleakr
     request.authorization_url
   end
 
-  # Get the authentication token needed for authenticated requests.  Will either use
-  # a valid auth_token (if available) or a mini-token to generate the auth_token.
+  # Exchange a frob for an authentication token.  See Fleakr.authorization_url for
+  # more information.
   #
-  def self.token
-    @token ||= begin
-      if Fleakr.auth_token
-        Fleakr::Objects::AuthenticationToken.from_auth_token(Fleakr.auth_token)
-      elsif Fleakr.frob
-        Fleakr::Objects::AuthenticationToken.from_frob(Fleakr.frob)
-      elsif Fleakr.mini_token
-        Fleakr::Objects::AuthenticationToken.from_mini_token(Fleakr.mini_token)
-      end
-    end
+  def self.token_from_frob(frob)
+    Fleakr::Objects::AuthenticationToken.from_frob(frob)
   end
   
-  # Reset the cached token whenever setting a new value for the mini_token, auth_token, or frob
+  # Exchange a mini token for an authentication token.
   #
-  [:mini_token, :auth_token, :frob].each do |attribute|
-    class_eval <<-ACCESSOR
-      def self.#{attribute}=(#{attribute})
-        reset_token
-        @@#{attribute} = #{attribute}
-      end
-    ACCESSOR
+  def self.token_from_mini_token(mini_token)
+    Fleakr::Objects::AuthenticationToken.from_mini_token(mini_token)
   end
 
-  def self.reset_token # :nodoc: #
-    @token = nil
+  # Get the user that this authentication token belongs to.  Useful for pulling
+  # relationships scoped to this user.
+  #
+  def self.user_for_token(auth_token)
+    token = Fleakr::Objects::AuthenticationToken.from_auth_token(auth_token)
+    token.user
   end
-  
+
 end
