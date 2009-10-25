@@ -12,10 +12,6 @@ A small, yet powerful, gem to interface with Flickr photostreams
 
 === Bleeding Edge
 
-    sudo gem install reagent-fleakr --source=http://gems.github.com
-    
-Or ...
-
     $ git clone git://github.com/reagent/fleakr.git
     $ cd fleakr
     $ rake gem && sudo gem install pkg/fleakr-<version>.gem
@@ -306,8 +302,13 @@ While read-only access to the API gets you quite a bit of data, you'll need to g
 authentication token if you want access to the more powerful features (like uploading your 
 own photos).  
 
-Assuming you've already applied for a key, go back and make sure you have the right settings
-to get your auth token.  Click on the 'Edit key details' link and ensure that:
+Depending on how you intend to use the Flickr API, there are 2 methods for performing
+authenticated calls.
+
+=== Single User
+
+You'll need to configure your API key to to use Mobile authentication. If you're viewing your
+list of keys on the Flickr site, click on the 'Edit key details' link and ensure that:
 
 1. Your application description and notes are up-to-date
 1. The value for 'Authentication Type' is set to 'Mobile Application'
@@ -315,22 +316,56 @@ to get your auth token.  Click on the 'Edit key details' link and ensure that:
 
 Once this is set, you'll see your Authentication URL on the key details page (it will look
 something like http://www.flickr.com/auth-534525246245).  Paste this URL into your browser and 
-confirm access to get your mini-token. Now you're ready to make authenticated requests:
-
-    require 'rubygems'
-    require 'fleakr'
+confirm access to get your mini-token. Now you're ready to configure your authentication token:
 
     Fleakr.api_key       = 'ABC123'
     Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site
-    Fleakr.mini_token    = '362-133-214'
-
+    
+    token = Fleakr.token_from_mini_token('294-585-410')
+    Fleakr.auth_token = token.value
+    
     Fleakr.upload('/path/to/my/photo.jpg')
-    Fleakr.token.value # => "34132412341235-12341234ef34"
 
-Once you use the mini-token once, it is no longer available.  To use the generated auth_token
-for future requests, just set Fleakr.auth_token to the generated value.  Similarly, if you have
-an authenticated frob from Flickr (using authentication for desktop applications, for example)
-you can also set <tt>Fleakr.frob</tt> to the frob value returned from the API.
+Once you use the mini-token once it is no longer available.  To use the generated auth_token
+for future requests, you'll need to make sure that you set the value permanently:
+
+    Fleakr.auth_token = '72157622657341094-41241e527f325abb'
+    
+=== Multiple Users
+
+If you need to have your application access other users photos on their behalf, you'll want to
+use the Web authentication method.  Edit your key details and make sure that:
+
+1. Your application description and notes are up-to-date
+1. The value for 'Authentication Type' is set to 'Web Application'
+1. You configure your callback URL to point to something valid and accessible
+
+Make sure that your key and secret are set as above. You can then begin the process by requesting 
+that the user authorize access to his Flickr account by redirecting to an authorization URL.  I'm 
+assuming Rails conventions here, but this should work with any Ruby web framework:
+
+    redirect_to Fleakr.authorization_url
+    
+By default, we request read permission for access.  This doesn't really do much more than what the
+public API allows, so you can request different permissions when asking for authorization:
+
+    # The values :read, :write, and :delete are supported
+    redirect_to Fleakr.authorization_url(:delete)
+
+One the user authorizes your application, he will be redirected back to your callback URL with a 
+<tt>frob</tt> parameter as part of the query string.  You'll need to exchange this for a token:
+
+    token = Fleakr.token_from_frob(params[:frob])
+    
+The actual authentication token is available by calling <tt>token.value</tt> in the above 
+example.  You'll want to store this value somewhere to make future API calls on behalf of this
+user. To make that process easier, there is a method that you can use that will allow you to 
+automatically scope your requests to the authenticated user:
+
+    user = Fleakr.user_for_token('72157622657341094-41241e527f325abb')
+    
+From there, you can make any of the usual calls available with the API. See 
+Fleakr::Objects::User for more information.
 
 === What Went Wrong?
 
