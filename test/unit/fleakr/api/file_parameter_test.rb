@@ -14,11 +14,6 @@ module Fleakr::Api
         FileUtils.rm_rf(@temp_dir)
       end
       
-      should "know not to include itself in the parameter signature" do
-        parameter = FileParameter.new('photo', @filename)
-        parameter.include_in_signature?.should be(false)
-      end
-      
       {'jpg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif'}.each do |ext, mime_type|
         should "know the correct MIME type for an extension of #{ext}" do
           parameter = FileParameter.new('photo', "#{@temp_dir}/image.#{ext}")

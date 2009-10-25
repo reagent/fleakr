@@ -5,15 +5,15 @@ module Fleakr
     #
     # A simple name / value parameter for use in API calls
     #
-    class ValueParameter < Parameter
+    class ValueParameter
       
-      attr_reader :value
+      attr_reader :name, :value
      
       # Create a new parameter with the specified name / value pair.
       #
       def initialize(name, value, include_in_signature = true)
+        @name  = name
         @value = value
-        super(name, include_in_signature)
       end
       
       # Generate the query string representation of this parameter.

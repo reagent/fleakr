@@ -5,19 +5,21 @@ module Fleakr
     #
     # Parameter class to encapsulate file data sent to the Flickr upload API
     #
-    class FileParameter < Parameter
+    class FileParameter
       
       MIME_TYPES = {
         '.jpg' => 'image/jpeg',
         '.png' => 'image/png',
         '.gif' => 'image/gif'
       }
+
+      attr_reader :name
       
       # Create a parameter with name and specified filename
       #
       def initialize(name, filename)
+        @name     = name
         @filename = filename
-        super(name, false)
       end
       
       # Discover MIME type by file extension using MIME_TYPES constant
