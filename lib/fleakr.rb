@@ -189,3 +189,9 @@ module Fleakr
   end
 
 end
+
+# Alias Fleakr methods as Flickr if possible
+if defined?(Flickr).nil?
+  Flickr = Fleakr
+end
+
