@@ -51,12 +51,22 @@ module Fleakr
         sprintf("%0#{self.count.length}d_", (index + 1))
       end
 
+      # Primary photo for this set. See Fleakr::Objects::Photo for more details.
+      #
       def primary_photo
         @primary_photo ||= Photo.find_by_id(primary_photo_id)
       end
       
+      # The URL for this set.
+      #
       def url
         "http://www.flickr.com/photos/#{user_id}/sets/#{id}/"
+      end
+      
+      # The user who created this set.
+      #
+      def user
+        User.find_by_id(user_id)
       end
    
       def load_info # :nodoc:

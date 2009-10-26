@@ -46,6 +46,15 @@ module Fleakr::Objects
         s.url.should == "http://www.flickr.com/photos/123/sets/456/"
       end
       
+      should "be able to retrieve the user for the set" do
+        s = Set.new
+        s.stubs(:user_id).with().returns('1')
+        
+        User.expects(:find_by_id).with('1').returns('user')
+        
+        s.user.should == 'user'
+      end
+      
       should "know the primary photo in the set" do
         id    = '1'
         photo = stub()
