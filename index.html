@@ -1,0 +1,175 @@
+<html>
+<head>
+  <title>Fleakr: A small, yet powerful, gem to interface with Flickr photostreams</title>
+  <style>
+  
+    pre {
+      background-color: #bbb;
+      border: 1px solid #aaa;
+      width: 550px;
+      margin: 5px auto 5px 30px;
+      padding: 5px;
+      font-size: 15px;
+    }
+    body {
+      text-align: center;
+      min-width: 750px;
+      background-color: #333;
+      font-family: Georgia;
+    }
+    
+    div#main {
+      width: 750px;
+      margin: 0 auto;
+      text-align: left;
+      border: 1px solid #CCC;
+      background-color: #ddd;
+    }
+  
+    h1 {
+      font-size: 42px;
+      margin: 0;
+      color: #555;
+    }
+    
+    div#header,
+    div#footer,
+    div#content {
+      background-color: #ddd;
+    }
+    
+    div#header {
+      border-bottom: 1px solid #000;
+      padding-bottom: 3px;
+    }
+
+    div#footer {
+      border-top: 1px solid #000;
+      font-size: 14px;
+      padding-top: 3px;
+    }
+    
+    a {
+      color: #44f;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    div#header p,
+    div#footer p {
+      margin: 0;
+    }
+    
+    h2 {
+      font-size: 20px;
+      margin: 5px;
+      color: #222;
+    }
+    
+    div#content p {
+      margin: 7px 10px;
+      font-size: 14px;
+    }
+    
+    div#content ul {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="main">
+    <div id="header">
+      <h1>Fleakr</h1>
+      <p>A small, yet powerful, gem to interface with Flickr photostreams</p>
+    </div>
+    <div id="content">
+      <h2>About</h2>
+      <p>
+        This gem provides a clean Ruby interface for interacting with the Flickr REST API. I designed it to be
+        simple to use - you only need to configure the API key to start using it.  If you want to make signed
+        or authenticated calls, you can do that as well.  See the Documentation section for more information.
+      </p>
+      <h2>Features</h2>
+      <ul>
+        <li>Single-user authentication support via Mobile authentication mode</li>
+        <li>Multi-user authentication support via Web authentication mode</li>
+        <li>Single and multiple file uploading support</li>
+        <li>Download individual photos or sets to a destination path</li>
+      </ul>
+      <h2>Installation</h2>
+      <p>If you prefer stability in your life, install the latest version via RubyGems:</p>
+      <pre>$ sudo gem install fleakr</pre>
+
+      <p>If you prefer to bleed, grab the latest updates from the repository:</p>
+<pre>
+$ git clone git://github.com/reagent/fleakr.git
+$ cd fleakr
+$ rake gem
+$ gem install pkg/fleakr-&lt;version&gt;.gem
+</pre>
+        
+      <h2>Usage / Examples</h2>
+      
+      <p>To get started, require the gem and set your API key:</p>
+<pre>
+  require 'rubygems'
+  require 'fleakr'
+  
+  Fleakr.api_key = 'my_api_key'
+</pre>
+      
+      <p>Most associations can be found from a single user account:</p>
+      
+<pre>
+  user = Fleakr.user('the_reagent')
+  user.photos
+  user.photos.first.tags
+  user.photos.first.comments
+  
+  user.sets
+  user.sets.first.photos
+  user.sets.first.save_to('/tmp', :original)
+  
+  photo = user.sets.first.photos.first
+  photo.url
+  photo.large.url
+  photo.large.save_to('/tmp', :large)
+  
+  user.contacts
+</pre>
+
+      <p>See the documentation for more information.</p>
+      
+      <h2>Documentation</h2>
+      <ul>
+        <li><a href="http://reagent.github.com/fleakr/documentation/0.6.1">Latest API documentation (version 0.6.1)</a></li>
+        <li><a href="http://wiki.github.com/reagent/fleakr">Wiki</a></li>
+      </ul>
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="http://github.com/reagent/fleakr">Project Source</a></li>
+        <li><a href="http://github.com/reagent/fleakr-rails-example">Sample integration in a Rails project</a></li>
+      </ul>
+      <h2>Contributing</h2>
+      <p>
+        If there is a feature that you would like to see, <a href="http://github.com/reagent/fleakr/issues">open an issue</a> or 
+        implement the feature yourself.  If you are contributing code, make sure you:
+      </p>
+      <ol>
+        <li>Fork the repository on Github</li>
+        <li>Make focused changes (with tests!) to the code. If you need to change the version, do so in a separate commit</li>
+        <li>Send me a pull request.</li>
+      </ol>
+      <p>If I include your changes I will add you to the list of contributors.</p>
+    </div>
+    <div id="footer">
+      <p>&copy; 2008 - 2009 <a href="http://sneaq.net">Patrick Reagan</a> (<a href="mailto:reaganpr@gmail.com">reaganpr@gmail.com</a>)</p>
+    </div>
+  </div>
+  
+</body>
+</html>

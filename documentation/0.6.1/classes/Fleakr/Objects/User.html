@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr::Objects::User [fleakr-0.6.1 Documentation]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Class</span>
+          Fleakr::Objects::User
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../../../files/lib/fleakr/objects/user_rb.html">lib/fleakr/objects/user.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong>Object</strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="User.html">User</a></h1>
+            <h2>Accessors</h2>
+            <p>
+            This class maps directly onto the flickr.people.* API methods and provides
+            the following attributes for a user:
+            </p>
+            <dl>
+            <dt>id</dt><dd>The ID for this user (also referred to as the NSID in the API docs)
+            
+            </dd>
+            <dt>username</dt><dd>This user&#8217;s username
+            
+            </dd>
+            <dt>name</dt><dd>This user&#8217;s full name (if entered)
+            
+            </dd>
+            <dt>location</dt><dd>This user&#8217;s location (if entered)
+            
+            </dd>
+            <dt>photos_url</dt><dd>The direct URL to this user&#8217;s photostream
+            
+            </dd>
+            <dt>profile_url</dt><dd>The direct URL to this user&#8217;s profile
+            
+            </dd>
+            <dt>photos_count</dt><dd>The number of photos that this user has uploaded
+            
+            </dd>
+            <dt><a href="User.html#M000065">icon_url</a></dt><dd>This user&#8217;s buddy icon (or a default one if an icon wasn&#8217;t
+            uploaded)
+            
+            </dd>
+            <dt>pro?</dt><dd>Does this user have a pro account?
+            
+            </dd>
+            <dt>admin?</dt><dd>Is this user an admin?
+            
+            </dd>
+            </dl>
+            <h2>Associations</h2>
+            <p>
+            The <a href="User.html">User</a> class is pretty central to many of the
+            other data available across the system, so there are a few associations
+            available to a user:
+            </p>
+            <dl>
+            <dt>sets</dt><dd>A list of this user&#8217;s public sets (newest first). See <a
+            href="Set.html">Fleakr::Objects::Set</a> for more information.
+            
+            </dd>
+            <dt>groups</dt><dd>A list of this user&#8217;s public groups. See <a
+            href="Group.html">Fleakr::Objects::Group</a>.
+            
+            </dd>
+            <dt>photos</dt><dd>A list of this user&#8217;s public photos (newest first). See <a
+            href="Photo.html">Fleakr::Objects::Photo</a>.
+            
+            </dd>
+            <dt>contacts</dt><dd>A list of this user&#8217;s contacts - these are simply <a
+            href="User.html">User</a> objects
+            
+            </dd>
+            <dt>tags</dt><dd>The tags associated with this user
+            
+            </dd>
+            <dt>collections</dt><dd>The top-level collections that this user has created. See <a
+            href="Collection.html">Fleakr::Objects::Collection</a>.
+            
+            </dd>
+            </dl>
+            <h2>Examples</h2>
+            <p>
+            Access to a specific user is typically done through the <a
+            href="../../Fleakr.html#M000002">Fleakr.user</a> method:
+            </p>
+            <pre>user = Fleakr.user('brownout')&#x000A;user.id&#x000A;user.username&#x000A;user.sets&#x000A;user.contacts</pre>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000064">admin?</a></li>
+              <li><a href="#M000065">icon_url</a></li>
+              <li><a href="#M000063">pro?</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+            <div id='includes'>
+              <h2>Included modules</h2>
+              <ol>
+                <li>Fleakr::Support::Object</li>
+              </ol>
+            </div>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public instance methods</h2>
+              <div class='public-instance method' id='method-M000064'>
+                <a name='M000064'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>admin?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Is this user an admin?
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000064-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000064-source'>    <span class="ruby-comment cmt"># File lib/fleakr/objects/user.rb, line 77</span>&#x000A;77:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">admin?</span>&#x000A;78:         (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">admin</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">false</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">true</span>&#x000A;79:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000065'>
+                <a name='M000065'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>icon_url</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  This user&#8217;s buddy icon
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000065-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000065-source'>    <span class="ruby-comment cmt"># File lib/fleakr/objects/user.rb, line 82</span>&#x000A;82:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">icon_url</span>&#x000A;83:         <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">icon_server</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>&#x000A;84:           <span class="ruby-node">&quot;http://farm#{self.icon_farm}.static.flickr.com/#{self.icon_server}/buddyicons/#{self.id}.jpg&quot;</span>&#x000A;85:         <span class="ruby-keyword kw">else</span>&#x000A;86:           <span class="ruby-value str">'http://www.flickr.com/images/buddyicon.jpg'</span>&#x000A;87:         <span class="ruby-keyword kw">end</span>&#x000A;88:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000063'>
+                <a name='M000063'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>pro?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Is this a pro account?
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000063-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000063-source'>    <span class="ruby-comment cmt"># File lib/fleakr/objects/user.rb, line 72</span>&#x000A;72:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pro?</span>&#x000A;73:         (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">pro</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">false</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">true</span>&#x000A;74:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr [fleakr-0.6.1 Documentation]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Module</span>
+          Fleakr
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../files/lib/fleakr/api/authentication_request_rb.html">lib/fleakr/api/authentication_request.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/file_parameter_rb.html">lib/fleakr/api/file_parameter.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/method_request_rb.html">lib/fleakr/api/method_request.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/option_rb.html">lib/fleakr/api/option.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/parameter_list_rb.html">lib/fleakr/api/parameter_list.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/response_rb.html">lib/fleakr/api/response.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/value_parameter_rb.html">lib/fleakr/api/value_parameter.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/api/upload_request_rb.html">lib/fleakr/api/upload_request.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/authentication_token_rb.html">lib/fleakr/objects/authentication_token.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/collection_rb.html">lib/fleakr/objects/collection.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/comment_rb.html">lib/fleakr/objects/comment.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/contact_rb.html">lib/fleakr/objects/contact.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/error_rb.html">lib/fleakr/objects/error.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/group_rb.html">lib/fleakr/objects/group.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/image_rb.html">lib/fleakr/objects/image.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/photo_rb.html">lib/fleakr/objects/photo.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/photo_context_rb.html">lib/fleakr/objects/photo_context.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/search_rb.html">lib/fleakr/objects/search.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/set_rb.html">lib/fleakr/objects/set.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/tag_rb.html">lib/fleakr/objects/tag.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/objects/user_rb.html">lib/fleakr/objects/user.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/support/object_rb.html">lib/fleakr/support/object.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/support/attribute_rb.html">lib/fleakr/support/attribute.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/support/request_rb.html">lib/fleakr/support/request.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr/version_rb.html">lib/fleakr/version.rb</a>
+          </li>
+          <li class='other'>
+            <a href="../files/lib/fleakr_rb.html">lib/fleakr.rb</a>
+          </li>
+          <li>
+            <a class='show' href='#' onclick='this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false'>show all</a>
+          </li>
+        </ol>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1>Fleakr: A small, yet powerful, gem to interface with Flickr photostreams</h1>
+            <h2>Quick Start</h2>
+            <p>
+            Getting started is easy, just make sure you have a valid API key from
+            Flickr and you can then start making any non-authenticated request to pull
+            back data for yours and others&#8217; photostreams, sets, contacts, groups,
+            etc...
+            </p>
+            <p>
+            For now, all activity originates from a single user which you can find by
+            username or email address.
+            </p>
+            <p>
+            Example:
+            </p>
+            <pre>require 'rubygems'&#x000A;require 'fleakr'&#x000A;&#x000A;# Our API key is ABC123 (http://www.flickr.com/services/api/keys/apply/)&#x000A;Fleakr.api_key = 'ABC123'&#x000A;user = Fleakr.user('bees')&#x000A;user = Fleakr.user('user@host.com')&#x000A;# Grab a list of sets&#x000A;user.sets&#x000A;# Grab a list of the user's public groups&#x000A;user.groups</pre>
+            <p>
+            To see what other associations and attributes are available, see the <a
+            href="Fleakr/Objects/User.html">Fleakr::Objects::User</a> class
+            </p>
+            <h2>Authentication</h2>
+            <p>
+            If you want to do something more than just retrieve public photos (like
+            upload your own), you&#8217;ll need to generate an authentication token to
+            use across requests and sessions.
+            </p>
+            <p>
+            Assuming you&#8217;ve already applied for a key, go back and make sure you
+            have the right settings to get your auth token. Click on the &#8216;Edit
+            key details&#8217; link and ensure that:
+            </p>
+            <ol>
+            <li>Your application description and notes are up-to-date
+            
+            </li>
+            <li>The value for &#8216;Authentication Type&#8217; is set to &#8216;Mobile
+            Application&#8217;
+            
+            </li>
+            <li>The value for &#8216;Mobile Permissions&#8217; is set to either
+            &#8216;write&#8217; or &#8216;delete&#8217;
+            
+            </li>
+            </ol>
+            <p>
+            Once this is set, you&#8217;ll see your Authentication URL on the key
+            details page (it will look something like <a
+            href="http://www.flickr.com/auth-534525246245">www.flickr.com/auth-534525246245</a>).
+            Paste this URL into your browser and confirm access to get your mini-token.
+            Now you&#8217;re ready to make authenticated requests:
+            </p>
+            <pre>require 'rubygems'&#x000A;require 'fleakr'&#x000A;&#x000A;Fleakr.api_key       = 'ABC123'&#x000A;Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site&#x000A;Fleakr.mini_token    = '362-133-214'&#x000A;&#x000A;Fleakr.upload('/path/to/my/photo.jpg')&#x000A;Fleakr.token.value # =&gt; &quot;34132412341235-12341234ef34&quot;</pre>
+            <p>
+            Once you use the mini-token once, it is no longer available. To use the
+            generated auth_token for future requests, just set Fleakr.auth_token to the
+            generated value.
+            </p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000006">authorization_url</a></li>
+              <li><a href="#M000005">contacts</a></li>
+              <li><a href="#M000003">search</a></li>
+              <li><a href="#M000007">token_from_frob</a></li>
+              <li><a href="#M000008">token_from_mini_token</a></li>
+              <li><a href="#M000004">upload</a></li>
+              <li><a href="#M000002">user</a></li>
+              <li><a href="#M000009">user_for_token</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='class-list'>
+              <h2>Classes and Modules</h2>
+              Class <a href="Fleakr/ApiError.html" class="link">Fleakr::ApiError</a><br />
+            </div>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='public-class method' id='method-M000006'>
+                <a name='M000006'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>authorization_url</span>
+                  <span class='arguments'>(permissions = :read)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Generate an authorization URL to redirect users to. This defaults to
+                  &#8216;read&#8217; permission, but others are available when passed to this
+                  method:
+                  </p>
+                  <pre>* :read - permission to read private information (default)&#x000A;* :write - permission to add, edit and delete photo metadata (includes 'read')&#x000A;* :delete - permission to delete photos (includes 'write' and 'read')</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000006-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000006-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 165</span>&#x000A;165:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">authorization_url</span>(<span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">:read</span>)&#x000A;166:     <span class="ruby-identifier">request</span> = <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Api</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationRequest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">:perms</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">permissions</span>)&#x000A;167:     <span class="ruby-identifier">request</span>.<span class="ruby-identifier">authorization_url</span>&#x000A;168:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000005'>
+                <a name='M000005'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>contacts</span>
+                  <span class='arguments'>(contact_type = nil, additional_options = {})</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Get all contacts for the currently authenticated user. The provided contact
+                  type can be one of the following:
+                  </p>
+                  <dl>
+                  <dt>:friends</dt><dd>Only contacts who are friends (and not family)
+                  
+                  </dd>
+                  <dt>:family</dt><dd>Only contacts who are family (and not friends)
+                  
+                  </dd>
+                  <dt>:both</dt><dd>Only contacts who are both friends and family
+                  
+                  </dd>
+                  <dt>:neither</dt><dd>Only contacts who are neither friends nor family
+                  
+                  </dd>
+                  </dl>
+                  <p>
+                  Additional parameters supported are:
+                  </p>
+                  <dl>
+                  <dt>:page</dt><dd>The page of results to return
+                  
+                  </dd>
+                  <dt>:per_page</dt><dd>The number of contacts to retrieve per page
+                  
+                  </dd>
+                  </dl>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000005-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000005-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 150</span>&#x000A;150:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">contacts</span>(<span class="ruby-identifier">contact_type</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">additional_options</span> = {})&#x000A;151:     <span class="ruby-identifier">options</span> = {}&#x000A;152:     <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">:filter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">contact_type</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">contact_type</span>.<span class="ruby-identifier">nil?</span>&#x000A;153:     <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">additional_options</span>)&#x000A;154:     &#x000A;155:     <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">Contact</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">options</span>)&#x000A;156:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000003'>
+                <a name='M000003'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>search</span>
+                  <span class='arguments'>(params)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Search all photos on the Flickr site. By default, this searches based on
+                  text, but you can pass different search parameters (passed as hash keys):
+                  </p>
+                  <dl>
+                  <dt>tags</dt><dd>The list of tags to search on (either as an array or comma-separated)
+                  
+                  </dd>
+                  <dt>user_id</dt><dd>Scope the search to this user
+                  
+                  </dd>
+                  <dt>group_id</dt><dd>Scope the search to this group
+                  
+                  </dd>
+                  </dl>
+                  <p>
+                  If you&#8217;re interested in User- and Group-scoped searches, you may want
+                  to use User#search and Group#search instead.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000003-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000003-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 118</span>&#x000A;118:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">params</span>)&#x000A;119:     <span class="ruby-identifier">params</span> = {<span class="ruby-identifier">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>} <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)&#x000A;120:     <span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>).<span class="ruby-identifier">results</span>&#x000A;121:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000007'>
+                <a name='M000007'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>token_from_frob</span>
+                  <span class='arguments'>(frob)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Exchange a frob for an authentication token. See <a
+                  href="Fleakr.html#M000006">Fleakr.authorization_url</a> for more
+                  information.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000007-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000007-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 173</span>&#x000A;173:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_from_frob</span>(<span class="ruby-identifier">frob</span>)&#x000A;174:     <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationToken</span>.<span class="ruby-identifier">from_frob</span>(<span class="ruby-identifier">frob</span>)&#x000A;175:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000008'>
+                <a name='M000008'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>token_from_mini_token</span>
+                  <span class='arguments'>(mini_token)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Exchange a mini token for an authentication token.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000008-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000008-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 179</span>&#x000A;179:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_from_mini_token</span>(<span class="ruby-identifier">mini_token</span>)&#x000A;180:     <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationToken</span>.<span class="ruby-identifier">from_mini_token</span>(<span class="ruby-identifier">mini_token</span>)&#x000A;181:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000004'>
+                <a name='M000004'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>upload</span>
+                  <span class='arguments'>(glob, options = {})</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Upload one or more files to your Flickr account (requires authentication).
+                  Simply provide a filename or a pattern to upload one or more files:
+                  </p>
+                  <pre>Fleakr.upload('/path/to/my/mug.jpg')&#x000A;Fleakr.upload('/User/Pictures/Party/*.jpg')</pre>
+                  <p>
+                  Additionally, options can be supplied as part of the upload that will apply
+                  to all files that are matched by the pattern passed to <tt>glob</tt>. For a
+                  full list, see <a
+                  href="Fleakr/Objects/Photo.html">Fleakr::Objects::Photo</a>.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000004-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000004-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 133</span>&#x000A;133:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">upload</span>(<span class="ruby-identifier">glob</span>, <span class="ruby-identifier">options</span> = {})&#x000A;134:     <span class="ruby-constant">Dir</span>[<span class="ruby-identifier">glob</span>].<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">Photo</span>.<span class="ruby-identifier">upload</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">options</span>) }&#x000A;135:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000002'>
+                <a name='M000002'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>user</span>
+                  <span class='arguments'>(user_data, options = {})</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Find a user based on some unique user data. This method will try to find
+                  the user based on several methods, starting with username and falling back
+                  to email and URL sequentially if these methods fail. Example:
+                  </p>
+                  <pre>Fleakr.api_key = 'ABC123'&#x000A;Fleakr.user('the decapitator')&#x000A;Fleakr.user('user@host.com')&#x000A;Fleakr.user('http://www.flickr.com/photos/the_decapitator/')</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000002-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000002-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 98</span>&#x000A; 98:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">user</span>(<span class="ruby-identifier">user_data</span>, <span class="ruby-identifier">options</span> = {})&#x000A; 99:     <span class="ruby-identifier">user</span> = <span class="ruby-keyword kw">nil</span>&#x000A;100:     [<span class="ruby-identifier">:username</span>, <span class="ruby-identifier">:email</span>, <span class="ruby-identifier">:url</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>&#x000A;101:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span>&#x000A;102:         <span class="ruby-identifier">user</span> = <span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;find_by_#{attribute}&quot;</span>, <span class="ruby-identifier">user_data</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">nil</span>&#x000A;103:       <span class="ruby-keyword kw">end</span>&#x000A;104:     <span class="ruby-keyword kw">end</span>&#x000A;105:     <span class="ruby-identifier">user</span>&#x000A;106:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-class method' id='method-M000009'>
+                <a name='M000009'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>user_for_token</span>
+                  <span class='arguments'>(auth_token)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Get the user that this authentication token belongs to. Useful for pulling
+                  relationships scoped to this user.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000009-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000009-source'>     <span class="ruby-comment cmt"># File lib/fleakr.rb, line 186</span>&#x000A;186:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">user_for_token</span>(<span class="ruby-identifier">auth_token</span>)&#x000A;187:     <span class="ruby-identifier">token</span> = <span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">Objects</span><span class="ruby-operator">::</span><span class="ruby-constant">AuthenticationToken</span>.<span class="ruby-identifier">from_auth_token</span>(<span class="ruby-identifier">auth_token</span>)&#x000A;188:     <span class="ruby-identifier">token</span>.<span class="ruby-identifier">user</span>&#x000A;189:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
