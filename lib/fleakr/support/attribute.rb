@@ -8,18 +8,18 @@ module Fleakr
 
       def initialize(name, sources = nil)
         @name = name.to_sym
-        
+
         @sources = Array(sources)
         @sources << @name.to_s if @sources.empty?
       end
-      
+
       def split(source)
         location, attribute = source.split('@')
         location = self.name.to_s if location.blank?
-        
+
         [location, attribute]
       end
-      
+
       def node_for(document, source)
         document.at(location(source)) || document.search("//[@#{attribute(source)}]").first
       end
@@ -28,7 +28,7 @@ module Fleakr
         location, attribute = source.split('@')
         attribute || location
       end
-      
+
       def location(source)
         split(source).first
       end
@@ -36,7 +36,7 @@ module Fleakr
       def value_from(document)
         values = sources.map do |source|
           node = node_for(document, source)
-          (node.attributes[attribute(source)] || node.inner_text) unless node.nil?
+          [node.attributes[attribute(source)], node.inner_text].reject{|v| v.blank?}.first unless node.nil?
         end
         values.compact.first
       end
