@@ -9,7 +9,15 @@ require 'forwardable'
 # Require only what we need from ActiveSupport
 require 'active_support/core_ext/array'
 require 'active_support/core_ext/module'
-require 'active_support/core_ext/blank'
+
+begin
+  # ActiveSupport < 2.3.5
+  require 'active_support/core_ext/blank'
+rescue NameError
+  # ActiveSupport >= 2.3.5 will raise a NameError exception
+  require 'active_support/core_ext/object/blank'
+end
+
 require 'active_support/core_ext/time'
 require 'active_support/inflector'
 require 'active_support/core_ext/string'
