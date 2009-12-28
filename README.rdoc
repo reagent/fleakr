@@ -408,6 +408,7 @@ in this project enough to contribute their ideas and code:
 * {John Guenin}[http://github.com/johng]
 * {Thomas Olausson}[http://github.com/latompa]
 * {Robert Sköld}[http://github.com/slaskis]
+* {Nathan Walls}[http://github.com/base10]
 * {Björn Wolf}[http://github.com/we5]
 
 Thanks!
