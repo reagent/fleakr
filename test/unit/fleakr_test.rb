@@ -148,6 +148,13 @@ class FleakrTest < Test::Unit::TestCase
       Fleakr.user_for_token('toke').should == 'user'
     end
     
+    should "be able to find the correct resource for a URL" do
+      url = stub() {|u| u.stubs(:resource).with().returns('resource') }
+      Fleakr::Objects::Url.expects(:new).with('url').returns(url)
+      
+      Fleakr.resource_from_url('url').should == 'resource'
+    end
+    
   end
   
 end

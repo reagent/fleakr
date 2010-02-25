@@ -103,6 +103,8 @@ module Fleakr
   #  Fleakr.user('user@host.com')
   #  Fleakr.user('http://www.flickr.com/photos/the_decapitator/')
   #
+  
+  # TODO: Use User.find_by_identifier for some of this
   def self.user(user_data, options = {})
     user = nil
     [:username, :email, :url].each do |attribute|
@@ -194,6 +196,10 @@ module Fleakr
   def self.user_for_token(auth_token)
     token = Fleakr::Objects::AuthenticationToken.from_auth_token(auth_token)
     token.user
+  end
+  
+  def self.resource_from_url(url)
+    Fleakr::Objects::Url.new(url).resource
   end
 
 end

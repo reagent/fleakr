@@ -68,6 +68,14 @@ module Fleakr
 
       scoped_search
       
+      def self.user_id?(username_or_user_id)
+        (username_or_user_id =~ /^\d+@N\d{2}$/) ? true : false
+      end
+      
+      def self.find_by_identifier(identifier)
+        user_id?(identifier) ? find_by_id(identifier) : find_by_username(identifier)
+      end
+      
       # Is this a pro account?
       def pro?
         (self.pro.to_i == 0) ? false : true

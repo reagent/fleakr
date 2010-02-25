@@ -17,6 +17,28 @@ module Fleakr::Objects
       should_find_one :user, :by => :id, :with => :user_id, :call => 'people.getInfo', :path => 'rsp/person'
       should_find_one :user, :by => :url, :call => 'urls.lookupUser', :path => 'rsp/user'
 
+      should "recognize a string as not being a Flickr user ID" do
+        User.user_id?('reagent').should be(false)
+      end
+      
+      should "recognize a string as being a Flickr user ID" do
+        User.user_id?('43955217@N05').should be(true)
+      end
+      
+      should "be able to find a user by ID when supplied with an identifier" do
+        id = '43955217@N05'
+        User.expects(:find_by_id).with(id).returns('user')
+        
+        User.find_by_identifier(id).should == 'user'
+      end
+      
+      should "be able to find a user by username when supplied with an identifier" do
+        username = 'reagent'
+        User.expects(:find_by_username).with(username).returns('user')
+        
+        User.find_by_identifier(username).should == 'user'
+      end
+
     end
 
     context "An instance of User" do
