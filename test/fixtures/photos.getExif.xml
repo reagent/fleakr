@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rsp stat="ok">
+<photo id="1" secret="37efb9102f" server="2683" farm="3">
+	<exif tagspace="System" tagspaceid="0" tag="FileName" label="FileName">
+		<raw>ORI9141194487814365231.img</raw>
+	</exif>
+	<exif tagspace="System" tagspaceid="0" tag="Directory" label="Directory">
+		<raw>/home/y/tmp/3</raw>
+	</exif>
+	<exif tagspace="System" tagspaceid="0" tag="FileSize" label="File Size">
+		<raw>3.2 MB</raw>
+	</exif>
+	<exif tagspace="System" tagspaceid="0" tag="FileModifyDate" label="FileModifyDate">
+		<raw>2010:04:10 11:55:56+00:00</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="FileType" label="File Type">
+		<raw>JPEG</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="MIMEType" label="MIME Type">
+		<raw>image/jpeg</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="ImageWidth" label="Image Width">
+		<raw>3264</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="ImageHeight" label="Image Height">
+		<raw>2448</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="EncodingProcess" label="Encoding Process">
+		<raw>Baseline DCT, Huffman coding</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="BitsPerSample" label="Bits Per Sample">
+		<raw>8</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="ColorComponents" label="Color Components">
+		<raw>3</raw>
+	</exif>
+	<exif tagspace="File" tagspaceid="0" tag="YCbCrSubSampling" label="YCbCrSubSampling">
+		<raw>YCbCr4:2:2 (2 1)</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="Make" label="Make">
+		<raw>Panasonic</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="Model" label="Model">
+		<raw>DMC-LZ8</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="Orientation" label="Orientation">
+		<raw>Horizontal (normal)</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="XResolution" label="X-Resolution">
+		<raw>180</raw>
+		<clean>180 dpi</clean>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="YResolution" label="Y-Resolution">
+		<raw>180</raw>
+		<clean>180 dpi</clean>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="ResolutionUnit" label="ResolutionUnit">
+		<raw>inches</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="Software" label="Software">
+		<raw>Ver.1.0  </raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="ModifyDate" label="Date and Time (Modified)">
+		<raw>2010:04:08 12:19:06</raw>
+	</exif>
+	<exif tagspace="IFD0" tagspaceid="0" tag="YCbCrPositioning" label="YCbCr Positioning">
+		<raw>Co-sited</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExposureTime" label="Exposure">
+		<raw>1/400</raw>
+		<clean>0.003 sec (1/400)</clean>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="FNumber" label="Aperture">
+		<raw>5.9</raw>
+		<clean>f/5.9</clean>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExposureProgram" label="Exposure Program">
+		<raw>Program AE</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ISO" label="ISO Speed">
+		<raw>200</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExifVersion" label="ExifVersion">
+		<raw>0221</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="DateTimeOriginal" label="Date and Time (Original)">
+		<raw>2010:04:08 12:19:06</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="CreateDate" label="Date and Time (Digitized)">
+		<raw>2010:04:08 12:19:06</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ComponentsConfiguration" label="ComponentsConfiguration">
+		<raw>Y, Cb, Cr, -</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="CompressedBitsPerPixel" label="Compressed Bits Per Pixel">
+		<raw>4</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExposureCompensation" label="Exposure Bias">
+		<raw>0</raw>
+		<clean>0 EV</clean>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="MaxApertureValue" label="Max Aperture Value">
+		<raw>3.3</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="MeteringMode" label="Metering Mode">
+		<raw>Multi-segment</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="LightSource" label="Light Source">
+		<raw>Unknown</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="Flash" label="Flash">
+		<raw>Off, Did not fire</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="FocalLength" label="Focal Length">
+		<raw>26.0 mm</raw>
+		<clean>26 mm</clean>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="FlashpixVersion" label="FlashpixVersion">
+		<raw>0100</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ColorSpace" label="Color Space">
+		<raw>sRGB</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExifImageWidth" label="ExifImageWidth">
+		<raw>3264</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExifImageHeight" label="ExifImageHeight">
+		<raw>2448</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="SensingMethod" label="Sensing Method">
+		<raw>One-chip color area</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="FileSource" label="FileSource">
+		<raw>Digital Camera</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="SceneType" label="SceneType">
+		<raw>Directly photographed</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="CustomRendered" label="Custom Rendered">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="ExposureMode" label="Exposure Mode">
+		<raw>Auto</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="WhiteBalance" label="White Balance">
+		<raw>Auto</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="DigitalZoomRatio" label="Digital Zoom Ratio">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="FocalLengthIn35mmFormat" label="Focal Length In35mm Format">
+		<raw>160 mm</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="SceneCaptureType" label="Scene Capture Type">
+		<raw>Standard</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="GainControl" label="Gain Control">
+		<raw>Low gain up</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="Contrast" label="Contrast">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="Saturation" label="Saturation">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="ExifIFD" tagspaceid="0" tag="Sharpness" label="Sharpness">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ImageQuality" label="Image Quality">
+		<raw>High</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="FirmwareVersion" label="Firmware Version">
+		<raw>0.1.0.8</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WhiteBalance" label="White Balance">
+		<raw>Auto</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="FocusMode" label="Focus Mode">
+		<raw>Auto</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="AFMode" label="AFMode">
+		<raw>Auto or Face Detect</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ImageStabilization" label="Image Stabilization">
+		<raw>On, Mode 1</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="MacroMode" label="Macro Mode">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ShootingMode" label="Shooting Mode">
+		<raw>Intelligent Auto</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="Audio" label="Audio">
+		<raw>No</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="DataDump" label="Data Dump">
+		<raw>(Binary data 8200 bytes, use -b option to extract)</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WhiteBalanceBias" label="White Balance Bias">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="FlashBias" label="Flash Bias">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="InternalSerialNumber" label="Internal Serial Number">
+		<raw>(X02) 2008:03:07 no. 0037</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="PanasonicExifVersion" label="Panasonic Exif Version">
+		<raw>0260</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ColorEffect" label="Color Effect">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="TimeSincePowerOn" label="Time Since Power On">
+		<raw>00:00:25.53</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="BurstMode" label="Burst Mode">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="SequenceNumber" label="Sequence Number">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="Contrast" label="Contrast">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="NoiseReduction" label="Noise Reduction">
+		<raw>Standard</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="SelfTimer" label="Self Timer">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="Rotation" label="Rotation">
+		<raw>Horizontal (normal)</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="AFAssistLamp" label="AFAssist Lamp">
+		<raw>Enabled but Not Used</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ColorMode" label="Color Mode">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="BabyAge" label="Baby Age">
+		<raw>(not set)</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="OpticalZoomMode" label="Optical Zoom Mode">
+		<raw>Standard</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ConversionLens" label="Conversion Lens">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="TravelDay" label="Travel Day">
+		<raw>n/a</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WorldTimeLocation" label="World Time Location">
+		<raw>Home</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="TextStamp" label="Text Stamp">
+		<raw>Off</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="ProgramISO" label="Program ISO">
+		<raw>n/a</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="AdvancedSceneMode" label="Advanced Scene Mode">
+		<raw>Auto</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="FacesDetected" label="Faces Detected">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="Saturation" label="Saturation">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="Sharpness" label="Sharpness">
+		<raw>Normal</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="AFPointPosition" label="AFPoint Position">
+		<raw>0.5 0.5</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="NumFacePositions" label="Num Face Positions">
+		<raw>0</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="MakerNoteVersion" label="Maker Note Version">
+		<raw>0121</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="SceneMode" label="Scene Mode">
+		<raw>Intelligent Auto</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WBRedLevel" label="WBRed Level">
+		<raw>1713</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WBGreenLevel" label="WBGreen Level">
+		<raw>1054</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="WBBlueLevel" label="WBBlue Level">
+		<raw>1905</raw>
+	</exif>
+	<exif tagspace="Panasonic" tagspaceid="0" tag="FlashFired" label="Flash Fired">
+		<raw>No</raw>
+	</exif>
+	<exif tagspace="InteropIFD" tagspaceid="0" tag="InteropIndex" label="InteropIndex">
+		<raw>R98 - DCF basic file (sRGB)</raw>
+	</exif>
+	<exif tagspace="InteropIFD" tagspaceid="0" tag="InteropVersion" label="InteropVersion">
+		<raw>0100</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="Compression" label="Compression">
+		<raw>JPEG (old-style)</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="Orientation" label="Orientation">
+		<raw>Horizontal (normal)</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="XResolution" label="XResolution">
+		<raw>180</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="YResolution" label="YResolution">
+		<raw>180</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="ResolutionUnit" label="ResolutionUnit">
+		<raw>inches</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="ThumbnailOffset" label="ThumbnailOffset">
+		<raw>10176</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="ThumbnailLength" label="ThumbnailLength">
+		<raw>8121</raw>
+	</exif>
+	<exif tagspace="IFD1" tagspaceid="0" tag="YCbCrPositioning" label="YCbCrPositioning">
+		<raw>Co-sited</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="Aperture" label="Aperture">
+		<raw>5.9</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="BlueBalance" label="BlueBalance">
+		<raw>1.8074</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="ImageSize" label="ImageSize">
+		<raw>3264x2448</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="RedBalance" label="RedBalance">
+		<raw>1.625237</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="ScaleFactor35efl" label="ScaleFactor35efl">
+		<raw>6.2</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="ShutterSpeed" label="ShutterSpeed">
+		<raw>1/400</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="CircleOfConfusion" label="CircleOfConfusion">
+		<raw>0.005 mm</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="FOV" label="FOV">
+		<raw>12.8 deg</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="FocalLength35efl" label="FocalLength35efl">
+		<raw>26.0 mm (35 mm equivalent: 160.0 mm)</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="HyperfocalDistance" label="HyperfocalDistance">
+		<raw>23.47 m</raw>
+	</exif>
+	<exif tagspace="Composite" tagspaceid="0" tag="LightValue" label="LightValue">
+		<raw>12.8</raw>
+	</exif>
+</photo>
+</rsp>

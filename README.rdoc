@@ -91,6 +91,33 @@ When accessing a set, you can also grab all the photos that are in that set:
     >> user.sets.first.photos.first.title
     => "Untitled1"
 
+=== Exif Data
+
+Exif data for an uploaded photograph can be accessed as in the following example:
+
+  photo = Fleakr::Objects::Photo.find_by_id('4507120023')
+  for exif in photo.exifs
+    puts "#{exif.tag} => #{exif.raw}"
+  end
+
+Sample output looks like
+  FileName => ORI9141194487814365231.img
+  Directory => /home/y/tmp/3
+  FileSize => 3.2 MB
+  FileModifyDate => 2010:04:10 11:55:56+00:00
+  FileType => JPEG
+  MIMEType => image/jpeg
+  ImageWidth => 3264
+  ImageHeight => 2448
+  EncodingProcess => Baseline DCT, Huffman coding
+  BitsPerSample => 8
+  ColorComponents => 3
+  YCbCrSubSampling => YCbCr4:2:2 (2 1)
+  Make => Panasonic
+  Model => DMC-LZ8
+  ...
+  ...<snip>
+
 === Contacts
 
 Besides pulling back a given user's public contacts list, you can also retrieve the list of 

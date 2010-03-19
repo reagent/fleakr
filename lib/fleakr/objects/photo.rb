@@ -62,7 +62,7 @@ module Fleakr
       
       lazily_load :posted, :taken, :updated, :comment_count, :url, :description, :with => :load_info
       
-      has_many :images, :tags, :comments
+      has_many :images, :tags, :comments, :exifs
 
       # Upload the photo specified by <tt>filename</tt> to the user's Flickr account. When uploading,
       # there are several options available (none are required):

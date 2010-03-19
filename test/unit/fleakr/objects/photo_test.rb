@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../test_helper'
 module Fleakr::Objects
   class PhotoTest < Test::Unit::TestCase
 
-    should_have_many :images, :tags, :comments
+    should_have_many :images, :tags, :comments, :exifs
 
     should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :with => :load_info
     should_autoload_when_accessing :url, :description, :with => :load_info
