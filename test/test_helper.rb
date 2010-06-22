@@ -15,7 +15,7 @@ class Test::Unit::TestCase
     attributes.each do |accessor_name|
       should "load the additional user information when accessing the :#{accessor_name} attribute" do
         klass = self.class.name.sub(/Test$/, '').constantize
-              
+
         object = klass.new
         object.expects(options[:with]).with()
         object.send(accessor_name)
@@ -33,14 +33,14 @@ class Test::Unit::TestCase
     should "be able to perform a scoped search by :#{key}" do
       photos = [stub()]
       search = stub(:results => photos)
-      
+
       klass = self.class.name.sub(/Test$/, '').constantize
-      
+
       instance = klass.new
       instance.stubs(:id).with().returns('1')
-      
+
       Fleakr::Objects::Search.expects(:new).with('foo', key => '1').returns(search)
-      
+
       instance.search('foo').should == photos
     end
   end
@@ -51,7 +51,7 @@ class Test::Unit::TestCase
 
     options = attributes.extract_options!
     finder_attribute = options[:using].nil? ? "#{class_name.downcase}_id" : options[:using]
-    
+
     attributes.each do |attribute|
       target_klass = "Fleakr::Objects::#{attribute.to_s.singularize.classify}".constantize
       should "be able to retrieve the #{class_name.downcase}'s #{attribute}" do
@@ -62,21 +62,21 @@ class Test::Unit::TestCase
         target_klass.expects("find_all_by_#{finder_attribute}".to_sym).with('1', {}).returns(results)
         object.send(attribute).should == results
       end
-      
+
       should "memoize the results for the #{class_name.downcase}'s #{attribute}" do
         object = this_klass.new
-        
+
         target_klass.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
         2.times { object.send(attribute) }
       end
-      
+
     end
   end
 
   def self.should_find_one(thing, options)
     class_name  = thing.to_s.singularize.camelcase
     klass       = "Fleakr::Objects::#{class_name}".constantize
-    object_type = class_name.downcase    
+    object_type = class_name.downcase
 
     condition_value = '1'
 
@@ -93,49 +93,49 @@ class Test::Unit::TestCase
   end
 
   def self.should_find_all(thing, options)
-    class_name     = thing.to_s.singularize.camelcase
+    class_name     = options[:class_name] || thing.to_s.singularize.camelcase
     klass          = "Fleakr::Objects::#{class_name}".constantize
     object_type    = class_name.downcase
-    
+
     should "be able to find all #{thing} by #{options[:by]}" do
       condition_value = '1'
       finder_options = {(options[:using] || options[:by]) => condition_value}
-    
+
       response = mock_request_cycle :for => options[:call], :with => finder_options
-      
+
       stubs = []
       elements = (response.body/options[:path]).map
-      
-      
+
+
       elements.each do |element|
         stub = stub()
         stubs << stub
-        
+
         klass.expects(:new).with(element, finder_options).returns(stub)
       end
-      
+
       klass.send("find_all_by_#{options[:by]}".to_sym, condition_value).should == stubs
     end
-    
+
   end
-  
+
   def read_fixture(method_call)
     fixture_path = File.dirname(__FILE__) + '/fixtures'
     File.read("#{fixture_path}/#{method_call}.xml")
   end
-  
+
   def mock_request_cycle(options)
     response = stub(:body => Hpricot.XML(read_fixture(options[:for])))
     Fleakr::Api::MethodRequest.expects(:with_response!).with(options[:for], options[:with]).returns(response)
-    
+
     response
   end
-  
+
   def create_temp_directory
     tmp_dir = File.dirname(__FILE__) + '/tmp'
-    FileUtils.mkdir(tmp_dir)  
-    
+    FileUtils.mkdir(tmp_dir)
+
     tmp_dir
   end
-  
+
 end

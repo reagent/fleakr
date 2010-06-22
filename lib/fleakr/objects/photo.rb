@@ -1,11 +1,11 @@
 module Fleakr
   module Objects # :nodoc:
-    
+
     # = Photo
     #
-    # Handles both the retrieval of Photo objects from various associations (e.g. User / Set) as 
+    # Handles both the retrieval of Photo objects from various associations (e.g. User / Set) as
     # well as the ability to upload images to the Flickr site.
-    # 
+    #
     # == Attributes
     #
     # [id] The ID for this photo
@@ -22,7 +22,7 @@ module Fleakr
     # [large] The large representation of this photo
     # [original] The original photo
     # [previous] The previous photo based on the current context
-    # [next] The next photo based on the current context 
+    # [next] The next photo based on the current context
     #
     # == Associations
     #
@@ -57,12 +57,16 @@ module Fleakr
       find_all :by_set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
-      
+
       find_one :by_id, :using => :photo_id, :call => 'photos.getInfo'
-      
+
       lazily_load :posted, :taken, :updated, :comment_count, :url, :description, :with => :load_info
-      
-      has_many :images, :tags, :comments, :exifs
+
+      has_many :images, :tags, :comments
+
+      def metadata
+        @metadata ||= MetadataCollection.new(self)
+      end
 
       # Upload the photo specified by <tt>filename</tt> to the user's Flickr account. When uploading,
       # there are several options available (none are required):
@@ -85,7 +89,7 @@ module Fleakr
         Photo.find_by_id(photo.id)
       end
 
-      # Replace the current photo's image with the one specified by filename.  This 
+      # Replace the current photo's image with the one specified by filename.  This
       # call requires authentication.
       #
       def replace_with(filename)
@@ -108,7 +112,7 @@ module Fleakr
       end
 
       # The user who uploaded this photo.  See Fleakr::Objects::User for additional information.
-      # 
+      #
       def owner
         @owner ||= User.find_by_id(owner_id)
       end
@@ -118,13 +122,13 @@ module Fleakr
       def posted_at
         Time.at(posted.to_i)
       end
-      
+
       # When was this photo taken?
       #
       def taken_at
         Time.parse(taken)
       end
-      
+
       # When was this photo last updated?  This includes addition of tags and other metadata.
       #
       def updated_at

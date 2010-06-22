@@ -26,15 +26,15 @@ Now that you have your key, you can get things rolling with irb and the fleakr g
 
     $ irb -r rubygems
     >> require 'fleakr'
-    
+
 Then, set your API key (only need to do this once per session):
 
     >> Fleakr.api_key = '<your api key here>'
 
 === A Brief Tour
 
-With just an API key, you have the ability to retrieve a substantial amount of data 
-about users, their photosets, photos, contacts, and groups.  Let's start by finding a 
+With just an API key, you have the ability to retrieve a substantial amount of data
+about users, their photosets, photos, contacts, and groups.  Let's start by finding a
 user by his username:
 
     >> user = Fleakr.user('the decapitator')
@@ -44,7 +44,7 @@ By email:
 
     >> user = Fleakr.user('user@host.com')
     => #<Fleakr::Objects::User:0x11f484c @username="bckspcr", @id="84481630@N00">
-    
+
 Or even by URL:
 
     >> user = Fleakr.user('http://www.flickr.com/photos/the_decapitator/')
@@ -53,7 +53,7 @@ Or even by URL:
 Once you have a user, you can find his associated sets:
 
     >> user.sets
-    => [#<Fleakr::Objects::Set:0x671358 @title="The Decapitator", @description="">, 
+    => [#<Fleakr::Objects::Set:0x671358 @title="The Decapitator", @description="">,
         #<Fleakr::Objects::Set:0x66d898 @title="londonpaper hijack", ...
 
 His individual photos:
@@ -68,9 +68,9 @@ Or contacts:
         @id="12289718@N00", @icon_farm="1", @icon_server="4">
 
 Or his groups if you would like:
-    
+
     >> user.groups
-    => [#<Fleakr::Objects::Group:0x11f2330 ..., 
+    => [#<Fleakr::Objects::Group:0x11f2330 ...,
         #<Fleakr::Objects::Group:0x11f2308 ...
     >> user.groups.first.name
     => "Rural Decay"
@@ -91,49 +91,22 @@ When accessing a set, you can also grab all the photos that are in that set:
     >> user.sets.first.photos.first.title
     => "Untitled1"
 
-=== Exif Data
-
-Exif data for an uploaded photograph can be accessed as in the following example:
-
-  photo = Fleakr::Objects::Photo.find_by_id('4507120023')
-  for exif in photo.exifs
-    puts "#{exif.tag} => #{exif.raw}"
-  end
-
-Sample output looks like
-  FileName => ORI9141194487814365231.img
-  Directory => /home/y/tmp/3
-  FileSize => 3.2 MB
-  FileModifyDate => 2010:04:10 11:55:56+00:00
-  FileType => JPEG
-  MIMEType => image/jpeg
-  ImageWidth => 3264
-  ImageHeight => 2448
-  EncodingProcess => Baseline DCT, Huffman coding
-  BitsPerSample => 8
-  ColorComponents => 3
-  YCbCrSubSampling => YCbCr4:2:2 (2 1)
-  Make => Panasonic
-  Model => DMC-LZ8
-  ...
-  ...<snip>
-
 === Contacts
 
-Besides pulling back a given user's public contacts list, you can also retrieve the list of 
+Besides pulling back a given user's public contacts list, you can also retrieve the list of
 contacts for the currently authenticated user (see below about authentication).  For example,
 you can retrieve all contacts:
 
     >> Fleakr.contacts
     => [#<Fleakr::Objects::Contact:0x111ff84 @username="bryan.ray" ...>]
-    
+
 Or just the contacts marked as 'family':
-    
+
     >> Fleakr.contacts(:family)
     => [#<Fleakr::Objects::Contact:0x12db42c @username="Grandbob" ...>]
-    
+
 Or a specific page of contacts marked as 'friends':
-    
+
     >> Fleakr.contacts(:friends, :page => 3, :per_page => 5)
     => [#<Fleakr::Objects::Contact:0x12a6c54 @username="Louise and BCG" ...>]
 
@@ -143,40 +116,40 @@ See the documentation for Fleakr.contacts for what options are available.
 
 Each photo object contains metadata about a collection of images, each representing different
 sizes.  Once we have a single photo:
-    
+
     >> photo = user.photos.first
     => #<Fleakr::Objects::Photo:0x161b024 @title="\"Be Fabulous\"" ... >
-    
+
 We can get information about one of the sizes:
 
     >> photo.small
     => #<Fleakr::Objects::Image:0x1768f1c @height="172", @size="Small", @width="240",
-        @url="http://farm4.static.flickr.com/3250/2924549350_cbc1804258_m.jpg",  
+        @url="http://farm4.static.flickr.com/3250/2924549350_cbc1804258_m.jpg",
         @page="http://www.flickr.com/photos/the_decapitator/2924549350/sizes/s/">
 
 Grab the URL for the image itself:
 
     >> photo.small.url
     => "http://farm4.static.flickr.com/3250/2924549350_cbc1804258_m.jpg"
-    
+
 Or grab the URL for its page on the Flickr site:
-    
+
     >> photo.small.page
     => "http://www.flickr.com/photos/the_decapitator/2924549350/sizes/s/"
-    
+
 Other sizes are available (:square, :thumbnail, :small, :medium, :large, :original) and
 are accessed in the same way:
-    
+
     >> photo.original.url
     => "http://farm4.static.flickr.com/3250/2924549350_1cf67c2d47_o.jpg"
-    
+
 === Tags
 
 Tags are available for users and photos.  Retrieving them is easy:
 
     >> user = Fleakr.user('the decapitator')
     >> user.tags
-    => [#<Fleakr::Objects::Tag:0x190d5fc @value="ad">, 
+    => [#<Fleakr::Objects::Tag:0x190d5fc @value="ad">,
         #<Fleakr::Objects::Tag:0x1908a20 @value="ads">, ...
     >> user.photos.first.tags
     => [#<Fleakr::Objects::Tag:0x17b1b18 @machine_flag="0", @author_id="21775151@N06", ...
@@ -196,12 +169,12 @@ All tags have values, but for tags associated with photos there is some addition
     => false
     >> tag.author
     => #<Fleakr::Objects::User:0x1a149f0 @username="the decapitator", ... >
-    
+
 Each tag can also have related tags:
 
     >> user.photos.first.tags[1].related.first.related.first.to_s
     => "face"
-    
+
 You get the idea - see Fleakr::Objects::Tag for more information.
 
 === Comments
@@ -246,7 +219,7 @@ in turn, can have either collections or sets associated with them. For example:
     >> user.collections.first.collections.first.sets.first.title
     => "A Trip to Yosemite"
 
-Note that collections are limited to Flickr pro members. See Fleakr::Objects::Collection for more 
+Note that collections are limited to Flickr pro members. See Fleakr::Objects::Collection for more
 information.
 
 === Saving Images
@@ -255,19 +228,19 @@ If a photo interests you, save it down to a directory of your choosing:
 
     >> photo.original.save_to('/tmp')
     => #<File:/tmp/2924549350_1cf67c2d47_o.jpg (closed)>
-    
-Similarly, you can save down entire sets.  Just specify the target directory and the size 
+
+Similarly, you can save down entire sets.  Just specify the target directory and the size
 of the images you're interested in:
 
     >> user.sets.first.save_to('/tmp', :square)
     => [#<Fleakr::Objects::Photo:0x1187a1c @secret="715587b2cb" ...
-    
+
 This creates a subdirectory within the target directory based on the set's name and preserves
 the original order of the photos:
-    
+
     >> Dir["/tmp/#{user.sets.first.title}/*.jpg"].map
-    => ["/tmp/The Decapitator/01_2117922283_715587b2cb_s.jpg", 
-        "/tmp/The Decapitator/02_2125604584_9c09348fd6_s.jpg", 
+    => ["/tmp/The Decapitator/01_2117922283_715587b2cb_s.jpg",
+        "/tmp/The Decapitator/02_2125604584_9c09348fd6_s.jpg",
         "/tmp/The Decapitator/03_2118696542_8af5763bde_s.jpg", ... ]
 
 === Searching
@@ -275,7 +248,7 @@ the original order of the photos:
 If you would prefer to just search photos, you can do that with search text:
 
     >> photos = Fleakr.search('ponies!!')
-    => [#<Fleakr::Objects::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">, 
+    => [#<Fleakr::Objects::Photo:0x11f4e64 @title="hiroshima atomic garden", @id="3078234390">,
         #<Fleakr::Objects::Photo:0x11f4928 @title="PONYLOV", @id="3077360853">, ...
     >> photos.first.title
     => "hiroshima atomic garden"
@@ -292,21 +265,38 @@ Searches can also be scoped to other entities in the system (namely Users and Gr
 
     >> user.groups.first.search('awesome')
     => [#<Fleakr::Objects::Photo:0x18cb4cc @server_id="2012", @id="2181921273",
-         @farm_id="3", @title="", @secret="634eda7521">, ... 
+         @farm_id="3", @title="", @secret="634eda7521">, ...
     >> user.search('serpent')
     => [#<Fleakr::Objects::Photo:0x18a6960 @server_id="41", @id="81370156",
         @farm_id="1", @title="Clear and Serpent Danger", @secret="013091582a">]
 
+=== Exif Data
+
+Exif metadata can be retrieved for a photo:
+
+    >> photo = Fleakr::Objects::Photo.find_by_id('4507120023')
+    >> photo.metadata.keys
+    => ["ImageSize", "Optical Zoom Mode", "RedBalance", "Y-Resolution", ... ]
+    >> photo.metadata['ImageSize']
+    => "3264x2448"
+
+You can iterate over the available elements and grab additional information:
+
+    >> photo.metadata.map {|k, e| "#{k} => '#{e.clean}'" }
+    => ["Exposure => '0.003 sec (1/400)'", "Y-Resolution => '180 dpi'", ... ]
+
+See the documentation for Fleakr::Objects::Metadata for information on what's available.
+
 === Uploading Files
 
-Before you can upload files, you need to be able to make authenticated calls to the Flickr 
+Before you can upload files, you need to be able to make authenticated calls to the Flickr
 API.  Skip to the next section (Authenticated Calls) for details on how to make this work.
 
 Uploading single files is simple:
 
     >> Fleakr.upload('/path/to/image.jpg')
     => [#<Fleakr::Objects::Photo:0x217fb54 @updated="1236133594", @server_id="3266", ...>]
-    
+
 Notice that the newly-uploaded image is returned.  You can further inspect / modify this as
 necessary.  The real magic is in uploading multiple files - the upload method takes a file
 glob:
@@ -318,7 +308,7 @@ glob:
 
 You can also set options on the file(s) that you're uploading:
 
-    >> Fleakr.upload('/path/to/party/images/*.jpg', :viewable_by => :everyone, 
+    >> Fleakr.upload('/path/to/party/images/*.jpg', :viewable_by => :everyone,
                                                     :title => 'Party Pics')
 
 The full list of options can be found in the Fleakr::Objects::Photo documentation.
@@ -326,8 +316,8 @@ The full list of options can be found in the Fleakr::Objects::Photo documentatio
 === Authenticated Calls
 
 While read-only access to the API gets you quite a bit of data, you'll need to generate an
-authentication token if you want access to the more powerful features (like uploading your 
-own photos).  
+authentication token if you want access to the more powerful features (like uploading your
+own photos).
 
 Depending on how you intend to use the Flickr API, there are 2 methods for performing
 authenticated calls.
@@ -342,22 +332,22 @@ list of keys on the Flickr site, click on the 'Edit key details' link and ensure
 1. The value for 'Mobile Permissions' is set to either 'write' or 'delete'
 
 Once this is set, you'll see your Authentication URL on the key details page (it will look
-something like http://www.flickr.com/auth-534525246245).  Paste this URL into your browser and 
+something like http://www.flickr.com/auth-534525246245).  Paste this URL into your browser and
 confirm access to get your mini-token. Now you're ready to configure your authentication token:
 
     Fleakr.api_key       = 'ABC123'
     Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site
-    
+
     token = Fleakr.token_from_mini_token('294-585-410')
     Fleakr.auth_token = token.value
-    
+
     Fleakr.upload('/path/to/my/photo.jpg')
 
 Once you use the mini-token once it is no longer available.  To use the generated auth_token
 for future requests, you'll need to make sure that you set the value permanently:
 
     Fleakr.auth_token = '72157622657341094-41241e527f325abb'
-    
+
 === Multiple Users
 
 If you need to have your application access other users photos on their behalf, you'll want to
@@ -367,31 +357,31 @@ use the Web authentication method.  Edit your key details and make sure that:
 1. The value for 'Authentication Type' is set to 'Web Application'
 1. You configure your callback URL to point to something valid and accessible
 
-Make sure that your key and secret are set as above. You can then begin the process by requesting 
-that the user authorize access to his Flickr account by redirecting to an authorization URL.  I'm 
+Make sure that your key and secret are set as above. You can then begin the process by requesting
+that the user authorize access to his Flickr account by redirecting to an authorization URL.  I'm
 assuming Rails conventions here, but this should work with any Ruby web framework:
 
     redirect_to Fleakr.authorization_url
-    
+
 By default, we request read permission for access.  This doesn't really do much more than what the
 public API allows, so you can request different permissions when asking for authorization:
 
     # The values :read, :write, and :delete are supported
     redirect_to Fleakr.authorization_url(:delete)
 
-One the user authorizes your application, he will be redirected back to your callback URL with a 
+One the user authorizes your application, he will be redirected back to your callback URL with a
 <tt>frob</tt> parameter as part of the query string.  You'll need to exchange this for a token:
 
     token = Fleakr.token_from_frob(params[:frob])
-    
-The actual authentication token is available by calling <tt>token.value</tt> in the above 
+
+The actual authentication token is available by calling <tt>token.value</tt> in the above
 example.  You'll want to store this value somewhere to make future API calls on behalf of this
-user. To make that process easier, there is a method that you can use that will allow you to 
+user. To make that process easier, there is a method that you can use that will allow you to
 automatically scope your requests to the authenticated user:
 
     user = Fleakr.user_for_token('72157622657341094-41241e527f325abb')
-    
-From there, you can make any of the usual calls available with the API. See 
+
+From there, you can make any of the usual calls available with the API. See
 Fleakr::Objects::User for more information.
 
 === What Went Wrong?
@@ -401,27 +391,27 @@ what's really going on when you run into unexpected behavior.  To make things ea
 have Fleakr log all of the API traffic.  Here's how:
 
     Fleakr.logger = Logger.new('/tmp/fleakr.log')
-    
-Now any calls to the API will log both their request and response data to that file.  But be 
+
+Now any calls to the API will log both their request and response data to that file.  But be
 warned, this can be pretty verbose by default (especially if you're doing file uploads).  To see
 just the requests you need to tune the log level:
 
     logger = Logger.new('/tmp/fleakr.log')
     logger.level = Logger::INFO
-    
+
     Fleakr.logger = logger
-    
+
 Even if something doesn't go wrong, this is a good way to get a sense for when you're making
 API requests.
 
 == Contributing
 
-If there is a feature that you would like to contribute, I gladly accept pull requests.  There 
+If there is a feature that you would like to contribute, I gladly accept pull requests.  There
 are a few things that make my life easier when integrating your changes:
 
 * Verify that all tests are passing (run `rake` from the project root)
 * Keep your commits small, focused, and tested - this allows me to apply changes cleanly
-* Leave the Rakefile and version information intact - if you really want to make changes, 
+* Leave the Rakefile and version information intact - if you really want to make changes,
   please do so in a separate commit.
 
 Once your changes are applied, I will add you to the list of contributors.
@@ -453,7 +443,7 @@ Thanks!
 * Implement save-able search results (e.g. Fleakr.search('ponies').save_to('/path', :medium))
 * Implement deeper associations for core elements (e.g. tags / etc..)
 * Implement write methods for photos & photosets
-* Implement flickr.places.* portion of API 
+* Implement flickr.places.* portion of API
 
 == License
 
