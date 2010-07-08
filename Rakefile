@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   s.email            = 'reaganpr@gmail.com'
   s.homepage         = 'http://sneaq.net'
   s.files            = %w(README.rdoc Rakefile) + Dir.glob("{lib,test}/**/*")
-  
+
   s.add_dependency('hpricot', '>= 0.6.164')
   s.add_dependency('activesupport', '>= 2.0')
   s.add_dependency('loggable', '>= 0.2.0')
@@ -38,11 +38,11 @@ begin
     t.libs       = ['test']
     t.test_files = FileList["test/**/*_test.rb"]
     t.verbose    = true
-    t.rcov_opts  = ['--text-report', "-x #{Gem.path}", '-x /Library/Ruby', '-x /usr/lib/ruby']
+    t.rcov_opts  = ['--text-report', "-x #{Gem.path}", '-x /Library/Ruby', '-x /usr/lib/ruby', "-x #{ENV['HOME']}/.rvm"]
   end
-  
+
   task :default => :coverage
-  
+
 rescue LoadError
   warn "\n**** Install rcov (sudo gem install relevance-rcov) to get coverage stats ****\n"
   task :default => :test
