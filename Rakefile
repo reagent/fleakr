@@ -25,6 +25,11 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
 end
 
+desc 'Install this Gem'
+task :install => :gem do
+  sh "gem install pkg/#{spec.full_name}.gem"
+end
+
 Rake::TestTask.new do |t|
   t.libs << 'test'
   t.test_files = FileList["test/**/*_test.rb"]
@@ -34,6 +39,7 @@ end
 begin
   require 'rcov/rcovtask'
 
+  desc 'Run tests with code coverage statistics'
   Rcov::RcovTask.new(:coverage) do |t|
     t.libs       = ['test']
     t.test_files = FileList["test/**/*_test.rb"]
@@ -44,11 +50,12 @@ begin
   task :default => :coverage
 
 rescue LoadError
-  warn "\n**** Install rcov (sudo gem install relevance-rcov) to get coverage stats ****\n"
+  desc 'Run tests with code coverage statistics'
+  task(:coverage) { $stderr.puts 'Run `gem install rcov` to get coverage stats' }
   task :default => :test
 end
 
-desc 'Generate the gemspec to serve this Gem from Github'
+desc 'Generate the gemspec for this Gem'
 task :gemspec do
   file = File.dirname(__FILE__) + "/#{spec.name}.gemspec"
   File.open(file, 'w') {|f| f << spec.to_ruby }
