@@ -1,1 +1,4 @@
 /_site
+/.bundle
+/Gemfile.lock
+/pkg

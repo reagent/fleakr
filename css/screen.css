@@ -29,6 +29,13 @@ a:hover {
   border-bottom: 1px dotted;
 }
 
+tt {
+  background: #000;
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
 div.container {
   background: #fff;
   padding: 15px;
@@ -51,7 +58,7 @@ div#header h1 {
   margin-right: 2px;
 }
 
-div#header span {
+div#header h1 + span {
   color: #ff0084;
   background: #eee;
   font-size: 16px;
@@ -59,6 +66,20 @@ div#header span {
 
 div#header span.description {
   color: #000;
+}
+
+div#version {
+  text-align: right;
+}
+
+div#version span {
+  color: #0063dc;
+  font-size: 16px;
+}
+
+div#version span strong {
+  color: #000;
+  font-size: 22px;
 }
 
 div#sidebar {
