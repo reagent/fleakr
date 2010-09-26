@@ -92,6 +92,26 @@ module Fleakr
         object.associated_objects(:per_page => '100').should == 'collection'
       end
 
+      should "cache the results of the association" do
+        object = FlickrObject.new
+        object.stubs(:id).returns('1')
+
+        Fleakr::Objects::AssociatedObject.expects(:find_all_by_flickr_object_id).with('1', {}).once.returns('collection')
+
+        2.times { object.associated_objects }
+      end
+
+      should "know not to cache the results of the association when there are different parameters" do
+        object = FlickrObject.new
+        object.stubs(:id).returns('1')
+
+        Fleakr::Objects::AssociatedObject.stubs(:find_all_by_flickr_object_id).with('1', {}).returns('collection_1')
+        Fleakr::Objects::AssociatedObject.stubs(:find_all_by_flickr_object_id).with('1', {:per_page => '100'}).returns('collection_2')
+
+        object.associated_objects.should == 'collection_1'
+        object.associated_objects(:per_page => '100').should == 'collection_2'
+      end
+
       context "when populating data from an XML document" do
         setup do
           xml = <<-XML

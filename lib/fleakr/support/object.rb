@@ -26,10 +26,10 @@ module Fleakr
 
             class_eval <<-CODE
               def #{attribute}(options = {})
-                @#{attribute} ||= begin
-                  options = authentication_options.merge(options)
-                  #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
-                end
+                options        = authentication_options.merge(options)
+                key            = '#{attribute}_' + options.sort.to_s
+
+                associations[key] ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
               end
             CODE
           end
@@ -110,10 +110,14 @@ module Fleakr
         end
 
         def inspect
-          names      = instance_variables.reject {|n| n == '@document' }
+          names      = instance_variables.reject {|n| %w(@associations @document).include?(n) }
           attributes = names.map {|n| "#{n}=#{instance_variable_get(n).inspect}" }
 
           "#<#{self.class} #{attributes.join(', ')}>"
+        end
+
+        def associations
+          @associations ||= {}
         end
 
       end
