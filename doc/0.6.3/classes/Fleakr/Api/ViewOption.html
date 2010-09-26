@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr::Api::ViewOption [Fleakr 0.6.3 Documentation]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Class</span>
+          Fleakr::Api::ViewOption
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../../../files/lib/fleakr/api/option_rb.html">lib/fleakr/api/option.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a href="SimpleOption.html">Fleakr::Api::SimpleOption</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="ViewOption.html">ViewOption</a></h1>
+            <p>
+            Specify who is able to view the photo.
+            </p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000072">new</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000075">family?</a></li>
+              <li><a href="#M000074">friends?</a></li>
+              <li><a href="#M000073">public?</a></li>
+              <li><a href="#M000076">to_hash</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='method public-class' id='method-M000072'>
+                <a name='M000072'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(type, value)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Specify who this is viewable by (e.g. everyone / friends / family).
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000072-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000072-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 86</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">value</span>)&#x000A;        <span class="ruby-keyword kw">super</span> <span class="ruby-identifier">type</span>, <span class="ruby-constant">Array</span>(<span class="ruby-identifier">value</span>)&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000075'>
+                <a name='M000075'></a>
+                <div class='synopsis'>
+                  <span class='name'>family?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Is this viewable by family? (i.e. :family)
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000075-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000075-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 104</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">family?</span>&#x000A;        <span class="ruby-identifier">value</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">:family</span>)&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000074'>
+                <a name='M000074'></a>
+                <div class='synopsis'>
+                  <span class='name'>friends?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Is this viewable by friends? (i.e. :friends)
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000074-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000074-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 98</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">friends?</span>&#x000A;        <span class="ruby-identifier">value</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">:friends</span>)&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000073'>
+                <a name='M000073'></a>
+                <div class='synopsis'>
+                  <span class='name'>public?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Is this publicly viewable? (i.e. :everyone)
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000073-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000073-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 92</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">public?</span>&#x000A;        <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> [<span class="ruby-identifier">:everyone</span>]&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000076'>
+                <a name='M000076'></a>
+                <div class='synopsis'>
+                  <span class='name'>to_hash</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  <a href="../../Hash.html">Hash</a> representation of photo permissions
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000076-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000076-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 110</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_hash</span>&#x000A;        {<span class="ruby-identifier">:is_public</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">public?</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">:is_friend</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">friends?</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">:is_family</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">family?</span>.<span class="ruby-identifier">to_i</span>}&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

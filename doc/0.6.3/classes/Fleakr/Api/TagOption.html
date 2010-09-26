@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr::Api::TagOption [Fleakr 0.6.3 Documentation]</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Class</span>
+          Fleakr::Api::TagOption
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../../../files/lib/fleakr/api/option_rb.html">lib/fleakr/api/option.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a href="SimpleOption.html">Fleakr::Api::SimpleOption</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="TagOption.html">TagOption</a></h1>
+            <p>
+            Represents values for tags
+            </p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000045">new</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000046">to_hash</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='method public-class' id='method-M000045'>
+                <a name='M000045'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(type, value)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Tag with specified values. Value passed will be converted to an array if it
+                  isn&#8217;t already
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000045-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000045-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 63</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">value</span>)&#x000A;        <span class="ruby-keyword kw">super</span> <span class="ruby-identifier">type</span>, <span class="ruby-identifier">value</span>&#x000A;        <span class="ruby-ivar">@value</span> = <span class="ruby-constant">Array</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">value</span>)&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000046'>
+                <a name='M000046'></a>
+                <div class='synopsis'>
+                  <span class='name'>to_hash</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  <a href="../../Hash.html">Hash</a> representation of tag values (separated
+                  by spaces). Handles multi-word tags by enclosing each tag in double quotes.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000046-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000046-source'><span class="ruby-comment cmt"># File lib/fleakr/api/option.rb, line 71</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_hash</span>&#x000A;        <span class="ruby-identifier">tags</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\&quot;#{tag}\&quot;&quot;</span> }&#x000A;        {<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">' '</span>)}&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
