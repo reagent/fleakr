@@ -52,7 +52,7 @@ module Fleakr
       end
 
       def folder_name # :nodoc:
-        title.gsub("/", '')
+        title.gsub("/", ' ').squeeze(' ')
       end
 
       # Primary photo for this set. See Fleakr::Objects::Photo for more details.

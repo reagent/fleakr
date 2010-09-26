@@ -90,7 +90,14 @@ module Fleakr::Objects
         set = Set.new
         set.stubs(:title).with().returns("This/That")
 
-        set.folder_name.should == 'ThisThat'
+        set.folder_name.should == 'This That'
+      end
+
+      should "collapse spaces when generating the folder name" do
+        set = Set.new
+        set.stubs(:title).with().returns('This / That')
+
+        set.folder_name.should == 'This That'
       end
 
       context "when saving the set" do
