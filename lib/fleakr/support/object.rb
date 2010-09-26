@@ -25,8 +25,11 @@ module Fleakr
             finder_attribute = "#{class_name.demodulize.underscore}_id"
 
             class_eval <<-CODE
-              def #{attribute}
-                @#{attribute} ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, self.authentication_options)
+              def #{attribute}(options = {})
+                @#{attribute} ||= begin
+                  options = authentication_options.merge(options)
+                  #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
+                end
               end
             CODE
           end
