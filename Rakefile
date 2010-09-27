@@ -13,7 +13,7 @@ spec = Gem::Specification.new do |s|
   s.summary          = "A small, yet powerful, gem to interface with Flickr photostreams"
   s.author           = 'Patrick Reagan'
   s.email            = 'reaganpr@gmail.com'
-  s.homepage         = 'http://sneaq.net'
+  s.homepage         = 'http://fleakr.org'
   s.files            = %w(README.rdoc Rakefile) + Dir.glob("{lib,test}/**/*")
 
   s.add_dependency('hpricot', '>= 0.6.164')
