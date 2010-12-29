@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../test_helper'
+require File.expand_path('../../../../test_helper', __FILE__)
 
 module Fleakr::Support
   class AttributeTest < Test::Unit::TestCase
@@ -13,7 +13,7 @@ module Fleakr::Support
         attr = Attribute.new(:foo)
         attr.sources.should == ['foo']
       end
-      
+
       should "be able to assign multiple sources" do
         attr = Attribute.new(:foo, ['foo1', 'foo2'])
         attr.sources.should == ['foo1', 'foo2']
@@ -23,32 +23,32 @@ module Fleakr::Support
         attr = Attribute.new('foo')
         attr.location('foo').should == 'foo'
       end
-      
+
       should "return the location when splitting" do
         attr = Attribute.new('foo')
         attr.split('foo').should == ['foo', nil]
       end
-      
+
       should "return the name for the location when splitting if the location isn't specified" do
         attr = Attribute.new('foo')
         attr.split('@bar').should == ['foo', 'bar']
       end
-      
+
       should "allow the setting of the location information" do
         attr = Attribute.new('foo', 'bar')
         attr.sources.should == ['bar']
       end
-      
+
       should "allow the setting of the attribute value" do
         attr = Attribute.new('foo')
         attr.attribute('@bogon').should == 'bogon'
       end
-      
+
       should "use the location as the attribute" do
         attr = Attribute.new('foo')
         attr.attribute('foo').should == 'foo'
       end
-      
+
       should "use the attribute for the attribute if specified" do
         attr = Attribute.new(:id, '@nsid')
         attr.attribute('@nsid').should == 'nsid'
@@ -57,15 +57,15 @@ module Fleakr::Support
       should "be able to retrieve the node from the path" do
         document = Hpricot.XML('<name>Bassdrive</name>')
         expected = document.at('name')
-        
+
         attr = Attribute.new(:name)
         attr.node_for(document, 'name').should == expected
       end
-      
+
       should "be able to retrieve the node that contains the specified attribute" do
         document = Hpricot.XML('<user id="1337" />')
         expected = document.at('user')
-        
+
         attr = Attribute.new(:id)
         attr.node_for(document, '@id').should == expected
       end
@@ -73,11 +73,11 @@ module Fleakr::Support
       should "be able to retrieve the node for the specified attribute" do
         document = Hpricot.XML('<user nsid="1337" />')
         expected = document.at('user')
-        
+
         attr = Attribute.new(:id, '@nsid')
         attr.node_for(document, '@nsid').should == expected
       end
-      
+
       should "be able to pull simple values from an XML document" do
         document = Hpricot.XML('<name>Bassdrive</name>')
         attr = Attribute.new(:name)
@@ -89,7 +89,7 @@ module Fleakr::Support
         attr = Attribute.new(:id)
         attr.value_from(document).should == '1337'
       end
-        
+
       should "be able to pull a specific attribute value from the current XML node" do
         document = Hpricot.XML('<user nsid="1337" />')
         attr = Attribute.new(:id, '@nsid')
@@ -101,7 +101,7 @@ module Fleakr::Support
         attr = Attribute.new(:slug, 'station/genre@slug')
         attr.value_from(document).should == 'dnb'
       end
-        
+
       should "be able to pull a value from a nested XML node" do
         document = Hpricot.XML('<rsp><user>blip</user></rsp>')
         attr = Attribute.new(:user)

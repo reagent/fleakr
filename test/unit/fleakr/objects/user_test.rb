@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../test_helper'
+require File.expand_path('../../../../test_helper', __FILE__)
 
 module Fleakr::Objects
   class UserTest < Test::Unit::TestCase
@@ -6,7 +6,7 @@ module Fleakr::Objects
     should_search_by :user_id
 
     should_have_many :photos, :groups, :sets, :contacts, :tags, :collections
-    
+
     should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
 
@@ -20,22 +20,22 @@ module Fleakr::Objects
       should "recognize a string as not being a Flickr user ID" do
         User.user_id?('reagent').should be(false)
       end
-      
+
       should "recognize a string as being a Flickr user ID" do
         User.user_id?('43955217@N05').should be(true)
       end
-      
+
       should "be able to find a user by ID when supplied with an identifier" do
         id = '43955217@N05'
         User.expects(:find_by_id).with(id).returns('user')
-        
+
         User.find_by_identifier(id).should == 'user'
       end
-      
+
       should "be able to find a user by username when supplied with an identifier" do
         username = 'reagent'
         User.expects(:find_by_username).with(username).returns('user')
-        
+
         User.find_by_identifier(username).should == 'user'
       end
 
@@ -59,18 +59,18 @@ module Fleakr::Objects
         should_have_a_value_for :icon_farm    => '1'
         should_have_a_value_for :pro          => '1'
         should_have_a_value_for :admin        => '0'
-        
+
       end
-      
+
       context "when populating an object from the urls.lookupUser API call" do
         setup do
           document = Hpricot.XML(read_fixture('urls.lookupUser'))
           @object = User.new(document)
         end
-        
+
         should_have_a_value_for :id       => '123456'
         should_have_a_value_for :username => 'frootpantz'
-        
+
       end
 
       context "in general" do
@@ -101,23 +101,23 @@ module Fleakr::Objects
           @user.stubs(:icon_server).with().returns(nil)
           @user.icon_url.should == 'http://www.flickr.com/images/buddyicon.jpg'
         end
-        
+
         should "return a boolean value for :pro?" do
           @user.stubs(:pro).with().returns('0')
           @user.pro?.should be(false)
-          
+
           @user.stubs(:pro).with().returns('1')
           @user.pro?.should be(true)
         end
-        
+
         should "return a boolean value for :admin?" do
           @user.stubs(:admin).with().returns('0')
           @user.admin?.should be(false)
-          
+
           @user.stubs(:admin).with().returns('1')
           @user.admin?.should be(true)
         end
-        
+
       end
     end
 

@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/testtask'
 
-require 'lib/fleakr/version'
+require File.expand_path('../lib/fleakr/version', __FILE__)
 
 spec = Gem::Specification.new do |s|
   s.name             = 'fleakr'

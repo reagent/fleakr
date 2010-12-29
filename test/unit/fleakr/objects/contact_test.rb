@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '/../../../test_helper'
+require File.expand_path('../../../../test_helper', __FILE__)
 
 module Fleakr::Objects
   class ContactTest < Test::Unit::TestCase
 
     context "The Contact class" do
-      
+
       should "return a list of users for a specified user's contacts" do
         user_1, user_2 = stub(), stub()
 
@@ -19,7 +19,7 @@ module Fleakr::Objects
 
         Contact.find_all_by_user_id('1').should == [user_1, user_2]
       end
-      
+
       should "return a list of users for an authenticated user" do
         response = mock_request_cycle :for => 'contacts.getList', :with => {}
         contact_1, contact_2 = [stub("contact"), stub('contact')]
@@ -29,7 +29,7 @@ module Fleakr::Objects
         Contact.stubs(:new).with(contact_2_doc).returns(@contact_2)
         Contact.find_all.should == [@user_1, @user_2]
       end
-      
+
     end
 
     context "An instance of the Contact class" do
@@ -44,7 +44,7 @@ module Fleakr::Objects
         should_have_a_value_for :icon_farm   => '3'
 
       end
-      
+
       context "when populating from an XML document with authenticated user's contacts" do
         setup do
           @object = Contact.new(Hpricot.XML(read_fixture('contacts.getList')).at('contacts/contact'))
@@ -61,24 +61,24 @@ module Fleakr::Objects
 
 
       context "in general" do
-        
+
         should "be able to convert to a user" do
           contact = Contact.new
           user    = mock()
-          
+
           User.stubs(:new).returns(user)
-          
+
           [:id, :username, :icon_server, :icon_farm, :name, :location].each do |method|
             contact.stubs(method).with().returns(method.to_s)
             user.expects("#{method}=".to_sym).with(method.to_s)
           end
-          
+
           contact.to_user.should == user
         end
-        
+
       end
 
     end
-    
+
   end
 end

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../test_helper'
+require File.expand_path('../../../../test_helper', __FILE__)
 
 module Fleakr::Objects
   class CommentTest < Test::Unit::TestCase
@@ -22,17 +22,17 @@ module Fleakr::Objects
         should_have_a_value_for :created   => '1239217523'
         should_have_a_value_for :url       => 'http://www.flickr.com/photos/frootpantz/3422268412/#comment72157616515348062'
         should_have_a_value_for :body      => 'comment one'
-        
+
       end
-      
+
       context "in general" do
-        
+
         setup { @comment = Comment.new }
 
         should "have a value for :created_at" do
           @comment.expects(:created).with().returns('1239217523')
           Time.expects(:at).with(1239217523).returns('time')
-          
+
           @comment.created_at.should == 'time'
         end
 
@@ -40,25 +40,25 @@ module Fleakr::Objects
           @comment.expects(:body).with().returns('bod')
           @comment.to_s.should == 'bod'
         end
-        
+
         should "be able to find the author of the comment" do
           author = stub()
-          
-          
+
+
           @comment.stubs(:author_id).with().returns('1')
           User.expects(:find_by_id).with('1').returns(author)
-          
+
           @comment.author.should == author
         end
-        
+
         should "memoize the owner information" do
           @comment.stubs(:author_id).with().returns('1')
-          
+
           User.expects(:find_by_id).with('1').once.returns(stub())
-          
+
           2.times { @comment.author }
         end
-        
+
       end
     end
 
