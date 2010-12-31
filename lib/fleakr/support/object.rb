@@ -27,7 +27,8 @@ module Fleakr
             class_eval <<-CODE
               def #{attribute}(options = {})
                 options        = authentication_options.merge(options)
-                key            = '#{attribute}_' + options.sort {|a, b| a[0].to_s <=> b[0].to_s }.to_s
+                sorted_options = options.sort {|a, b| a[0].to_s <=> b[0].to_s }
+                key            = '#{attribute}_' + sorted_options.to_s
 
                 associations[key] ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
               end
