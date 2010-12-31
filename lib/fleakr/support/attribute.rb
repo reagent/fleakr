@@ -15,7 +15,7 @@ module Fleakr
 
       def split(source)
         location, attribute = source.split('@')
-        location = self.name.to_s if location.blank?
+        location = self.name.to_s if Utility.blank?(location)
 
         [location, attribute]
       end
@@ -36,7 +36,7 @@ module Fleakr
       def value_from(document)
         values = sources.map do |source|
           node = node_for(document, source)
-          [node.attributes[attribute(source)], node.inner_text].reject{|v| v.blank?}.first unless node.nil?
+          [node.attributes[attribute(source)], node.inner_text].reject{|v| Utility.blank?(v) }.first unless node.nil?
         end
         values.compact.first
       end

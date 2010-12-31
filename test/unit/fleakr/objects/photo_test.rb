@@ -3,18 +3,20 @@ require File.expand_path('../../../../test_helper', __FILE__)
 module Fleakr::Objects
   class PhotoTest < Test::Unit::TestCase
 
-    should_have_many :images, :tags, :comments
+    should_have_many :images, :class => Image
+    should_have_many :tags, :class => Tag
+    should_have_many :comments, :class => Comment
 
     should_autoload_when_accessing :posted, :taken, :updated, :comment_count, :with => :load_info
     should_autoload_when_accessing :url, :description, :with => :load_info
 
     context "The Photo class" do
 
-      should_find_all :photos, :by => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo'
-      should_find_all :photos, :by => :set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'rsp/photoset/photo'
-      should_find_all :photos, :by => :group_id, :call => 'groups.pools.getPhotos', :path => 'rsp/photos/photo'
+      should_find_all :photos, :by => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo', :class => Photo
+      should_find_all :photos, :by => :set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'rsp/photoset/photo', :class => Photo
+      should_find_all :photos, :by => :group_id, :call => 'groups.pools.getPhotos', :path => 'rsp/photos/photo', :class => Photo
 
-      should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo'
+      should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo', :class => Photo
 
       # TODO: refactor these 2 tests
       should "be able to upload a photo and return the new photo information" do
@@ -110,7 +112,7 @@ module Fleakr::Objects
 
         setup do
           @photo = Photo.new
-          @time = Time.parse('2009-08-01 00:00:00')
+          @time  = Time.parse('2009-08-01 00:00:00')
         end
 
         should "be able to retrieve additional information about the current user" do

@@ -4,7 +4,7 @@ module Fleakr::Objects
   class MetadataTest < Test::Unit::TestCase
 
     context "The Metadata class" do
-      should_find_all :metadata, :class_name => 'Metadata', :by => :photo_id, :call => 'photos.getExif', :path => 'rsp/photo/exif'
+      should_find_all :metadata, :class => Metadata, :by => :photo_id, :call => 'photos.getExif', :path => 'rsp/photo/exif'
     end
 
     context "An instance of the Metadata class" do

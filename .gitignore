@@ -2,4 +2,5 @@
 /coverage/
 /doc/
 /.bundle
+/.rvmrc
 /Gemfile.lock

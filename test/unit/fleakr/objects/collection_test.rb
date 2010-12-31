@@ -5,8 +5,8 @@ module Fleakr::Objects
 
     context "The Collection class" do
 
-      should_find_one :collections, :by => :id, :call => 'collections.getInfo', :path => 'rsp/collection'
-      should_find_all :collections, :by => :user_id, :call => 'collections.getTree', :path => 'rsp/collections/collection'
+      should_find_one :collections, :by => :id, :call => 'collections.getInfo', :path => 'rsp/collection', :class => Collection
+      should_find_all :collections, :by => :user_id, :call => 'collections.getTree', :path => 'rsp/collections/collection', :class => Collection
 
     end
 

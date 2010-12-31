@@ -9,9 +9,9 @@ module Fleakr
         end
 
         def flickr_attribute(*names_and_options)
-          options = names_and_options.extract_options!
+          attributes, options = Utility.extract_options(names_and_options)
 
-          names_and_options.each do |name|
+          attributes.each do |name|
             self.attributes << Attribute.new(name, options[:from])
             class_eval "attr_accessor :#{name}"
           end
@@ -21,13 +21,13 @@ module Fleakr
           class_name = self.name
 
           attributes.each do |attribute|
-            target           = "Fleakr::Objects::#{attribute.to_s.classify}"
-            finder_attribute = "#{class_name.demodulize.underscore}_id"
+            target           = Utility.class_name_for('Fleakr::Objects', attribute)
+            finder_attribute = Utility.id_attribute_for(class_name)
 
             class_eval <<-CODE
               def #{attribute}(options = {})
                 options        = authentication_options.merge(options)
-                key            = '#{attribute}_' + options.sort.to_s
+                key            = '#{attribute}_' + options.sort {|a, b| a[0].to_s <=> b[0].to_s }.to_s
 
                 associations[key] ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
               end
@@ -63,7 +63,7 @@ module Fleakr
         end
 
         def scoped_search
-          key = "#{self.name.demodulize.underscore.downcase}_id".to_sym
+          key = Utility.id_attribute_for(self.name)
 
           class_eval <<-CODE
             def search(*parameters)
@@ -77,15 +77,15 @@ module Fleakr
         end
 
         def lazily_load(*attributes)
-          options = attributes.extract_options!
+          attributes, options = Utility.extract_options(attributes)
 
           attributes.each do |attribute|
             class_eval <<-CODE
-              def #{attribute}_with_loading
+              alias_method :#{attribute}_without_loading, :#{attribute}
+              def #{attribute}
                 self.send(:#{options[:with]}) if @#{attribute}.nil?
                 #{attribute}_without_loading
               end
-              alias_method_chain :#{attribute}, :loading
             CODE
           end
         end

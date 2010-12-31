@@ -3,14 +3,15 @@ require File.expand_path('../../../../test_helper', __FILE__)
 module Fleakr::Objects
   class SetTest < Test::Unit::TestCase
 
-    should_have_many :photos, :comments
+    should_have_many :photos, :class => Photo
+    should_have_many :comments, :class => Comment
 
     should_autoload_when_accessing :user_id, :with => :load_info
 
     context "The Set class" do
 
-      should_find_all :sets, :by => :user_id, :call => 'photosets.getList', :path => 'rsp/photosets/photoset'
-      should_find_one :set, :by => :id, :with => :photoset_id, :call => 'photosets.getInfo', :path => 'rsp/photoset'
+      should_find_all :sets, :by => :user_id, :call => 'photosets.getList', :path => 'rsp/photosets/photoset', :class => Set
+      should_find_one :set, :by => :id, :with => :photoset_id, :call => 'photosets.getInfo', :path => 'rsp/photoset', :class => Set
 
     end
 

@@ -1,28 +1,11 @@
 $:.unshift(File.dirname(__FILE__))
 
-gem 'activesupport', '~> 2.3.0'
-
 require 'uri'
 require 'cgi'
 require 'net/http'
+require 'time'
 require 'hpricot'
 require 'forwardable'
-
-# Require only what we need from ActiveSupport
-require 'active_support/core_ext/array'
-require 'active_support/core_ext/module'
-
-begin
-  # ActiveSupport < 2.3.5
-  require 'active_support/core_ext/blank'
-rescue NameError
-  # ActiveSupport >= 2.3.5 will raise a NameError exception
-  require 'active_support/core_ext/object/blank'
-end
-
-require 'active_support/core_ext/time'
-require 'active_support/inflector'
-require 'active_support/core_ext/string'
 
 require 'digest/md5'
 require 'fileutils'
@@ -94,7 +77,9 @@ module Fleakr
   # Generic catch-all exception for any API errors
   class ApiError < StandardError; end
 
-  mattr_accessor :api_key, :shared_secret, :auth_token
+  class << self
+    attr_accessor :api_key, :shared_secret, :auth_token
+  end
 
   # Find a user based on some unique user data.  This method will try to find
   # the user based on several methods, starting with username and falling back to email and URL

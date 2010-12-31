@@ -5,8 +5,8 @@ module Fleakr::Objects
 
     context "The Comment class" do
 
-      should_find_all :comments, :by => :photo_id, :call => 'photos.comments.getList', :path => 'rsp/comments/comment'
-      should_find_all :comments, :by => :set_id, :using => :photoset_id, :call => 'photosets.comments.getList', :path => 'rsp/comments/comment'
+      should_find_all :comments, :by => :photo_id, :call => 'photos.comments.getList', :path => 'rsp/comments/comment', :class => Comment
+      should_find_all :comments, :by => :set_id, :using => :photoset_id, :call => 'photosets.comments.getList', :path => 'rsp/comments/comment', :class => Comment
 
     end
 

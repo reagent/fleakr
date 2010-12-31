@@ -11,10 +11,12 @@ require File.dirname(__FILE__) + '/../lib/fleakr'
 class Test::Unit::TestCase
 
   def self.should_autoload_when_accessing(*attributes)
-    options = attributes.extract_options!
+    attributes, options = Fleakr::Support::Utility.extract_options(attributes)
+
     attributes.each do |accessor_name|
       should "load the additional user information when accessing the :#{accessor_name} attribute" do
-        klass = self.class.name.sub(/Test$/, '').constantize
+        class_name = self.class.name.match(/([^:]+)Test$/)[1]
+        klass      = Fleakr::Objects.const_get(class_name)
 
         object = klass.new
         object.expects(options[:with]).with()
@@ -34,7 +36,8 @@ class Test::Unit::TestCase
       photos = [stub()]
       search = stub(:results => photos)
 
-      klass = self.class.name.sub(/Test$/, '').constantize
+      class_name = self.class.name.match(/([^:]+)Test$/)[1]
+      klass      = Fleakr::Objects.const_get(class_name)
 
       instance = klass.new
       instance.stubs(:id).with().returns('1')
@@ -46,27 +49,30 @@ class Test::Unit::TestCase
   end
 
   def self.should_have_many(*attributes)
-    class_name = self.name.demodulize.sub(/Test$/, '')
-    this_klass = "Fleakr::Objects::#{class_name}".constantize
+    attributes, options = Fleakr::Support::Utility.extract_options(attributes)
 
-    options = attributes.extract_options!
-    finder_attribute = options[:using].nil? ? "#{class_name.downcase}_id" : options[:using]
+    class_name = self.name.to_s.match(/([^:]+)Test$/)[1]
+    klass      = Fleakr::Objects.const_get(class_name)
+
+    association_class = options[:class]
+
+    finder_attribute = options[:using].nil? ? Fleakr::Support::Utility.id_attribute_for(class_name) : options[:using]
 
     attributes.each do |attribute|
-      target_klass = "Fleakr::Objects::#{attribute.to_s.singularize.classify}".constantize
+
       should "be able to retrieve the #{class_name.downcase}'s #{attribute}" do
         results = [stub()]
-        object = this_klass.new
+        object = klass.new
         object.stubs(:id).with().returns('1')
 
-        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).with('1', {}).returns(results)
+        association_class.expects("find_all_by_#{finder_attribute}".to_sym).with('1', {}).returns(results)
         object.send(attribute).should == results
       end
 
       should "memoize the results for the #{class_name.downcase}'s #{attribute}" do
-        object = this_klass.new
+        object = klass.new
 
-        target_klass.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
+        association_class.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
         2.times { object.send(attribute) }
       end
 
@@ -74,10 +80,6 @@ class Test::Unit::TestCase
   end
 
   def self.should_find_one(thing, options)
-    class_name  = thing.to_s.singularize.camelcase
-    klass       = "Fleakr::Objects::#{class_name}".constantize
-    object_type = class_name.downcase
-
     condition_value = '1'
 
     options[:with] = options[:by] if options[:with].nil?
@@ -87,16 +89,12 @@ class Test::Unit::TestCase
       stub = stub()
       response = mock_request_cycle :for => options[:call], :with => params
 
-      klass.expects(:new).with(response.body, params).returns(stub)
-      klass.send("find_by_#{options[:by]}".to_sym, condition_value).should == stub
+      options[:class].expects(:new).with(response.body, params).returns(stub)
+      options[:class].send("find_by_#{options[:by]}".to_sym, condition_value).should == stub
     end
   end
 
   def self.should_find_all(thing, options)
-    class_name     = options[:class_name] || thing.to_s.singularize.camelcase
-    klass          = "Fleakr::Objects::#{class_name}".constantize
-    object_type    = class_name.downcase
-
     should "be able to find all #{thing} by #{options[:by]}" do
       condition_value = '1'
       finder_options = {(options[:using] || options[:by]) => condition_value}
@@ -106,15 +104,14 @@ class Test::Unit::TestCase
       stubs = []
       elements = (response.body/options[:path]).map
 
-
       elements.each do |element|
         stub = stub()
         stubs << stub
 
-        klass.expects(:new).with(element, finder_options).returns(stub)
+        options[:class].expects(:new).with(element, finder_options).returns(stub)
       end
 
-      klass.send("find_all_by_#{options[:by]}".to_sym, condition_value).should == stubs
+      options[:class].send("find_all_by_#{options[:by]}".to_sym, condition_value).should == stubs
     end
 
   end

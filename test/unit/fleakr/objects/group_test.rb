@@ -3,13 +3,13 @@ require File.expand_path('../../../../test_helper', __FILE__)
 module Fleakr::Objects
   class GroupTest < Test::Unit::TestCase
 
-    should_have_many :photos
+    should_have_many :photos, :class => Photo
 
     should_search_by :group_id
 
     context "The Group class" do
 
-      should_find_all :groups, :by => :user_id, :call => 'people.getPublicGroups', :path => 'rsp/groups/group'
+      should_find_all :groups, :by => :user_id, :call => 'people.getPublicGroups', :path => 'rsp/groups/group', :class => Group
 
     end
 

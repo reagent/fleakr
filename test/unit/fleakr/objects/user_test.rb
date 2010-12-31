@@ -5,17 +5,22 @@ module Fleakr::Objects
 
     should_search_by :user_id
 
-    should_have_many :photos, :groups, :sets, :contacts, :tags, :collections
+    should_have_many :photos, :class => Photo
+    should_have_many :groups, :class => Group
+    should_have_many :sets, :class => Set
+    should_have_many :contacts, :class => Contact
+    should_have_many :tags, :class => Tag
+    should_have_many :collections, :class => Collection
 
     should_autoload_when_accessing :name, :photos_url, :profile_url, :photos_count, :location, :with => :load_info
     should_autoload_when_accessing :icon_server, :icon_farm, :pro, :admin, :icon_url, :with => :load_info
 
     context "The User class" do
 
-      should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user'
-      should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user'
-      should_find_one :user, :by => :id, :with => :user_id, :call => 'people.getInfo', :path => 'rsp/person'
-      should_find_one :user, :by => :url, :call => 'urls.lookupUser', :path => 'rsp/user'
+      should_find_one :user, :by => :username, :call => 'people.findByUsername', :path => 'rsp/user', :class => User
+      should_find_one :user, :by => :email, :with => :find_email, :call => 'people.findByEmail', :path => 'rsp/user', :class => User
+      should_find_one :user, :by => :id, :with => :user_id, :call => 'people.getInfo', :path => 'rsp/person', :class => User
+      should_find_one :user, :by => :url, :call => 'urls.lookupUser', :path => 'rsp/user', :class => User
 
       should "recognize a string as not being a Flickr user ID" do
         User.user_id?('reagent').should be(false)

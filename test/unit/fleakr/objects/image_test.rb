@@ -5,7 +5,7 @@ module Fleakr::Objects
 
     context "The Image class" do
 
-      should_find_all :images, :by => :photo_id, :call => 'photos.getSizes', :path => 'sizes/size'
+      should_find_all :images, :by => :photo_id, :call => 'photos.getSizes', :path => 'sizes/size', :class => Image
 
     end
 
