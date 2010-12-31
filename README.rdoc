@@ -434,6 +434,7 @@ Once your changes are applied, I will add you to the list of contributors.
 While Fleakr started as a labor of love for me, I'm glad that others have been interested
 in this project enough to contribute their ideas and code:
 
+* {Gordon Anderson}[http://github.com/gordonbanderson]
 * {Mark Dickson}[http://github.com/ideaoforder]
 * {John Guenin}[http://github.com/johng]
 * {Thomas Olausson}[http://github.com/latompa]
