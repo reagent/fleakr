@@ -222,6 +222,19 @@ in turn, can have either collections or sets associated with them. For example:
 Note that collections are limited to Flickr pro members. See Fleakr::Objects::Collection for more
 information.
 
+=== Accessing Resources by URL
+
+Sometimes you want to retrieve a person, set, or photo but you only have the public Flickr URL for
+that entity.  Retrieval is easy:
+
+    >> Fleakr.resource_from_url('http://www.flickr.com/people/reagent/')
+    => #<Fleakr::Objects::User @id="25073988@N05", @username="reagent", @authentication_options={}>
+
+This method also supports the retrieval of photos from a shortened Flickr URL:
+
+    >> Fleakr.resource_from_url('http://flic.kr/p/95Nr83')
+    => #<Fleakr::Objects::Photo @id="5305179788", @title="Comic Sans Sign", ... >
+
 === Saving Images
 
 If a photo interests you, save it down to a directory of your choosing:

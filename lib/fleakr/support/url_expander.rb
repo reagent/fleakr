@@ -1,5 +1,5 @@
 module Fleakr
-  module Support
+  module Support # :nodoc:all
 
     class UrlExpander
 

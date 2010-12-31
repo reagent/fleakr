@@ -185,6 +185,8 @@ module Fleakr
     token.user
   end
 
+  # Retrieve a photo, person, or set from a flickr.com URL:
+  #
   def self.resource_from_url(url)
     Fleakr::Objects::Url.new(url).resource
   end
@@ -195,4 +197,3 @@ end
 if defined?(Flickr).nil?
   Flickr = Fleakr
 end
-
