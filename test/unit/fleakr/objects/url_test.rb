@@ -5,7 +5,26 @@ module Fleakr::Objects
 
     context "An instance of the Url class" do
 
-      should "know the path" do
+      should "know that it's not a shortened URL" do
+        u = Url.new('http://flickr.com/photos/reagent/4041660453/')
+        u.shortened?.should be(false)
+      end
+
+      should "know that it's a shortened URL" do
+        u = Url.new('http://flic.kr/p/7a9yQV')
+        u.shortened?.should be(true)
+      end
+
+      should "know the path for a shortened URL" do
+        url = 'http://flic.kr/p/7a9yQV'
+
+        Fleakr::Support::UrlExpander.stubs(:expand).with(url).returns('/expanded/path')
+
+        u = Url.new(url)
+        u.path.should == '/expanded/path'
+      end
+
+      should "now the path for a normal URL" do
         u = Url.new('http://www.flickr.com/photos/reagent/4041660453/')
         u.path.should == '/photos/reagent/4041660453/'
       end
@@ -13,11 +32,6 @@ module Fleakr::Objects
       should "know the path when there is no hostname" do
         u = Url.new('http://flickr.com/photos/reagent/4041660453/')
         u.path.should == '/photos/reagent/4041660453/'
-      end
-
-      should "know the path when using the shortened URL" do
-        u = Url.new('http://flic.kr/p/7a9yQV')
-        u.path.should == '/p/7a9yQV'
       end
 
       should "be able to retrieve a user" do
