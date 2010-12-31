@@ -110,7 +110,7 @@ module Fleakr
         end
 
         def inspect
-          names      = instance_variables.reject {|n| %w(@associations @document).include?(n) }
+          names      = instance_variables.reject {|n| %w(@associations @document).include?(n.to_s) }
           attributes = names.map {|n| "#{n}=#{instance_variable_get(n).inspect}" }
 
           "#<#{self.class} #{attributes.join(', ')}>"
