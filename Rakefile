@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/testtask'
+require 'hanna/rdoctask'
 
 require File.expand_path('../lib/fleakr/version', __FILE__)
 
@@ -22,6 +23,18 @@ end
 
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
+end
+
+Rake::RDocTask.new(:doc) do |doc|
+  doc.rdoc_files.include('README.rdoc').
+    include('lib/**/*.rb').
+    exclude('lib/fleakr/version.rb')
+
+  doc.main = "README.rdoc" # page to start on
+  doc.title = "Fleakr #{Fleakr::Version} Documentation"
+
+  doc.rdoc_dir = "doc/#{Fleakr::Version}"
+  doc.options << '--quiet'
 end
 
 desc 'Install this Gem'
