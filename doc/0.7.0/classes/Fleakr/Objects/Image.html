@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr::Objects::Image [Fleakr 0.7.0 Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Class</span>
+          Fleakr::Objects::Image
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../../../files/lib/fleakr/objects/image_rb.html">lib/fleakr/objects/image.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong>Object</strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="Image.html">Image</a></h1>
+            <p>
+            This class wraps the functionality for saving remote images to disk.
+            It&#8217;s called by the <a href="Photo.html">Fleakr::Objects::Photo</a>
+            class to save an image with a specific size and would typically never be
+            called directly.
+            </p>
+            <p>
+            Example:
+            </p>
+            <pre>user = Fleakr.user('brownout')&#x000A;user.photos.first.small.save_to('/tmp')</pre>
+            <h2>Attributes</h2>
+            <dl>
+            <dt>size</dt><dd>The name of this image&#8217;s size (e.g. Square, Large, etc...)
+            
+            </dd>
+            <dt>width</dt><dd>The width of this image
+            
+            </dd>
+            <dt>height</dt><dd>The height of this image
+            
+            </dd>
+            <dt>url</dt><dd>The direct URL for this image
+            
+            </dd>
+            <dt>page</dt><dd>The page on Flickr that represents this photo
+            
+            </dd>
+            </dl>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000054">filename</a></li>
+              <li><a href="#M000055">save_to</a></li>
+            </ol>
+          </div>
+          <div id='context'>
+            <div id='includes'>
+              <h2>Included modules</h2>
+              <ol>
+                <li>Fleakr::Support::Object</li>
+              </ol>
+            </div>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000054'>
+                <a name='M000054'></a>
+                <div class='synopsis'>
+                  <span class='name'>filename</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  The filename portion of the image (without the full URL)
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000054-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000054-source'><span class="ruby-comment cmt"># File lib/fleakr/objects/image.rb, line 35</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filename</span>&#x000A;        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">url</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/([^\/]+)$/</span>)[<span class="ruby-value">1</span>]&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-instance' id='method-M000055'>
+                <a name='M000055'></a>
+                <div class='synopsis'>
+                  <span class='name'>save_to</span>
+                  <span class='arguments'>(target, prefix = nil)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Save this image to the specified directory or file. If the target is a
+                  directory, the file will be created with the original filename from Flickr.
+                  If the target is a file, it will be saved with the specified name. In the
+                  case that the target file already exists, this method will overwrite it.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000055-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000055-source'><span class="ruby-comment cmt"># File lib/fleakr/objects/image.rb, line 43</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">save_to</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">prefix</span> = <span class="ruby-keyword kw">nil</span>)&#x000A;        <span class="ruby-identifier">destination</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">target</span>) <span class="ruby-operator">?</span> <span class="ruby-node">&quot;#{target}/#{prefix}#{self.filename}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;#{target}&quot;</span>&#x000A;        <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">destination</span>, <span class="ruby-value str">'w'</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span>.<span class="ruby-identifier">get</span>(<span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">url</span>)) }&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

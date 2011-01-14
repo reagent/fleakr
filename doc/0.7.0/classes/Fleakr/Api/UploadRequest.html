@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Fleakr::Api::UploadRequest [Fleakr 0.7.0 Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <div class='name'>
+          <span class='type'>Class</span>
+          Fleakr::Api::UploadRequest
+        </div>
+        <ol class='paths'>
+          <li>
+            <a href="../../../files/lib/fleakr/api/upload_request_rb.html">lib/fleakr/api/upload_request.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong>Object</strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="UploadRequest.html">UploadRequest</a></h1>
+            <p>
+            This implements the upload functionality of the Flickr API which is needed
+            to create new photos and replace the photo content of existing photos
+            </p>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000082">new</a></li>
+              <li><a href="#M000081">with_response!</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000083">upload_options</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='constants-list'>
+              <h2>Constants</h2>
+              <div class='name-list'>
+                <table summary='Constants'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>ENDPOINT_URIS</td>
+                    <td>=</td>
+                    <td class='context-item-value'>{         :create =&gt; 'http://api.flickr.com/services/upload/',         :update =&gt; 'http://api.flickr.com/services/replace/'       }</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='attribute-list'>
+              <h2 class='section-bar'>Attributes</h2>
+              <div class='name-list'>
+                <table>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>parameters</td>
+                    <td class='context-item-value'>[R]</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>type</td>
+                    <td class='context-item-value'>[R]</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='method public-class' id='method-M000082'>
+                <a name='M000082'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(filename, type = :create, options = {})</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Create a new <a href="UploadRequest.html">UploadRequest</a> with the
+                  specified filename, type, and options. Type is one of <tt>:create</tt> or
+                  <tt>:update</tt> to specify whether we are saving a new image or replacing
+                  an existing one.
+                  </p>
+                  <p>
+                  For a list of available options, see the documentation in <a
+                  href="../Objects/Photo.html">Fleakr::Objects::Photo</a>
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000082-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000082-source'><span class="ruby-comment cmt"># File lib/fleakr/api/upload_request.rb, line 37</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-identifier">type</span> = <span class="ruby-identifier">:create</span>, <span class="ruby-identifier">options</span> = {})&#x000A;        <span class="ruby-ivar">@type</span>    = <span class="ruby-identifier">type</span>&#x000A;        <span class="ruby-ivar">@options</span> = <span class="ruby-identifier">options</span>&#x000A;        &#x000A;        <span class="ruby-ivar">@parameters</span> = <span class="ruby-constant">ParameterList</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">upload_options</span>)&#x000A;        <span class="ruby-identifier">parameters</span>.<span class="ruby-identifier">add_upload_option</span>(<span class="ruby-identifier">:photo</span>, <span class="ruby-identifier">filename</span>)&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='method public-class' id='method-M000081'>
+                <a name='M000081'></a>
+                <div class='synopsis'>
+                  <span class='name'>with_response!</span>
+                  <span class='arguments'>(filename, type = :create, options = {})</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Send a request and return a <a href="Response.html">Response</a> object. If
+                  an API error occurs, this raises a <a
+                  href="../ApiError.html">Fleakr::ApiError</a> with the reason for the error.
+                  See <a href="UploadRequest.html#M000082">UploadRequest#new</a> for more
+                  details.
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000081-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000081-source'><span class="ruby-comment cmt"># File lib/fleakr/api/upload_request.rb, line 22</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">with_response!</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-identifier">type</span> = <span class="ruby-identifier">:create</span>, <span class="ruby-identifier">options</span> = {})&#x000A;        <span class="ruby-identifier">request</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span>)&#x000A;        <span class="ruby-identifier">response</span> = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">send</span>&#x000A;        &#x000A;        <span class="ruby-identifier">raise</span>(<span class="ruby-constant">Fleakr</span><span class="ruby-operator">::</span><span class="ruby-constant">ApiError</span>, <span class="ruby-node">&quot;Code: #{response.error.code} - #{response.error.message}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">error?</span>&#x000A;&#x000A;        <span class="ruby-identifier">response</span>&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000083'>
+                <a name='M000083'></a>
+                <div class='synopsis'>
+                  <span class='name'>upload_options</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  A list of upload options for this upload request (see <a
+                  href="Option.html">Fleakr::Api::Option</a>)
+                  </p>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000083-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000083-source'><span class="ruby-comment cmt"># File lib/fleakr/api/upload_request.rb, line 47</span>&#x000A;      <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">upload_options</span>&#x000A;        <span class="ruby-identifier">option_list</span> = <span class="ruby-ivar">@options</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-constant">Option</span>.<span class="ruby-identifier">for</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>) }&#x000A;        <span class="ruby-identifier">option_list</span>.<span class="ruby-identifier">inject</span>({}) {<span class="ruby-operator">|</span><span class="ruby-identifier">hash</span>, <span class="ruby-identifier">option</span><span class="ruby-operator">|</span> <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">option</span>.<span class="ruby-identifier">to_hash</span>)}&#x000A;      <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Hash [Fleakr 0.7.0 Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>Class</span>
+          Hash
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a href="../files/lib/fleakr/core_ext/hash_rb.html">lib/fleakr/core_ext/hash.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong>Object</strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000001">extract!</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000001'>
+                <a name='M000001'></a>
+                <div class='synopsis'>
+                  <span class='name'>extract!</span>
+                  <span class='arguments'>(*keys)</span>
+                </div>
+                <div class='description'>
+                  <p>
+                  Extract the matching keys from the source hash and return a new hash with
+                  those keys:
+                  </p>
+                  <pre>&gt;&gt; h = {:a =&gt; 'b', :c =&gt; 'd'}&#x000A;=&gt; {:a=&gt;&quot;b&quot;, :c=&gt;&quot;d&quot;}&#x000A;&gt;&gt; h.extract!(:a)&#x000A;=&gt; {:a=&gt;&quot;b&quot;}&#x000A;&gt;&gt; h&#x000A;=&gt; {:c=&gt;&quot;d&quot;}</pre>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000001-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000001-source'><span class="ruby-comment cmt"># File lib/fleakr/core_ext/hash.rb, line 13</span>&#x000A;  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">extract!</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>)&#x000A;    <span class="ruby-identifier">value</span> = {}&#x000A;    &#x000A;    <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">merge!</span>({<span class="ruby-identifier">k</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>[<span class="ruby-identifier">k</span>]}) <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">k</span>) }&#x000A;    <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>) }&#x000A;    &#x000A;    <span class="ruby-identifier">value</span>&#x000A;  <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>File: README.rdoc [Fleakr 0.7.0 Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <div class='name'>README.rdoc</div>
+        <div class='paths'>
+          README.rdoc
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>Sat Jan 01 22:18:43 -0700 2011</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="../classes/Fleakr.html">Fleakr</a></h1>
+            <h2>Description</h2>
+            <p>
+            A small, yet powerful, gem to interface with Flickr photostreams
+            </p>
+            <h2>Installation</h2>
+            <h3>Stable</h3>
+            <pre>sudo gem install fleakr</pre>
+            <h3>Bleeding Edge</h3>
+            <pre>$ git clone git://github.com/reagent/fleakr.git&#x000A;$ cd fleakr&#x000A;$ rake gem &amp;&amp; sudo gem install pkg/fleakr-&lt;version&gt;.gem</pre>
+            <h2>Usage</h2>
+            <p>
+            To get started, you&#8217;ll need to grab an API key from Flickr to at
+            least perform any of the non-authenticated, read-only calls. Head on over
+            to the Flickr site to grab one, I&#8217;ll be here when you get back: <a
+            href="http://www.flickr.com/services/api/misc.api_keys.html">www.flickr.com/services/api/misc.api_keys.html</a>
+            </p>
+            <p>
+            Now that you have your key, you can get things rolling with irb and the
+            fleakr gem:
+            </p>
+            <pre>$ irb -r rubygems&#x000A;&gt;&gt; require 'fleakr'</pre>
+            <p>
+            Then, set your API key (only need to do this once per session):
+            </p>
+            <pre>&gt;&gt; Fleakr.api_key = '&lt;your api key here&gt;'</pre>
+            <h3>A Brief Tour</h3>
+            <p>
+            With just an API key, you have the ability to retrieve a substantial amount
+            of data about users, their photosets, photos, contacts, and groups.
+            Let&#8217;s start by finding a user by his username:
+            </p>
+            <pre>&gt;&gt; user = Fleakr.user('the decapitator')&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x692648 @username=&quot;the decapitator&quot;, @id=&quot;21775151@N06&quot;&gt;</pre>
+            <p>
+            By email:
+            </p>
+            <pre>&gt;&gt; user = Fleakr.user('user@host.com')&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x11f484c @username=&quot;bckspcr&quot;, @id=&quot;84481630@N00&quot;&gt;</pre>
+            <p>
+            Or even by URL:
+            </p>
+            <pre>&gt;&gt; user = Fleakr.user('http://www.flickr.com/photos/the_decapitator/')&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x113440c @username=&quot;the decapitator&quot;, @id=&quot;21775151@N06&quot;&gt;</pre>
+            <p>
+            Once you have a user, you can find his associated sets:
+            </p>
+            <pre>&gt;&gt; user.sets&#x000A;=&gt; [#&lt;Fleakr::Objects::Set:0x671358 @title=&quot;The Decapitator&quot;, @description=&quot;&quot;&gt;,&#x000A;    #&lt;Fleakr::Objects::Set:0x66d898 @title=&quot;londonpaper hijack&quot;, ...</pre>
+            <p>
+            His individual photos:
+            </p>
+            <pre>&gt;&gt; user.photos.first&#x000A;=&gt; #&lt;Fleakr::Objects::Photo:0x161b024 @title=&quot;\&quot;Be Fabulous\&quot;&quot; ... &gt;</pre>
+            <p>
+            Or contacts:
+            </p>
+            <pre>&gt;&gt; user.contacts.first&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x19039bc @username=&quot;.schill&quot;,&#x000A;    @id=&quot;12289718@N00&quot;, @icon_farm=&quot;1&quot;, @icon_server=&quot;4&quot;&gt;</pre>
+            <p>
+            Or his groups if you would like:
+            </p>
+            <pre>&gt;&gt; user.groups&#x000A;=&gt; [#&lt;Fleakr::Objects::Group:0x11f2330 ...,&#x000A;    #&lt;Fleakr::Objects::Group:0x11f2308 ...&#x000A;&gt;&gt; user.groups.first.name&#x000A;=&gt; &quot;Rural Decay&quot;&#x000A;&gt;&gt; user.groups.first.id&#x000A;=&gt; &quot;14581414@N00&quot;</pre>
+            <p>
+            Groups also contain photos:
+            </p>
+            <pre>&gt;&gt; user.groups.last.photos.first.title&#x000A;=&gt; &quot;Welcome To The Machine&quot;</pre>
+            <p>
+            When accessing a set, you can also grab all the photos that are in that
+            set:
+            </p>
+            <pre>&gt;&gt; user.sets.first&#x000A;=&gt; #&lt;Fleakr::Objects::Set:0x1195bbc @title=&quot;The Decapitator&quot;, @id=&quot;72157603480986566&quot;, @description=&quot;&quot;&gt;&#x000A;&gt;&gt; user.sets.first.photos.first&#x000A;=&gt; #&lt;Fleakr::Objects::Photo:0x1140108 ... &gt;&#x000A;&gt;&gt; user.sets.first.photos.first.title&#x000A;=&gt; &quot;Untitled1&quot;</pre>
+            <h3>Contacts</h3>
+            <p>
+            Besides pulling back a given user&#8217;s public contacts list, you can
+            also retrieve the list of contacts for the currently authenticated user
+            (see below about authentication). For example, you can retrieve all
+            contacts:
+            </p>
+            <pre>&gt;&gt; Fleakr.contacts&#x000A;=&gt; [#&lt;Fleakr::Objects::Contact:0x111ff84 @username=&quot;bryan.ray&quot; ...&gt;]</pre>
+            <p>
+            Or just the contacts marked as &#8216;family&#8217;:
+            </p>
+            <pre>&gt;&gt; Fleakr.contacts(:family)&#x000A;=&gt; [#&lt;Fleakr::Objects::Contact:0x12db42c @username=&quot;Grandbob&quot; ...&gt;]</pre>
+            <p>
+            Or a specific page of contacts marked as &#8216;friends&#8217;:
+            </p>
+            <pre>&gt;&gt; Fleakr.contacts(:friends, :page =&gt; 3, :per_page =&gt; 5)&#x000A;=&gt; [#&lt;Fleakr::Objects::Contact:0x12a6c54 @username=&quot;Louise and BCG&quot; ...&gt;]</pre>
+            <p>
+            See the documentation for <a
+            href="../classes/Fleakr.html#M000005">Fleakr.contacts</a> for what options
+            are available.
+            </p>
+            <h3>Photos</h3>
+            <p>
+            Each photo object contains metadata about a collection of images, each
+            representing different sizes. Once we have a single photo:
+            </p>
+            <pre>&gt;&gt; photo = user.photos.first&#x000A;=&gt; #&lt;Fleakr::Objects::Photo:0x161b024 @title=&quot;\&quot;Be Fabulous\&quot;&quot; ... &gt;</pre>
+            <p>
+            We can get information about one of the sizes:
+            </p>
+            <pre>&gt;&gt; photo.small&#x000A;=&gt; #&lt;Fleakr::Objects::Image:0x1768f1c @height=&quot;172&quot;, @size=&quot;Small&quot;, @width=&quot;240&quot;,&#x000A;    @url=&quot;http://farm4.static.flickr.com/3250/2924549350_cbc1804258_m.jpg&quot;,&#x000A;    @page=&quot;http://www.flickr.com/photos/the_decapitator/2924549350/sizes/s/&quot;&gt;</pre>
+            <p>
+            Grab the URL for the image itself:
+            </p>
+            <pre>&gt;&gt; photo.small.url&#x000A;=&gt; &quot;http://farm4.static.flickr.com/3250/2924549350_cbc1804258_m.jpg&quot;</pre>
+            <p>
+            Or grab the URL for its page on the Flickr site:
+            </p>
+            <pre>&gt;&gt; photo.small.page&#x000A;=&gt; &quot;http://www.flickr.com/photos/the_decapitator/2924549350/sizes/s/&quot;</pre>
+            <p>
+            Other sizes are available (:square, :thumbnail, :small, :medium, :large,
+            :original) and are accessed in the same way:
+            </p>
+            <pre>&gt;&gt; photo.original.url&#x000A;=&gt; &quot;http://farm4.static.flickr.com/3250/2924549350_1cf67c2d47_o.jpg&quot;</pre>
+            <h3>Tags</h3>
+            <p>
+            Tags are available for users and photos. Retrieving them is easy:
+            </p>
+            <pre>&gt;&gt; user = Fleakr.user('the decapitator')&#x000A;&gt;&gt; user.tags&#x000A;=&gt; [#&lt;Fleakr::Objects::Tag:0x190d5fc @value=&quot;ad&quot;&gt;,&#x000A;    #&lt;Fleakr::Objects::Tag:0x1908a20 @value=&quot;ads&quot;&gt;, ...&#x000A;&gt;&gt; user.photos.first.tags&#x000A;=&gt; [#&lt;Fleakr::Objects::Tag:0x17b1b18 @machine_flag=&quot;0&quot;, @author_id=&quot;21775151@N06&quot;, ...</pre>
+            <p>
+            All tags have values, but for tags associated with photos there is some
+            additional information:
+            </p>
+            <pre>&gt;&gt; tag = user.photos.first.tags.first&#x000A;&gt;&gt; tag.id&#x000A;=&gt; &quot;21729829-3263659141-427098&quot;&#x000A;&gt;&gt; tag.raw&#x000A;=&gt; &quot;decapitator&quot;&#x000A;&gt;&gt; tag.value&#x000A;=&gt; &quot;decapitator&quot;&#x000A;&gt;&gt; tag.to_s&#x000A;=&gt; &quot;decapitator&quot;&#x000A;&gt;&gt; tag.machine?&#x000A;=&gt; false&#x000A;&gt;&gt; tag.author&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x1a149f0 @username=&quot;the decapitator&quot;, ... &gt;</pre>
+            <p>
+            Each tag can also have related tags:
+            </p>
+            <pre>&gt;&gt; user.photos.first.tags[1].related.first.related.first.to_s&#x000A;=&gt; &quot;face&quot;</pre>
+            <p>
+            You get the idea - see <a
+            href="../classes/Fleakr/Objects/Tag.html">Fleakr::Objects::Tag</a> for more
+            information.
+            </p>
+            <h3>Comments</h3>
+            <p>
+            Similar to tags, photosets and photos can each have comments:
+            </p>
+            <pre>&gt;&gt; user.sets.first.comments&#x000A;=&gt; [#&lt;Fleakr::Objects::Comment:0x19795cc ...&#x000A;&gt;&gt; user.photos.first.comments&#x000A;=&gt; [#&lt;Fleakr::Objects::Comment:0x17bf0b0 @body=&quot;Dayum, that's some wishful thinking!&quot; ...</pre>
+            <p>
+            All comments have additional information:
+            </p>
+            <pre>&gt;&gt; comment = user.photos.first.comments.first&#x000A;&gt;&gt; comment.id&#x000A;=&gt; &quot;21729829-3263659141-72157613553885978&quot;&#x000A;&gt;&gt; comment.body&#x000A;=&gt; &quot;Dayum, that's some wishful thinking!&quot;&#x000A;&gt;&gt; comment.to_s&#x000A;=&gt; &quot;Dayum, that's some wishful thinking!&quot;&#x000A;&gt;&gt; comment.url&#x000A;=&gt; &quot;http://www.flickr.com/photos/the_decapitator/3263659141/#comment72157613553885978&quot;&#x000A;&gt;&gt; comment.author&#x000A;=&gt; #&lt;Fleakr::Objects::User:0x178e3d4 @username=&quot;jaspertandy&quot;, ... &gt;</pre>
+            <p>
+            See <a
+            href="../classes/Fleakr/Objects/Comment.html">Fleakr::Objects::Comment</a>
+            for more information.
+            </p>
+            <h3>Collections</h3>
+            <p>
+            An individual can have zero or more collections associated with his
+            account. These collections, in turn, can have either collections or sets
+            associated with them. For example:
+            </p>
+            <pre>&gt;&gt; user = Fleakr.user('username')&#x000A;&gt;&gt; user.collections.length&#x000A;=&gt; 1&#x000A;&gt;&gt; user.collections.first.title&#x000A;=&gt; &quot;The Year in Pictures&quot;&#x000A;&gt;&gt; user.collections.first.collections.length&#x000A;=&gt; 2&#x000A;&gt;&gt; user.collections.first.collections.first.sets.length&#x000A;=&gt; 3&#x000A;&gt;&gt; user.collections.first.collections.first.sets.first.title&#x000A;=&gt; &quot;A Trip to Yosemite&quot;</pre>
+            <p>
+            Note that collections are limited to Flickr pro members. See <a
+            href="../classes/Fleakr/Objects/Collection.html">Fleakr::Objects::Collection</a>
+            for more information.
+            </p>
+            <h3>Accessing Resources by URL</h3>
+            <p>
+            Sometimes you want to retrieve a person, set, or photo but you only have
+            the public Flickr URL for that entity. Retrieval is easy:
+            </p>
+            <pre>&gt;&gt; Fleakr.resource_from_url('http://www.flickr.com/people/reagent/')&#x000A;=&gt; #&lt;Fleakr::Objects::User @id=&quot;25073988@N05&quot;, @username=&quot;reagent&quot;, @authentication_options={}&gt;</pre>
+            <p>
+            This method also supports the retrieval of photos from a shortened Flickr
+            URL:
+            </p>
+            <pre>&gt;&gt; Fleakr.resource_from_url('http://flic.kr/p/95Nr83')&#x000A;=&gt; #&lt;Fleakr::Objects::Photo @id=&quot;5305179788&quot;, @title=&quot;Comic Sans Sign&quot;, ... &gt;</pre>
+            <h3>Saving Images</h3>
+            <p>
+            If a photo interests you, save it down to a directory of your choosing:
+            </p>
+            <pre>&gt;&gt; photo.original.save_to('/tmp')&#x000A;=&gt; #&lt;File:/tmp/2924549350_1cf67c2d47_o.jpg (closed)&gt;</pre>
+            <p>
+            Similarly, you can save down entire sets. Just specify the target directory
+            and the size of the images you&#8217;re interested in:
+            </p>
+            <pre>&gt;&gt; user.sets.first.save_to('/tmp', :square)&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x1187a1c @secret=&quot;715587b2cb&quot; ...</pre>
+            <p>
+            This creates a subdirectory within the target directory based on the
+            set&#8217;s name and preserves the original order of the photos:
+            </p>
+            <pre>&gt;&gt; Dir[&quot;/tmp/#{user.sets.first.title}/*.jpg&quot;].map&#x000A;=&gt; [&quot;/tmp/The Decapitator/01_2117922283_715587b2cb_s.jpg&quot;,&#x000A;    &quot;/tmp/The Decapitator/02_2125604584_9c09348fd6_s.jpg&quot;,&#x000A;    &quot;/tmp/The Decapitator/03_2118696542_8af5763bde_s.jpg&quot;, ... ]</pre>
+            <h3>Searching</h3>
+            <p>
+            If you would prefer to just search photos, you can do that with search
+            text:
+            </p>
+            <pre>&gt;&gt; photos = Fleakr.search('ponies!!')&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x11f4e64 @title=&quot;hiroshima atomic garden&quot;, @id=&quot;3078234390&quot;&gt;,&#x000A;    #&lt;Fleakr::Objects::Photo:0x11f4928 @title=&quot;PONYLOV&quot;, @id=&quot;3077360853&quot;&gt;, ...&#x000A;&gt;&gt; photos.first.title&#x000A;=&gt; &quot;hiroshima atomic garden&quot;</pre>
+            <p>
+            You can also search based on tags:
+            </p>
+            <pre>&gt;&gt; photos = Fleakr.search(:tags =&gt; 'macro')&#x000A;&gt;&gt; photos.first.title&#x000A;=&gt; &quot;Demure&quot;&#x000A;&gt;&gt; photos.first.id&#x000A;=&gt; &quot;3076049945&quot;</pre>
+            <p>
+            Searches can also be scoped to other entities in the system (namely Users
+            and Groups):
+            </p>
+            <pre>&gt;&gt; user.groups.first.search('awesome')&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x18cb4cc @server_id=&quot;2012&quot;, @id=&quot;2181921273&quot;,&#x000A;     @farm_id=&quot;3&quot;, @title=&quot;&quot;, @secret=&quot;634eda7521&quot;&gt;, ...&#x000A;&gt;&gt; user.search('serpent')&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x18a6960 @server_id=&quot;41&quot;, @id=&quot;81370156&quot;,&#x000A;    @farm_id=&quot;1&quot;, @title=&quot;Clear and Serpent Danger&quot;, @secret=&quot;013091582a&quot;&gt;]</pre>
+            <h3>Exif Data</h3>
+            <p>
+            Exif metadata can be retrieved for a photo:
+            </p>
+            <pre>&gt;&gt; photo = Fleakr::Objects::Photo.find_by_id('4507120023')&#x000A;&gt;&gt; photo.metadata.keys&#x000A;=&gt; [&quot;ImageSize&quot;, &quot;Optical Zoom Mode&quot;, &quot;RedBalance&quot;, &quot;Y-Resolution&quot;, ... ]&#x000A;&gt;&gt; photo.metadata['ImageSize']&#x000A;=&gt; &quot;3264x2448&quot;</pre>
+            <p>
+            You can iterate over the available elements and grab additional
+            information:
+            </p>
+            <pre>&gt;&gt; photo.metadata.map {|k, e| &quot;#{k} =&gt; '#{e.clean}'&quot; }&#x000A;=&gt; [&quot;Exposure =&gt; '0.003 sec (1/400)'&quot;, &quot;Y-Resolution =&gt; '180 dpi'&quot;, ... ]</pre>
+            <p>
+            See the documentation for <a
+            href="../classes/Fleakr/Objects/Metadata.html">Fleakr::Objects::Metadata</a>
+            for information on what&#8217;s available.
+            </p>
+            <h3>Uploading Files</h3>
+            <p>
+            Before you can upload files, you need to be able to make authenticated
+            calls to the Flickr API. Skip to the next section (Authenticated Calls) for
+            details on how to make this work.
+            </p>
+            <p>
+            Uploading single files is simple:
+            </p>
+            <pre>&gt;&gt; Fleakr.upload('/path/to/image.jpg')&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x217fb54 @updated=&quot;1236133594&quot;, @server_id=&quot;3266&quot;, ...&gt;]</pre>
+            <p>
+            Notice that the newly-uploaded image is returned. You can further inspect /
+            modify this as necessary. The real magic is in uploading multiple files -
+            the upload method takes a file glob:
+            </p>
+            <pre>&gt;&gt; Fleakr.upload('/path/to/images/*.jpg')&#x000A;=&gt; [#&lt;Fleakr::Objects::Photo:0x217faa0 ...&gt;,&#x000A;    #&lt;Fleakr::Objects::Photo:0x212fb18 ...&gt;,&#x000A;    #&lt;Fleakr::Objects::Photo:0x20e09c8 ...&gt;]</pre>
+            <p>
+            You can also set options on the file(s) that you&#8217;re uploading:
+            </p>
+            <pre>&gt;&gt; Fleakr.upload('/path/to/party/images/*.jpg', :viewable_by =&gt; :everyone,&#x000A;                                                :title =&gt; 'Party Pics')</pre>
+            <p>
+            The full list of options can be found in the <a
+            href="../classes/Fleakr/Objects/Photo.html">Fleakr::Objects::Photo</a>
+            documentation.
+            </p>
+            <h3>Authenticated Calls</h3>
+            <p>
+            While read-only access to the API gets you quite a bit of data,
+            you&#8217;ll need to generate an authentication token if you want access to
+            the more powerful features (like uploading your own photos).
+            </p>
+            <p>
+            Depending on how you intend to use the Flickr API, there are 2 methods for
+            performing authenticated calls.
+            </p>
+            <h3>Single User</h3>
+            <p>
+            You&#8217;ll need to configure your API key to to use Mobile
+            authentication. If you&#8217;re viewing your list of keys on the Flickr
+            site, click on the &#8216;Edit key details&#8217; link and ensure that:
+            </p>
+            <ol>
+            <li>Your application description and notes are up-to-date
+            
+            </li>
+            <li>The value for &#8216;Authentication Type&#8217; is set to &#8216;Mobile
+            Application&#8217;
+            
+            </li>
+            <li>The value for &#8216;Mobile Permissions&#8217; is set to either
+            &#8216;write&#8217; or &#8216;delete&#8217;
+            
+            </li>
+            </ol>
+            <p>
+            Once this is set, you&#8217;ll see your Authentication URL on the key
+            details page (it will look something like <a
+            href="http://www.flickr.com/auth-534525246245">www.flickr.com/auth-534525246245</a>).
+            Paste this URL into your browser and confirm access to get your mini-token.
+            Now you&#8217;re ready to configure your authentication token:
+            </p>
+            <pre>Fleakr.api_key       = 'ABC123'&#x000A;Fleakr.shared_secret = 'sekrit' # Available with your key details on the Flickr site&#x000A;&#x000A;token = Fleakr.token_from_mini_token('294-585-410')&#x000A;Fleakr.auth_token = token.value&#x000A;&#x000A;Fleakr.upload('/path/to/my/photo.jpg')</pre>
+            <p>
+            Once you use the mini-token once it is no longer available. To use the
+            generated auth_token for future requests, you&#8217;ll need to make sure
+            that you set the value permanently:
+            </p>
+            <pre>Fleakr.auth_token = '72157622657341094-41241e527f325abb'</pre>
+            <h3>Multiple Users</h3>
+            <p>
+            If you need to have your application access other users photos on their
+            behalf, you&#8217;ll want to use the Web authentication method. Edit your
+            key details and make sure that:
+            </p>
+            <ol>
+            <li>Your application description and notes are up-to-date
+            
+            </li>
+            <li>The value for &#8216;Authentication Type&#8217; is set to &#8216;Web
+            Application&#8217;
+            
+            </li>
+            <li>You configure your callback URL to point to something valid and accessible
+            
+            </li>
+            </ol>
+            <p>
+            Make sure that your key and secret are set as above. You can then begin the
+            process by requesting that the user authorize access to his Flickr account
+            by redirecting to an authorization URL. I&#8217;m assuming Rails
+            conventions here, but this should work with any Ruby web framework:
+            </p>
+            <pre>redirect_to Fleakr.authorization_url</pre>
+            <p>
+            By default, we request read permission for access. This doesn&#8217;t
+            really do much more than what the public API allows, so you can request
+            different permissions when asking for authorization:
+            </p>
+            <pre># The values :read, :write, and :delete are supported&#x000A;redirect_to Fleakr.authorization_url(:delete)</pre>
+            <p>
+            One the user authorizes your application, he will be redirected back to
+            your callback URL with a <tt>frob</tt> parameter as part of the query
+            string. You&#8217;ll need to exchange this for a token:
+            </p>
+            <pre>token = Fleakr.token_from_frob(params[:frob])</pre>
+            <p>
+            The actual authentication token is available by calling
+            <tt>token.value</tt> in the above example. You&#8217;ll want to store this
+            value somewhere to make future API calls on behalf of this user. To make
+            that process easier, there is a method that you can use that will allow you
+            to automatically scope your requests to the authenticated user:
+            </p>
+            <pre>user = Fleakr.user_for_token('72157622657341094-41241e527f325abb')</pre>
+            <p>
+            From there, you can make any of the usual calls available with the API. See
+            <a href="../classes/Fleakr/Objects/User.html">Fleakr::Objects::User</a> for
+            more information.
+            </p>
+            <h3>What Went Wrong?</h3>
+            <p>
+            Because so much of the underlying API is hidden under the covers,
+            it&#8217;s often tough to know what&#8217;s really going on when you run
+            into unexpected behavior. To make things easier, you can have <a
+            href="../classes/Fleakr.html">Fleakr</a> log all of the API traffic.
+            Here&#8217;s how:
+            </p>
+            <pre>Fleakr.logger = Logger.new('/tmp/fleakr.log')</pre>
+            <p>
+            Now any calls to the API will log both their request and response data to
+            that file. But be warned, this can be pretty verbose by default (especially
+            if you&#8217;re doing file uploads). To see just the requests you need to
+            tune the log level:
+            </p>
+            <pre>logger = Logger.new('/tmp/fleakr.log')&#x000A;logger.level = Logger::INFO&#x000A;&#x000A;Fleakr.logger = logger</pre>
+            <p>
+            Even if something doesn&#8217;t go wrong, this is a good way to get a sense
+            for when you&#8217;re making API requests.
+            </p>
+            <h2>Contributing</h2>
+            <p>
+            If there is a feature that you would like to contribute, I gladly accept
+            pull requests. There are a few things that make my life easier when
+            integrating your changes:
+            </p>
+            <ul>
+            <li>Verify that all tests are passing (run `rake` from the project root)
+            
+            </li>
+            <li>Keep your commits small, focused, and tested - this allows me to apply
+            changes cleanly
+            
+            </li>
+            <li>Leave the Rakefile and version information intact - if you really want to
+            make changes, please do so in a separate commit.
+            
+            </li>
+            </ul>
+            <p>
+            Once your changes are applied, I will add you to the list of contributors.
+            </p>
+            <h2>Contributors</h2>
+            <p>
+            While <a href="../classes/Fleakr.html">Fleakr</a> started as a labor of
+            love for me, I&#8217;m glad that others have been interested in this
+            project enough to contribute their ideas and code:
+            </p>
+            <ul>
+            <li><a href="http://github.com/gordonbanderson">Gordon Anderson</a>
+            
+            </li>
+            <li><a href="http://github.com/ideaoforder">Mark Dickson</a>
+            
+            </li>
+            <li><a href="http://github.com/johng">John Guenin</a>
+            
+            </li>
+            <li><a href="http://github.com/latompa">Thomas Olausson</a>
+            
+            </li>
+            <li><a href="http://github.com/slaskis">Robert Sköld</a>
+            
+            </li>
+            <li><a href="http://github.com/base10">Nathan Walls</a>
+            
+            </li>
+            <li><a href="http://github.com/we5">Björn Wolf</a>
+            
+            </li>
+            </ul>
+            <p>
+            Thanks!
+            </p>
+            <h2>Roadmap / TODO</h2>
+            <h3>0.5.x</h3>
+            <ul>
+            <li>Implement remaining bits of person and photo-related API calls (read-only)
+            
+            </li>
+            <li>Provide a better searching interface with ruby-like option syntax
+            
+            </li>
+            </ul>
+            <h3>Future</h3>
+            <ul>
+            <li>Implement asynchronous file upload / replacement w/ ticket checking
+            
+            </li>
+            <li>Implement save-able search results (e.g. <a
+            href="../classes/Fleakr.html#M000003">Fleakr.search</a>(&#8216;ponies&#8217;).save_to(&#8217;/path&#8217;,
+            :medium))
+            
+            </li>
+            <li>Implement deeper associations for core elements (e.g. tags / etc..)
+            
+            </li>
+            <li>Implement write methods for photos &amp; photosets
+            
+            </li>
+            <li>Implement flickr.places.* portion of API
+            
+            </li>
+            </ul>
+            <h2>License</h2>
+            <p>
+            Copyright &#169; 2008 Patrick Reagan (reaganpr@gmail.com)
+            </p>
+            <p>
+            Permission is hereby granted, free of charge, to any person obtaining a
+            copy of this software and associated documentation files (the
+            &#8220;Software&#8221;), to deal in the Software without restriction,
+            including without limitation the rights to use, copy, modify, merge,
+            publish, distribute, sublicense, and/or sell copies of the Software, and to
+            permit persons to whom the Software is furnished to do so, subject to the
+            following conditions:
+            </p>
+            <p>
+            The above copyright notice and this permission notice shall be included in
+            all copies or substantial portions of the Software.
+            </p>
+            <p>
+            THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
+            EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+            MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+            NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+            DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+            OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+            USE OR OTHER DEALINGS IN THE SOFTWARE.
+            </p>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
