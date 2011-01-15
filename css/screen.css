@@ -125,8 +125,20 @@ div#updates li span.date {
   line-height: 12px;
 }
 
+div#updates ul li a {
+  text-transform: lowercase;
+}
+
 div#footer {
   border-top: 2px solid #000;
+}
+
+div#post {
+  margin-bottom: 10px;
+}
+
+div#content h2 {
+  text-transform: lowercase;
 }
 
 div#post div#date {
