@@ -5,14 +5,23 @@ body {
   background: #eee;
 }
 
-h1, h2 {
+h1, h2, h3, h4 {
   font-family: Arial;
 }
 
-h2 {
+h2, h3, h4 {
   font-weight: bold;
+}
+
+h2 {
   font-size: 24px;
   margin: 2px 0;
+}
+
+h3 {
+  color: #444;
+  font-size: 18px;
+  margin: 10px 0;
 }
 
 p {
@@ -27,6 +36,10 @@ a {
 
 a:hover {
   border-bottom: 1px dotted;
+}
+
+h1 a:hover {
+  border: none;
 }
 
 tt {
@@ -82,20 +95,68 @@ div#version span strong {
   font-size: 22px;
 }
 
-div#sidebar {
+.callout {
   background: #BAC2CC;
   border-radius: 10px;
   padding-top: 10px;
 }
 
-div#sidebar h2 {
+.callout ul {
+  padding-bottom: 10px;
+}
+
+.callout h2 {
   margin-left: 10px;
 }
 
-div#sidebar h2 {
+.callout h2 {
   font-size: 16px;
+}
+
+div#updates ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 20px;
+}
+
+div#updates li span.date {
+  display: block;
+  font-size: 12px;
+  line-height: 12px;
 }
 
 div#footer {
   border-top: 2px solid #000;
+}
+
+div#post div#date {
+  background: #BAC2CC;
+  border-radius: 10px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+}
+
+div#post div#date span.month,
+div#post div#date span.day,
+div#post div#date span.year {
+  display: block;
+}
+
+div#post div#date span.day {
+  font-size: 22px;
+  line-height: 22px;
+}
+
+div#post div#date span.month {
+  font-size: 18px;
+  font-weight: bold;
+  font-variant: small-caps;
+  line-height: 18px;
+}
+
+div#post div#date span.year {
+  font-size: 12px;
+  line-height: 12px;
 }

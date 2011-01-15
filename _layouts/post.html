@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<div id="post" class="clearfix">
+  <div id="date" class="span-2">
+    <span class="day">{{ page.date | date: '%d' }}</span>
+    <span class="month">{{ page.date | date: '%b' }}</span>
+    <span class="year">{{ page.date | date: '%Y' }}</span>
+  </div>
+  <div id="content" class="span-15 last">
+    <h2>{{ page.title }}</h2>
+    {{content}}
+  </div>
+</div>

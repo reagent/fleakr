@@ -1,0 +1,71 @@
+---
+layout: post
+title: Version 0.7.0 Released
+---
+
+<p>
+  After more than a year since the last release, I'm happy to be able to announce
+  <a href="http://rubygems.org/gems/fleakr/versions/0.7.0">the 0.7.0 release of Fleakr</a>.
+  There were a number of enhancements and new features in this version:
+</p>
+
+<h3>passing options to associations</h3>
+
+<p>
+  Previously, when you were accessing an association for an object (e.g. <tt>user.photos</tt>) you had no control
+  over the options passed to the underlying API call.  Now you do:
+</p>
+
+{% highlight ruby %}
+user = Fleakr.user('reagent')
+user.photos(:per_page => 10)
+{% endhighlight %}
+
+<h3>fetching a resource by its identifier</h3>
+
+<p>
+  There are a few <a href="http://www.flickr.com/services/api/misc.urls.html">well-known web page URLs</a> that
+  Flickr provides for users, photos, and sets.  Fleakr can consume any of these (including the short URLs) and
+  return the correct object:
+</p>
+
+{% highlight ruby %}
+Fleakr.resource_from_url(
+  'http://www.flickr.com/people/reagent/'
+)
+Fleakr.resource_from_url('http://flic.kr/p/7a9yQV')
+{% endhighlight %}
+
+<p>For more information, see the documentation on <a href="/doc/0.7.0/classes/Fleakr.html#M000010">Fleakr.resource_from_url</a>.</p>
+
+<h3>accessing exif metadata for a photo</h3>
+
+<p>For a given photo, you now have access to all the Exif metadata for that image:</p>
+
+{% highlight ruby %}
+photo.metadata.keys
+photo.metadata['Model']
+{% endhighlight %}
+
+<p>There's more data available than just this, so check the <a href="/doc/0.7.0/classes/Fleakr/Objects/Metadata.html">documentation</a>.</p>
+
+<h3>goodbye, active_support</h3>
+
+<p>
+  ActiveSupport provided me with a quick way to get some complex functionality, but once we started seeing the release of Rails 3
+  it became a liability due to the incompatibility of the 2.x and 3.x releases.  This became a major pain point for people wanting
+  to use Fleakr in their Rails apps (both 2.3 and 3.0), so I removed the dependency.
+</p>
+
+<h3>other updates</h3>
+
+<p>In addition to these features, I made a few small tweaks:</p>
+
+<ul>
+  <li>Resolved issues with path names when saving a set</li>
+  <li>Cleaned up output when inspecting objects</li>
+  <li>Introduced Bundler to handle development dependencies</li>
+  <li>Improved support for Ruby 1.9</li>
+</ul>
+
+<p>You can see the <a href="https://github.com/reagent/fleakr/compare/0.6.3...0.7.0">full list of changes on Github</a>.</p>

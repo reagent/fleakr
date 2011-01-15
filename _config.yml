@@ -1,2 +1,4 @@
 pygments: true
+permalink: /:title
 gem_version: 0.7.0
+default_title: "Fleakr: A small, yet powerful, gem to interface with Flickr photostreams"
