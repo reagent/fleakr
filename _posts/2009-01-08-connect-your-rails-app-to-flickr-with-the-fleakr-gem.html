@@ -1,0 +1,86 @@
+---
+layout: post
+title: Connect Your Rails App to Flickr With The Fleakr Gem
+short_title: Integrating With Rails 2.3
+---
+<p>
+  <a href="http://github.com/reagent/fleakr/tree/master">Fleakr</a> started out as a simple way for me to
+  download photos through the console (something it does quite well), but it is also really easy to use
+  inside your Rails application.
+</p>
+
+<p>
+  Let's build a sample app that displays the latest photos for a specific Flickr user.  First, install
+  the gem and create your Rails app:
+</p>
+
+{% highlight bash %}
+$ sudo gem install fleakr
+$ rails fleakr-demo
+{% endhighlight %}
+
+<p>Configure the gem inside your application:</p>
+
+{% highlight ruby %}
+# config/environment.rb
+config.gem 'fleakr'
+{% endhighlight %}
+
+<p>Since we're doing read-only calls, we only need an API key - let's set that in an initializer:</p>
+
+{% highlight ruby %}
+# config/initializers/fleakr.rb
+Fleakr.api_key = 'your_api_key_here'
+{% endhighlight %}
+
+<p>Now we'll create a simple action that will accept a Flickr user as a parameter and pull back the recent photos:</p>
+
+{% highlight bash %}
+$ script/generate controller users show
+{% endhighlight %}
+
+<p>Then, add a route (and remember to delete public/index.html):</p>
+
+{% highlight ruby %}
+# config/routes.rb
+map.user ':username', :controller => 'users', :action => 'show'
+{% endhighlight %}
+
+<p>Add a line to retrieve the specified user:</p>
+
+{% highlight ruby %}
+class UsersController < ApplicationController
+
+  def show
+    @user = Fleakr.user(params[:username])
+  end
+
+end
+{% endhighlight %}
+
+<p>Finally, create some simple view code to pull back the latest photos (limited to 100) in groups of 10</p>
+
+{% highlight erb %}
+<% # app/views/users/show.html.erb %>
+<% @user.photos.each_slice(10) do |photos| %>
+  <div>
+  <% photos.each do |photo| %>
+    <%= link_to image_tag(photo.square.url),
+          photo.url,
+          :width => photo.square.width,
+          :height => photo.square.height %>
+  <% end %>
+  </div>
+<% end %>
+{% endhighlight %}
+
+<p>
+  You're all set - start up your server and point your browser to a URL containing a Flickr
+  username (e.g. http://localhost:3000/teamviget).
+</p>
+
+<p>
+  <strong>Warning:</strong> This is extremely inefficent and is designed <strong>only</strong> to show
+  you what's possible and shouldn't be used in a production application.  The rendering of this view can take
+  up to a minute because it has to do N + 1 API calls (where N is the number of recent photos, capped at 100).
+</p>

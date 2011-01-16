@@ -1,0 +1,46 @@
+---
+layout: post
+title: Grab Flickr Tags and Comments With Fleakr
+short_title: Tags and Comments
+---
+<p>
+  I just pushed out <a href="http://github.com/reagent/fleakr/tree/0.4.3">version 0.4.3</a> of the
+  <a href="http://github.com/reagent/fleakr/tree/master">Fleakr gem</a> that provides support for
+  retrieving tags and comments for users, photos, and photosets.  These are non-authenticated methods,
+  so all you need is your API key:
+</p>
+
+{% highlight ruby %}
+Fleakr.api_key = 'your_api_key'
+{% endhighlight %}
+
+<p>Once that's set, you can retrieve tags for users and photos:</p>
+
+{% highlight ruby %}
+user = Fleakr.user('teamviget')
+user.tags.first.value
+user.sets.first.photos.first.tags.first.value
+{% endhighlight %}
+
+<p>Given a single tag, you can also retrieve a list of related tags:</p>
+
+{% highlight ruby %}
+user.tags.first.related.first
+{% endhighlight %}
+
+<p>
+  Tags associated with a photo have more information associated to them -
+  see <a href="http://fleakr.org/doc/{{ site.gem_version }}/index.html">the documentation</a> for what's available.
+  Comments have no such limitation and are available for both sets and individual photos:
+</p>
+
+{% highlight ruby %}
+user = Fleakr.user('the decapitator')
+user.sets.first.comments
+user.photos.first.comments
+{% endhighlight %}
+
+<p>
+  Give it a try for yourself - check out <a href="http://fleakr.org/doc/{{ site.gem_version }}/index.html">the docs</a> or
+  <a href="mailto:reaganpr@gmail.com">send me an email</a> if you get stuck.  Enjoy.
+</p>

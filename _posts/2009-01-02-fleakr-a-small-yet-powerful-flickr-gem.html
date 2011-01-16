@@ -1,0 +1,122 @@
+---
+layout: post
+title: "Fleakr: A Small, Yet Powerful, Flickr Gem"
+short_title: Introducing Fleakr
+---
+<p>
+  It's been a while since I've posted here, but I've been spending all of my "free" time working on
+  what has become a labor of love (or masochism) for me.  What started out as a simple way to sync
+  Flickr photos with my iPod turned out to be a much more full-fledged implementation of the
+  <a href="http://github.com/reagent/fleakr/tree/master">Flickr REST API in Ruby</a>.
+</p>
+
+<h2>Why?</h2>
+
+<p>
+  Originally, I was going to use the
+  <a href="http://github.com/ctagg/flickr/tree/master">recently-forked flickr</a> gem as the basis
+  for the download functionality I needed, but I found that:
+</p>
+
+<ul>
+<li>Chaining method calls would lose my API key</li>
+<li>I didn't like the API that the gem exposed </li>
+<li>The underlying code wasn't something that I really wanted to touch</li>
+</ul>
+
+<p>While this works for pulling back a user's contacts:</p>
+
+{% highlight ruby %}
+class User
+  def contacts
+    @client.contacts_getPublicList('user_id'=>@id)['contacts']['contact'].collect { |contact|
+      User.new(contact['nsid'], contact['username'], nil, nil, @api_key)
+    }
+  end
+end
+{% endhighlight %}
+
+<p>What I really wanted was something like this:</p>
+
+{% highlight ruby %}
+class User
+  has_many :contacts
+end
+{% endhighlight %}
+
+<h2>What Can It Do?</h2>
+
+<p>
+  The gem implements all the read-only API calls that I care about at the moment, as well as
+  basic uploading.  It also adds some nice features (like quick saving of photos or sets) while
+  exposing a clean, Ruby-like API.  Here are some basics:
+</p>
+
+{% highlight ruby %}
+require 'rubygems'
+require 'fleakr'
+
+Fleakr.api_key = 'gobbledygook'
+
+# Find a user
+user = Fleakr.user('teamviget')
+
+# Grab a set from the list
+set = user.sets[4]
+
+puts set.title        # => "Rails Rumble 2008"
+puts set.description  # => "Multiple Viget teams (and friends) ..."
+
+# Inspect a photo
+photo = set.photos.first
+
+puts photo.title       # => "Fast and Furious"
+puts photo.description # => "Off to a good start on day #1"
+
+# Save an individual image to disk
+photo.large.save_to('/tmp/rumble_day_one.jpg')
+
+# Save an entire set (large photos) to a specific directory
+set.save_to('/tmp', :large)
+
+# Search photos
+rumble_photo = Fleakr.search("rails rumble '08").first
+
+puts rumble_photo.title       # => "rumbling"
+puts rumble_photo.description # => "Planificando con Luismi ..."
+
+# Scoped search
+team = user.search('team').first
+
+puts team.url       # => "http://www.flickr.com/photos/viget/2987133534/"
+puts team.large.url # => http://farm4.static.flickr.com/3040/2987133534_c54b1def4c_b.jpg
+
+# Uploading is supported if you have an auth_token (see the RDoc)
+
+# Upload a single file
+Fleakr.upload('/path/to/my.jpg')
+
+# Upload a bunch of files
+Fleakr.upload('/path/to/my/photos/*.jpg')
+{% endhighlight %}
+
+<p>
+  For more detailed documentation, check out the
+  <a href="http://fleakr.org/doc/{{ site.gem_version}}/index.html">full RDoc</a> or the
+  <a href="http://github.com/reagent/fleakr/tree/master/README.rdoc">README file on GitHub</a>.
+</p>
+
+<h2>How Do I Get It?</h2>
+
+<p>RubyGems is the place to go for the latest, most stable version.  A simple gem installation will work:</p>
+
+{% highlight bash %}
+$ sudo gem install fleakr
+{% endhighlight %}
+
+<h2>What's Next?</h2>
+
+<p>
+  Check out the "Roadmap / TODO" section in the RDoc for what's to come.  I'll also be showing off some
+  cool ways to use the Flickr API in future blog posts.
+</p>

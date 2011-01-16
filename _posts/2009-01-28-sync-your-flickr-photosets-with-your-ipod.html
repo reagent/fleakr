@@ -1,0 +1,83 @@
+---
+layout: post
+title: Sync Your Flickr Photosets With Your iPod
+short_title: iPod Syncing
+---
+<p>
+  One of the main reasons <a href="http://fleakr.org/fleakr-a-small-yet-powerful-flickr-gem">I wrote</a>
+  the <a href="http://github.com/reagent/fleakr/tree/master">Fleakr gem</a> was to pull down
+  my latest photosets from Flickr and sync them with my iPod.  To get started, create a directory
+  that you'll use to store all your sets:
+</p>
+
+{% highlight bash %}
+$ mkdir /tmp/flickr
+{% endhighlight %}
+
+<p>
+  Connect your iPod, open iTunes, and navigate to the "Photos" configuration tab.  Select the
+  option to sync photos from a local directory (first checkbox) and choose the directory you
+  just created (<tt>/tmp/flickr</tt>):
+</p>
+
+<img src="http://fleakr.org/images/itunes_configuration.png" alt="iTunes Configuration" />
+
+<p>
+  To download your latest set, you can use this code.  Go ahead and name this file 'flickr-download',
+  but make sure to <a href="http://fleakr.org/doc/{{ site.gem_version }}/files/README_rdoc.html">install</a> the
+  <tt>fleakr</tt> gem first:
+</p>
+
+{% highlight ruby %}
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'fleakr'
+
+Fleakr.api_key = 'sekrit'
+
+user = 'the decapitator'
+target_dir = '/tmp/flickr'
+
+Fleakr.user(user).sets.first.save_to(target_dir, :medium)
+{% endhighlight %}
+
+<p>Once this file is saved, make it executable and run it:</p>
+
+{% highlight bash %}
+$ chmod +x flickr-download
+$ ./flickr-download
+{% endhighlight %}
+
+<p>Once your script completes, you'll have the latest photoset saved to your target directory:</p>
+
+{% highlight bash %}
+$ ls -F /tmp/flickr/
+The Decapitator/
+$ ls -1 /tmp/flickr/The\ Decapitator/
+01_2117922283_715587b2cb.jpg
+02_2125604584_9c09348fd6.jpg
+03_2118696542_8af5763bde.jpg
+04_2146369495_e266cf3c18.jpg
+05_2146384313_a8dbfb589c.jpg
+...
+{% endhighlight %}
+
+<p>
+  You'll notice that each file is prefixed with a series of digits - this is used to preserve
+  the original order of the photos in the set.  Otherwise your photos would display in a seemingly
+  random order when played as a slideshow on your iPod.
+</p>
+
+<p>
+  That's it!Your photos will now be available on your iPod after the next synchronization. If you
+  want to retrieve other sizes, you can specify that size in place of where I put
+  <tt>:medium</tt> above.  See the
+  <a href="http://fleakr.org/doc/{{ site.gem_version }}/classes/Fleakr/Objects/Photo.html">documentation for all available sizes</a>.
+</p>
+
+<p>
+  You can run this script each time you add a new set to your Flickr photostream, or even schedule
+  it to be run periodically using <a href="http://en.wikipedia.org/wiki/Cron">cron</a> or a tool
+  like <a href="http://tuppis.com/lingon/">Lingon</a>.
+</p>

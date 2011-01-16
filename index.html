@@ -1,33 +1,34 @@
 ---
-layout: default
+layout: global
 ---
-<h2>about</h2>
-<p>
-  This gem provides a clean and powerful interface for interacting with the <a href="http://www.flickr.com/services/api/">Flickr API</a>.
-  It is designed to be simple to begin using, but supports advanced usage for photo uploads and integration into a web application.  To
-  get started, just configure it with a valid <a href="http://www.flickr.com/services/apps/create/apply/">API key</a>.
-</p>
-<h2>features</h2>
+<div id="content" class="span-17">
+  <h2>about</h2>
+  <p>
+    This gem provides a clean and powerful interface for interacting with the <a href="http://www.flickr.com/services/api/">Flickr API</a>.
+    It is designed to be simple to begin using, but supports advanced usage for photo uploads and integration into a web application.  To
+    get started, just configure it with a valid <a href="http://www.flickr.com/services/apps/create/apply/">API key</a>.
+  </p>
+  <h2>features</h2>
 
-<p>Fleakr supports:</p>
+  <p>Fleakr supports:</p>
 
-<ul>
-  <li>Retrieval of resources (e.g users, sets, photos, etc...) with finders or through associations</li>
-  <li>Single-user authentication via Mobile authentication mode</li>
-  <li>Multi-user authentication via Web authentication mode</li>
-  <li>Individual and bulk uploading of photos</li>
-  <li>Individual and bulk downloading of photos to a destination path</li>
-</ul>
+  <ul>
+    <li>Retrieval of resources (e.g users, sets, photos, etc...) with finders or through associations</li>
+    <li>Single-user authentication via Mobile authentication mode</li>
+    <li>Multi-user authentication via Web authentication mode</li>
+    <li>Individual and bulk uploading of photos</li>
+    <li>Individual and bulk downloading of photos to a destination path</li>
+  </ul>
 
-<h2>installation</h2>
+  <h2>installation</h2>
 
-<p>Fleakr is available via <a href="http://rubygems.org/gems/fleakr">RubyGems</a>:</p>
+  <p>Fleakr is available via <a href="http://rubygems.org/gems/fleakr">RubyGems</a>:</p>
 
 {% highlight bash %}
 $ gem install fleakr
 {% endhighlight %}
 
-<p>Or you can grab a pre-release version from <a href="http://github.com/reagent/fleakr">Github</a>:</p>
+  <p>Or you can grab a pre-release version from <a href="http://github.com/reagent/fleakr">Github</a>:</p>
 
 {% highlight bash %}
 $ git clone git://github.com/reagent/fleakr.git
@@ -35,9 +36,9 @@ $ cd fleakr
 $ rake install
 {% endhighlight %}
 
-<h2>basic usage</h2>
+  <h2>basic usage</h2>
 
-<p>To get started, require the gem and set your API key:</p>
+  <p>To get started, require the gem and set your API key:</p>
 {% highlight ruby %}
 require 'rubygems'
 require 'fleakr'
@@ -45,57 +46,80 @@ require 'fleakr'
 Fleakr.api_key = 'my_api_key'
 {% endhighlight %}
 
-<p>
-  This will give you read-only access to all the resources you have permission to view.  To see what's available or to configure
-  write access (including photo uploading), take a look at the <a href="doc/{{site.gem_version}}/index.html">latest documentation</a>.
-</p>
+  <p>
+    This will give you read-only access to all the resources you have permission to view.  To see what's available or to configure
+    write access (including photo uploading), take a look at the <a href="doc/{{site.gem_version}}/index.html">latest documentation</a>.
+  </p>
 
-<h2>running tests</h2>
+  <h2>running tests</h2>
 
-<p>
-  Because the development dependencies are managed with <a href="http://gembundler.com/">Bundler</a>, all you need to do is
-  install them:
-</p>
+  <p>
+    Because the development dependencies are managed with <a href="http://gembundler.com/">Bundler</a>, all you need to do is
+    install them:
+  </p>
 
 {% highlight bash %}
 $ bundle install
 {% endhighlight %}
 
-<p>
-  From there you can run <tt>rake</tt> to run all tests in the suite.  If you would like to run code coverage statistics, install
-  the <a href="http://rubygems.org/gems/rcov">rcov Gem</a>:
-</p>
+  <p>
+    From there you can run <tt>rake</tt> to run all tests in the suite.  If you would like to run code coverage statistics, install
+    the <a href="http://rubygems.org/gems/rcov">rcov Gem</a>:
+  </p>
 
 {% highlight bash %}
 $ gem install rcov
 {% endhighlight %}
 
-<p>
-  Once that is installed, the default task will run all tests and report the coverage.
-</p>
+  <p>
+    Once that is installed, the default task will run all tests and report the coverage.
+  </p>
 
-<h2>contributing</h2>
-<p>
-If there is a feature that you would like to see, <a href="http://github.com/reagent/fleakr/issues">open an issue</a> or
-implement the feature yourself.  If you are contributing code, please:
-</p>
-<ol>
-  <li>Fork the <a href="http://github.com/reagent/fleakr">repository on Github</a>.</li>
-  <li>Make changes to the code with accompanying tests. If you need to change the version, do so in a separate commit.</li>
-  <li>Send me a pull request.</li>
-</ol>
-<p>If I include your changes I will add you to the list of contributors.</p>
+  <h2>contributing</h2>
+  <p>
+  If there is a feature that you would like to see, <a href="http://github.com/reagent/fleakr/issues">open an issue</a> or
+  implement the feature yourself.  If you are contributing code, please:
+  </p>
+  <ol>
+    <li>Fork the <a href="http://github.com/reagent/fleakr">repository on Github</a>.</li>
+    <li>Make changes to the code with accompanying tests. If you need to change the version, do so in a separate commit.</li>
+    <li>Send me a pull request.</li>
+  </ol>
+  <p>If I include your changes I will add you to the list of contributors.</p>
 
-<h2>contributors</h2>
+  <h2>contributors</h2>
 
-<p>These people have given their time, code, and ideas to this project:</p>
+  <p>These people have given their time, code, and ideas to this project:</p>
 
-<ul>
-  <li><a href="http://github.com/gordonbanderson">Gordon Anderson</a></li>
-  <li><a href="http://github.com/ideaoforder">Mark Dickson</a></li>
-  <li><a href="http://github.com/johng">John Guenin</a></li>
-  <li><a href="http://github.com/latompa">Thomas Olausson</a></li>
-  <li><a href="http://github.com/slaskis">Robert Sk&ouml;ld</a></li>
-  <li><a href="http://github.com/base10">Nathan Walls</a></li>
-  <li><a href="http://github.com/we5">Bj&ouml;rn Wolf</a></li>
-</ul>
+  <ul>
+    <li><a href="http://github.com/gordonbanderson">Gordon Anderson</a></li>
+    <li><a href="http://github.com/ideaoforder">Mark Dickson</a></li>
+    <li><a href="http://github.com/johng">John Guenin</a></li>
+    <li><a href="http://github.com/latompa">Thomas Olausson</a></li>
+    <li><a href="http://github.com/slaskis">Robert Sk&ouml;ld</a></li>
+    <li><a href="http://github.com/base10">Nathan Walls</a></li>
+    <li><a href="http://github.com/we5">Bj&ouml;rn Wolf</a></li>
+  </ul>
+</div>
+
+<div id="sidebar" class="span-7 last">
+  <div id="resources" class="callout">
+    <h2>resources</h2>
+    <ul>
+      <li><a href="http://github.com/reagent/fleakr">Repository</a></li>
+      <li><a href="/doc/{{site.gem_version}}/index.html">Latest Documentation</a></li>
+      <li><a href="http://github.com/reagent/fleakr/wiki">Wiki</a></li>
+      <li><a href="http://github.com/reagent/fleakr/issues">Issues</a></li>
+    </ul>
+  </div>
+  <div id="updates" class="callout">
+    <h2>updates</h2>
+    <ul>
+      {% for post in site.posts %}
+        <li>
+          <span class="date">{{ post.date | date: '%B %e, %Y' }}</span><a href="{{post.url}}">{{post.short_title}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

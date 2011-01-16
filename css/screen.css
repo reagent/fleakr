@@ -1,3 +1,23 @@
+/* Override blueprint defaults */
+
+pre, code, tt {
+  font-size: 13px;
+  line-height: 13px;
+}
+
+pre {
+  margin: 0;
+}
+
+/* Override syntax defaults */
+.highlight {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow: auto;
+}
+
+/* Styles */
+
 body {
   font-family: Georgia;
   margin-top: 20px;
@@ -125,6 +145,10 @@ div#updates li span.date {
   line-height: 12px;
 }
 
+div#updates ul li {
+  margin: 5px 0;
+}
+
 div#updates ul li a {
   text-transform: lowercase;
 }
@@ -171,4 +195,8 @@ div#post div#date span.month {
 div#post div#date span.year {
   font-size: 12px;
   line-height: 12px;
+}
+
+div#content img {
+  border: 2px solid #ccc;
 }

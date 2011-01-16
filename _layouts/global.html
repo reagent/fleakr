@@ -15,6 +15,7 @@
   <![endif]-->
   <link rel="stylesheet" href="/css/syntax.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+
   <link rel="alternate" type="application/rss+xml" title="Subscribe to Fleakr updates" href="http://fleakr.org/updates.rss" />
 </head>
 <body>
@@ -27,29 +28,8 @@
         <span>version <strong>{{site.gem_version}}</strong></span>
       </div>
     </div>
-    <div id="content" class="span-17">
+    <div id="main" class="span-24 last">
       {{content}}
-    </div>
-    <div id="sidebar" class="span-7 last">
-      <div id="resources" class="callout">
-        <h2>resources</h2>
-        <ul>
-          <li><a href="http://github.com/reagent/fleakr">Repository</a></li>
-          <li><a href="/doc/{{site.gem_version}}/index.html">Latest Documentation</a></li>
-          <li><a href="http://github.com/reagent/fleakr/wiki">Wiki</a></li>
-          <li><a href="http://github.com/reagent/fleakr/issues">Issues</a></li>
-        </ul>
-      </div>
-      <div id="updates" class="callout">
-        <h2>updates</h2>
-        <ul>
-          {% for post in site.posts %}
-            <li>
-              <span class="date">{{ post.date | date: '%B %e, %Y' }}</span><a href="{{post.url}}">{{post.title}}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
     </div>
     <div id="footer" class="span-24 last">
       <p>&copy; 2008 - {{ 'now' | date: '%Y' }} <a href="http://sneaq.net">Patrick Reagan</a> (<a href="mailto:reaganpr@gmail.com">reaganpr@gmail.com</a>)</p>

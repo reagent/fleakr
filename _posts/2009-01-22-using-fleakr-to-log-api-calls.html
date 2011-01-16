@@ -1,0 +1,36 @@
+---
+layout: post
+title: Using Fleakr to Log API Calls
+short_title: Logging API Calls
+---
+<p>
+  I just added a new feature to the <a href="http://github.com/reagent/fleakr">fleakr</a>
+  gem that gives you the ability to log all calls to the API.  To get started just point it to a logger:
+</p>
+
+{% highlight ruby %}
+Fleakr.logger = Logger.new('/tmp/fleakr.log')
+{% endhighlight %}
+
+<p>This is great when just using the gem, but it's more useful when you're using it as part of your Rails app:</p>
+
+{% highlight ruby %}
+# config/initializers/fleakr.rb
+Fleakr.logger = RAILS_DEFAULT_LOGGER
+{% endhighlight %}
+
+<p>
+  By default, this logs all traffic (including file data if you're doing uploads), so you may want to turn
+  down logging in development to see just the requests:
+</p>
+
+{% highlight ruby %}
+# config/environments/development.rb
+config.log_level = :info
+{% endhighlight %}
+
+<p>
+  If you missed it, check out my
+  <a href="http://fleakr.org/connect-your-rails-app-to-flickr-with-the-fleakr-gem">recent post</a>
+  to get started using Fleakr in your Rails app.
+</p>

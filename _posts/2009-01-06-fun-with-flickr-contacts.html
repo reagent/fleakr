@@ -1,0 +1,71 @@
+---
+layout: post
+title: "Fun With Flickr Contacts"
+short_title: Fun With Contacts
+---
+<p>
+  One of the fun things about the API I created with the
+  <a href="http://github.com/reagent/fleakr/tree/master">Fleakr gem</a>is that many
+  of the chained associations available were provided "for free."  For example, you
+  can find the contacts for a user:
+</p>
+
+{% highlight ruby %}
+Fleakr.api_key = 'sekrit'
+
+user = Fleakr.user('teamviget')
+
+puts user.contacts.map(&:username)
+  # =>  ["benscofield", "Brian Landau", "Brian Williams", "carolynhack", ...
+  #       "ryanmoede", "Samanthatoy", "stephay22", "The Mindinator", "whafro"]
+
+puts user.contacts.length          # => 21
+puts user.contacts.first.name      # => "Ben Scofield"
+puts user.contacts.last.name       # => "M. Jackson Wilkinson"
+puts user.contacts.last.location   # => "Washington, DC, USA"
+{% endhighlight %}
+
+<p>
+  Not really that earth-shattering.  But since a "contact" is really an instance of the
+  <a href="http://fleakr.org/doc/{{ site.gem_version}}/classes/Fleakr/Objects/User.html">User class</a>,
+  I can chain the calls to do some strange and useless things:
+</p>
+
+{% highlight ruby %}
+puts user.contacts.last.contacts.length # => 70
+puts user.contacts.last.contacts.first.sets.last.photos.first.url
+  # => "http://www.flickr.com/photos/aarongustafson/55410766/"
+{% endhighlight %}
+
+<p>There are other attributes available for your contacts as well:</p>
+
+{% highlight ruby %}
+# Attributes available from the API
+puts user.class.attributes.map(&:name)
+  # => [:id, :username, :name, :location, :photos_url, :profile_url,
+  #     :photos_count, :icon_server, :icon_farm, :pro, :admin]
+
+# Additional attributes
+puts user.pro?      # => true
+puts user.admin?    # => false
+puts user.icon_url
+  # => "http://farm2.static.flickr.com/1018/buddyicons/11166619@N03.jpg"
+{% endhighlight %}
+
+<p>And associations:</p>
+
+{% highlight ruby %}
+puts user.photos.map(&:title)[0..1]
+  # => ["VigeTurf Loves Boston!", "Turf in Central Cali"]
+
+puts user.groups.map(&:name)[0..1]
+  # => ["Refresh DC", "Happy at work"]
+
+puts user.sets.map(&:title)[0..1]
+  # => ["Viget South Holiday Dinner 2008", "VigeTurf Shots"]
+{% endhighlight %}
+
+<p>
+  Use your powers for good, and beware the
+  <a href="http://www.flickr.com/photos/aarongustafson/55410766/">random strange images</a>.
+</p>

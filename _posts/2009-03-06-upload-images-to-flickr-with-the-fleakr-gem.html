@@ -1,0 +1,108 @@
+---
+layout: post
+title: Upload Images to Flickr With The Fleakr Gem
+short_title: Uploading Images
+---
+<p>
+  I just released <a href="http://github.com/reagent/fleakr/tree/0.4.2">version 0.4.2 of the Fleakr gem</a>
+  which includes better support for options when uploading files. To get started, install the gem from RubyGems:
+</p>
+
+{% highlight bash %}
+$ sudo gem install fleakr
+{% endhighlight %}
+
+<p>
+  Then make sure that you have an API key, shared secret, and auth token for the
+  <a href="http://www.flickr.com/services/api/keys/">Flickr API</a>.  You can find instructions on how to do
+  this in the <a href="http://fleakr.org/doc/{{ site.gem_version }}/index.html">Fleakr documentation</a>
+  (see the "Authenticated Calls" section).  Once you have that data, you can configure the gem pretty quickly:
+</p>
+
+{% highlight ruby %}
+Fleakr.api_key       = 'ABC123'
+Fleakr.shared_secret = 'sekrit'
+Fleakr.auth_token    = 'DEADBEEF'
+{% endhighlight %}
+
+<p>Now, let's start uploading.</p>
+
+<h2>Single Files</h2>
+
+<p>The simplest way to upload is using a single file:</p>
+
+{% highlight ruby %}
+photos = Fleakr.upload('/path/to/my/image.jpg')
+{% endhighlight %}
+
+<p>
+  Once uploaded, you now have a reference to the new file through the <code>photos</code>
+  array.  By default, this image has a title based on the filename and is only viewable to you.
+  Let's change that:
+</p>
+
+{% highlight ruby %}
+photos = Fleakr.upload('image.jpg', :title => 'My Mug',
+                                    :viewable_by => :everyone)
+{% endhighlight %}
+
+<p>This new image is available to anyone and has a customized title.</p>
+
+<h2>Multiple Files</h2>
+
+<p>
+  In addition to specifying a path to a single file, the <code>upload</code> method accepts a
+  fileglob.  This way, you can push out a full directory of images in a single call:
+</p>
+
+{% highlight ruby %}
+photos = Fleakr.upload('/party/images/*.jpg', :title => 'Party Photo',
+                                              :viewable_by => :everyone)
+{% endhighlight %}
+
+<p>Once the upload finishes, <code>photos</code> will contain a collection of the newly-uploaded images.</p>
+
+<h2>Additional Options</h2>
+
+<p>We saw how to set titles and permissions, but here are the full options that are available:</p>
+
+<ul>
+<li><strong><code>:title</code></strong> - Duh.</li>
+<li><strong><code>:description</code></strong> - The description of the image / photo.</li>
+<li><strong><code>:tags</code></strong> - A list of tags. This should be supplied as a single string value or an array of strings.</li>
+<li><strong><code>:viewable_by</code></strong> - A list of who can view this photo.  Can be either <code>:everyone</code> or a combination of <code>:friends</code> and <code>:family</code> (e.g. <code>:viewable_by =&gt; [:friends, :family]</code>).</li>
+<li><strong><code>:level</code></strong> - The "safety level" of the photo.  Can be one of <code>:safe</code>, <code>:moderate</code>, or <code>:restricted</code></li>
+<li><strong><code>:type</code></strong> - What does this image represent?  Can be one of <code>:photo</code>, <code>:screenshot</code>, or <code>:other</code></li>
+<li><strong><code>:hide?</code></strong> - Should we hide this image from public searches?  Set to <code>true</code> or <code>false</code>.</li>
+</ul>
+
+<p>
+  This list is also available in the
+  <a href="http://fleakr.org/doc/{{ site.gem_version }}/classes/Fleakr/Objects/Photo.html#M000056">documentation for <code>Photo#upload</code></a>.
+</p>
+
+<h2>Replacing Files</h2>
+
+<p>Remember when I said that the <code>upload</code> method returned a list of newly-uploaded photos?  You can use that to replace the image if you'd like:</p>
+
+{% highlight ruby %}
+photos = Fleakr.upload('/path/to/image.jpg', :viewable_by => :everyone)
+photos.first.replace_with '/path/to/other_image.jpg'
+{% endhighlight %}
+
+<p>The same applies to any photo in your photoset.  For example:</p>
+
+{% highlight ruby %}
+user = Fleakr.user('my_username')
+photo = user.photos.first.replace_with('~/embarrassing_photo.jpg')
+{% endhighlight %}
+
+<p>Enjoy!</p>
+
+<h2>Additional Resources</h2>
+
+<ul>
+<li><a href="http://fleakr.org/doc/{{ site.gem_version }}/index.html">Fleakr Documentation</a></li>
+<li><a href="https://github.com/reagent/fleakr/tree">Fleakr on GitHub</a></li>
+<li><a href="http://www.flickr.com/services/api/upload.api.html">Flickr Upload documentation</a></li>
+</ul>
