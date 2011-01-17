@@ -44,8 +44,9 @@ module Fleakr::Objects
       should "have an associated user" do
         token = AuthenticationToken.new
         token.stubs(:user_id).with().returns('1')
+        token.stubs(:value).with().returns('auth_token')
 
-        User.expects(:find_by_id).with('1').returns('user')
+        User.expects(:find_by_id).with('1', :auth_token => 'auth_token').returns('user')
 
         token.user.should == 'user'
       end
