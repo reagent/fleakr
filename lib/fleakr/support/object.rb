@@ -21,19 +21,25 @@ module Fleakr
           class_name = self.name
 
           attributes.each do |attribute|
-            target           = Utility.class_name_for('Fleakr::Objects', attribute)
             finder_attribute = Utility.id_attribute_for(class_name)
+            method           = "find_all_by_#{finder_attribute}".to_sym
 
-            class_eval <<-CODE
-              def #{attribute}(options = {})
-                options        = authentication_options.merge(options)
-                sorted_options = options.sort {|a, b| a[0].to_s <=> b[0].to_s }
-                key            = '#{attribute}_' + sorted_options.to_s
-
-                associations[key] ||= #{target}.send("find_all_by_#{finder_attribute}".to_sym, self.id, options)
-              end
-            CODE
+            association(attribute, :type => attribute, :method => method)
           end
+        end
+
+        def association(name, options)
+          class_name = Utility.class_name_for('Fleakr::Objects', options[:type])
+
+          class_eval <<-CODE
+            def #{name}(options = {})
+              options        = authentication_options.merge(options)
+              sorted_options = options.sort {|a, b| a[0].to_s <=> b[0].to_s }
+              key            = '#{name}_' + sorted_options.to_s
+
+              associations[key] ||= #{class_name}.send("#{options[:method]}".to_sym, self.id, options)
+            end
+          CODE
         end
 
         def find_all(condition, options)

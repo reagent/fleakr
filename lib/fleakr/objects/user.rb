@@ -1,10 +1,10 @@
 module Fleakr
   module Objects # :nodoc:
-    
+
     # = User
     #
     # == Accessors
-    # 
+    #
     # This class maps directly onto the flickr.people.* API methods and provides the following attributes
     # for a user:
     #
@@ -23,7 +23,7 @@ module Fleakr
     #
     # The User class is pretty central to many of the other data available across the system, so there are a
     # few associations available to a user:
-    # 
+    #
     # [sets] A list of this user's public sets (newest first). See Fleakr::Objects::Set for more information.
     # [groups] A list of this user's public groups. See Fleakr::Objects::Group.
     # [photos] A list of this user's public photos (newest first).  See Fleakr::Objects::Photo.
@@ -56,7 +56,10 @@ module Fleakr
       flickr_attribute :pro, :from => 'person@ispro'
       flickr_attribute :admin, :from => 'person@isadmin'
 
-      has_many :sets, :groups, :photos, :contacts, :tags, :collections
+      has_many :sets, :groups, :contacts, :tags, :collections
+
+      association :private_photos, :type => :photo, :method => :find_all_private_photos_by_user_id
+      association :public_photos, :type => :photo, :method => :find_all_by_user_id
 
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
@@ -67,15 +70,23 @@ module Fleakr
       lazily_load :icon_server, :icon_farm, :pro, :admin, :with => :load_info
 
       scoped_search
-      
+
       def self.user_id?(username_or_user_id)
         (username_or_user_id =~ /^\d+@N\d{2}$/) ? true : false
       end
-      
+
       def self.find_by_identifier(identifier)
         user_id?(identifier) ? find_by_id(identifier) : find_by_username(identifier)
       end
-      
+
+      def authenticated?
+        !authentication_options.empty?
+      end
+
+      def photos
+        authenticated? ? private_photos : public_photos
+      end
+
       # Is this a pro account?
       def pro?
         (self.pro.to_i == 0) ? false : true
@@ -94,7 +105,7 @@ module Fleakr
           'http://www.flickr.com/images/buddyicon.jpg'
         end
       end
-      
+
       def load_info # :nodoc:
         response = Fleakr::Api::MethodRequest.with_response!('people.getInfo', :user_id => self.id)
         self.populate_from(response.body)

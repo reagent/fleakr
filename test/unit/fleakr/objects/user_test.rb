@@ -5,7 +5,8 @@ module Fleakr::Objects
 
     should_search_by :user_id
 
-    should_have_many :photos, :class => Photo
+    should_have_many :public_photos, :class => Photo, :method => :find_all_by_user_id
+    should_have_many :private_photos, :class => Photo, :method => :find_all_private_photos_by_user_id
     should_have_many :groups, :class => Group
     should_have_many :sets, :class => Set
     should_have_many :contacts, :class => Contact
@@ -81,6 +82,30 @@ module Fleakr::Objects
       context "in general" do
 
         setup { @user = User.new }
+
+        should "know that it is not authenticated" do
+          user = User.new(nil, {:foo => 'bar'})
+          user.authenticated?.should be(false)
+        end
+
+        should "know that it's authenticated" do
+          user = User.new(nil, {:auth_token => 'toke'})
+          user.authenticated?.should be(true)
+        end
+
+        should "retrieve public photos when it's not authenticated" do
+          @user.stubs(:authenticated?).with().returns(false)
+          @user.expects(:public_photos).returns('photos')
+
+          @user.photos.should == 'photos'
+        end
+
+        should "retreive all photos when it's authenticated" do
+          @user.stubs(:authenticated?).with().returns(true)
+          @user.expects(:private_photos).returns('photos')
+
+          @user.photos.should == 'photos'
+        end
 
         should "be able to retrieve additional information about the current user" do
           response = mock_request_cycle :for => 'people.getInfo', :with => {:user_id => @user.id}

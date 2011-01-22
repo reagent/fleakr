@@ -57,6 +57,7 @@ module Fleakr
       find_all :by_set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'photoset/photo'
       find_all :by_user_id, :call => 'people.getPublicPhotos', :path => 'photos/photo'
       find_all :by_group_id, :call => 'groups.pools.getPhotos', :path => 'photos/photo'
+      find_all :private_photos_by_user_id, :call => 'people.getPhotos', :path => 'photos/photo', :using => :user_id
 
       find_one :by_id, :using => :photo_id, :call => 'photos.getInfo'
 

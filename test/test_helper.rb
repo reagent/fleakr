@@ -58,6 +58,8 @@ class Test::Unit::TestCase
 
     finder_attribute = options[:using].nil? ? Fleakr::Support::Utility.id_attribute_for(class_name) : options[:using]
 
+    method = options[:method] || "find_all_by_#{finder_attribute}"
+
     attributes.each do |attribute|
 
       should "be able to retrieve the #{class_name.downcase}'s #{attribute}" do
@@ -65,14 +67,14 @@ class Test::Unit::TestCase
         object = klass.new
         object.stubs(:id).with().returns('1')
 
-        association_class.expects("find_all_by_#{finder_attribute}".to_sym).with('1', {}).returns(results)
+        association_class.expects(method.to_sym).with('1', {}).returns(results)
         object.send(attribute).should == results
       end
 
       should "memoize the results for the #{class_name.downcase}'s #{attribute}" do
         object = klass.new
 
-        association_class.expects("find_all_by_#{finder_attribute}".to_sym).once.returns([])
+        association_class.expects(method.to_sym).once.returns([])
         2.times { object.send(attribute) }
       end
 
@@ -111,7 +113,9 @@ class Test::Unit::TestCase
         options[:class].expects(:new).with(element, finder_options).returns(stub)
       end
 
-      options[:class].send("find_all_by_#{options[:by]}".to_sym, condition_value).should == stubs
+      method = options[:method] || "find_all_by_#{options[:by]}"
+
+      options[:class].send(method.to_sym, condition_value).should == stubs
     end
 
   end
