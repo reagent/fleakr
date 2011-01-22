@@ -5,20 +5,21 @@ module Fleakr::Support
 
     context "The Utility class" do
 
-      should "know the module and class name for a simple string" do
+      should "know the module and class name for a given name" do
+        Utility.stubs(:class_name).with('foo').returns('Foo')
         Utility.class_name_for('Module', 'foo').should == 'Module::Foo'
       end
 
-      should "know the module and class name for a symbol" do
-        Utility.class_name_for('Module', :foo).should == 'Module::Foo'
+      should "know the class name for a singular symbol" do
+        Utility.class_name(:photo).should == 'Photo'
       end
 
-      should "know the module and class name for a string that contains an underscore" do
-        Utility.class_name_for('Module', 'foo_bar').should == 'Module::FooBar'
+      should "know the class name for a pluralized symbol" do
+        Utility.class_name(:photos).should == 'Photo'
       end
 
-      should "know the module and class name for a pluralized string" do
-        Utility.class_name_for('Module', 'foos').should == 'Module::Foo'
+      should "know the class name for a symbol with underscores" do
+        Utility.class_name(:photo_context).should == 'PhotoContext'
       end
 
       should "know the ID attribute for a simple class name" do

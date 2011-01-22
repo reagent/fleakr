@@ -18,26 +18,16 @@ module Fleakr
         end
 
         def has_many(*attributes)
-          class_name = self.name
-
-          attributes.each do |attribute|
-            finder_attribute = Utility.id_attribute_for(class_name)
-            method           = "find_all_by_#{finder_attribute}".to_sym
-
-            association(attribute, :type => attribute, :method => method)
-          end
+          attributes.each {|a| association(a) }
         end
 
-        def association(name, options)
-          class_name = Utility.class_name_for('Fleakr::Objects', options[:type])
-
+        def association(name, options = {})
           class_eval <<-CODE
             def #{name}(options = {})
-              options        = authentication_options.merge(options)
-              sorted_options = options.sort {|a, b| a[0].to_s <=> b[0].to_s }
-              key            = '#{name}_' + sorted_options.to_s
+              @#{name} ||= Association.new(self, "#{name}", "#{options[:type]}")
 
-              associations[key] ||= #{class_name}.send("#{options[:method]}".to_sym, self.id, options)
+              options = authentication_options.merge(options)
+              @#{name}.results(options)
             end
           CODE
         end
@@ -121,10 +111,6 @@ module Fleakr
           attributes = names.map {|n| "#{n}=#{instance_variable_get(n).inspect}" }
 
           "#<#{self.class} #{attributes.join(', ')}>"
-        end
-
-        def associations
-          @associations ||= {}
         end
 
       end

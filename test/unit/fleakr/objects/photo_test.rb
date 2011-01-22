@@ -12,9 +12,10 @@ module Fleakr::Objects
 
     context "The Photo class" do
 
-      should_find_all :photos, :by => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo', :class => Photo
       should_find_all :photos, :by => :set_id, :using => :photoset_id, :call => 'photosets.getPhotos', :path => 'rsp/photoset/photo', :class => Photo
       should_find_all :photos, :by => :group_id, :call => 'groups.pools.getPhotos', :path => 'rsp/photos/photo', :class => Photo
+
+      should_find_all :public_photos, :method => :find_all_public_photos_by_user_id, :using => :user_id, :call => 'people.getPublicPhotos', :path => 'rsp/photos/photo', :class => Photo
       should_find_all :private_photos, :method => :find_all_private_photos_by_user_id, :using => :user_id, :call => 'people.getPhotos', :path => 'rsp/photos/photo', :class => Photo
 
       should_find_one :photo, :by => :id, :with => :photo_id, :call => 'photos.getInfo', :class => Photo

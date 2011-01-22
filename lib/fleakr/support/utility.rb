@@ -5,7 +5,9 @@ module Fleakr
     #
     # Helpful utility methods.
     #
-    class Utility
+    module Utility
+
+      extend self
 
       # Given a module name and an underscored name, generate the fully
       # namespaced class name.  For example:
@@ -13,12 +15,14 @@ module Fleakr
       #   >> Utility.class_name_for('Fleakr::Api', 'method_request')
       #   => "Fleakr::Api::MethodRequest"
       #
-      def self.class_name_for(module_name, name)
+      def class_name_for(module_name, name)
+        "#{module_name}::#{class_name(name)}"
+      end
+
+      def class_name(name)
         class_name = name.to_s.sub(/^(\w)/) {|m| m.upcase }
         class_name = class_name.sub(/(_(\w))/) {|m| $2.upcase }
         class_name = class_name.sub(/s$/, '')
-
-        "#{module_name}::#{class_name}"
       end
 
       # Given a class name as a string with an optional namespace, generate
@@ -28,7 +32,7 @@ module Fleakr
       #   >> Utility.id_attribute_for('Fleakr::Objects::Set')
       #   => "set_id"
       #
-      def self.id_attribute_for(class_name)
+      def id_attribute_for(class_name)
         class_name = class_name.match(/([^:]+)$/)[1]
         class_name.gsub!(/([A-Z])([A-Z][a-z])/, '\1_\2')
         class_name.gsub!(/([a-z])([A-Z])/, '\1_\2')
@@ -39,7 +43,7 @@ module Fleakr
       # Determine if the passed value is blank.  Blank values include nil,
       # the empty string, and a string with only whitespace.
       #
-      def self.blank?(object)
+      def blank?(object)
         object.to_s.sub(/\s+/, '') == ''
       end
 
@@ -51,7 +55,7 @@ module Fleakr
       #
       # Note that this method does not modify the supplied parameter.
       #
-      def self.extract_options(array_with_possible_options)
+      def extract_options(array_with_possible_options)
         array = array_with_possible_options.dup
 
         options = array.pop if array.last.is_a?(Hash)

@@ -5,7 +5,7 @@ module Fleakr::Objects
 
     should_search_by :user_id
 
-    should_have_many :public_photos, :class => Photo, :method => :find_all_by_user_id
+    should_have_many :public_photos, :class => Photo, :method => :find_all_public_photos_by_user_id
     should_have_many :private_photos, :class => Photo, :method => :find_all_private_photos_by_user_id
     should_have_many :groups, :class => Group
     should_have_many :sets, :class => Set

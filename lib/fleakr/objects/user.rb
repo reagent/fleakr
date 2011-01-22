@@ -58,8 +58,8 @@ module Fleakr
 
       has_many :sets, :groups, :contacts, :tags, :collections
 
-      association :private_photos, :type => :photo, :method => :find_all_private_photos_by_user_id
-      association :public_photos, :type => :photo, :method => :find_all_by_user_id
+      association :private_photos, :type => :photo
+      association :public_photos, :type => :photo
 
       find_one :by_username, :call => 'people.findByUsername'
       find_one :by_email, :using => :find_email, :call => 'people.findByEmail'
