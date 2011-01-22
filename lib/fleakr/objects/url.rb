@@ -24,7 +24,7 @@ module Fleakr
       end
 
       def user
-        @user ||= User.find_by_identifier(user_identifier)
+        @user ||= User.find_by_url(@url)
       end
 
       def resource_type

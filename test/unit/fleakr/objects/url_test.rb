@@ -34,22 +34,20 @@ module Fleakr::Objects
         u.path.should == '/photos/reagent/4041660453/'
       end
 
-      should "be able to retrieve a user" do
-        u = Url.new('')
-        u.stubs(:user_identifier).with().returns('reagent')
+      should "be able to retrieve a user from his photo URL" do
+        u = Url.new('http://www.flickr.com/photos/reagent/')
 
-        User.expects(:find_by_identifier).with('reagent').returns('user')
+        User.stubs(:find_by_url).with('http://www.flickr.com/photos/reagent/').returns('user')
 
         u.user.should == 'user'
       end
 
-      should "memoize the user" do
-        u = Url.new('')
-        u.stubs(:user_identifier).with().returns('reagent')
+      should "be able to retrieve a user from his profile URL" do
+        u = Url.new('http://www.flickr.com/people/reagent/')
 
-        User.expects(:find_by_identifier).with('reagent').once.returns('user')
+        User.stubs(:find_by_url).with('http://www.flickr.com/people/reagent/').returns('user')
 
-        2.times { u.user }
+        u.user.should == 'user'
       end
 
       context "when provided a single photo URL" do
