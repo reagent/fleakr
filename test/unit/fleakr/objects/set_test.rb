@@ -39,6 +39,21 @@ module Fleakr::Objects
         should_have_a_value_for :user_id => '43955217@N05'
       end
 
+      should "have a cache" do
+        set = Set.new
+        Fleakr::Support::Cache.stubs(:new).with(set).returns('cache')
+
+        set.cache.should == 'cache'
+      end
+
+      should "be able to cache the results of a method call" do
+        user = mock() {|u| u.expects(:id).once.with().returns('1') }
+        set = Set.new
+
+        set.with_caching({}) { user.id }.should == '1'
+        set.with_caching({}) { user.id }.should == '1'
+      end
+
       should "know the URL for the photoset" do
         s = Set.new
         s.stubs(:user_id).with().returns('123')
@@ -51,33 +66,47 @@ module Fleakr::Objects
         s = Set.new
         s.stubs(:user_id).with().returns('1')
 
-        User.expects(:find_by_id).with('1').returns('user')
+        User.expects(:find_by_id).with('1', :key => 'value').returns('user')
 
-        s.user.should == 'user'
+        s.user(:key => 'value').should == 'user'
+      end
+
+      should "pass authentication options when retrieving the user for a set" do
+        s = Set.new
+        s.stubs(:user_id).with().returns('1')
+        s.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+        User.expects(:find_by_id).with('1', :key => 'value', :auth_token => 'toke').returns('user')
+
+        s.user(:key => 'value').should == 'user'
       end
 
       should "know the primary photo in the set" do
-        id    = '1'
-        photo = stub()
-
-        Photo.expects(:find_by_id).with(id).returns(photo)
+        Photo.stubs(:find_by_id).with('1', {}).returns('photo')
 
         set = Set.new
-        set.stubs(:primary_photo_id).with().returns(id)
+        set.stubs(:primary_photo_id).with().returns('1')
 
-        set.primary_photo.should == photo
+        set.primary_photo.should == 'photo'
       end
 
-      should "memoize the primary photo" do
-        id    = '1'
-        photo = stub()
-
-        Photo.expects(:find_by_id).with(id).once.returns(photo)
+      should "be able to pass options to the primary photo association" do
+        Photo.stubs(:find_by_id).with('1', {:key => 'value'}).returns('photo')
 
         set = Set.new
-        set.stubs(:primary_photo_id).with().returns(id)
+        set.stubs(:primary_photo_id).with().returns('1')
 
-        2.times { set.primary_photo }
+        set.primary_photo(:key => 'value').should == 'photo'
+      end
+
+      should "be able to pass authentication options to the primary photo association" do
+        Photo.stubs(:find_by_id).with('1', {:key => 'value', :auth_token => 'toke'}).returns('photo')
+
+        set = Set.new
+        set.stubs(:primary_photo_id).with().returns('1')
+        set.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+        set.primary_photo(:key => 'value').should == 'photo'
       end
 
       should "know the folder name" do

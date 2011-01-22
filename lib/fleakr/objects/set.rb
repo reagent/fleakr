@@ -57,8 +57,10 @@ module Fleakr
 
       # Primary photo for this set. See Fleakr::Objects::Photo for more details.
       #
-      def primary_photo
-        @primary_photo ||= Photo.find_by_id(primary_photo_id)
+      def primary_photo(options = {})
+        with_caching(options) do
+          Photo.find_by_id(primary_photo_id, authentication_options.merge(options))
+        end
       end
 
       # The URL for this set.
@@ -69,13 +71,23 @@ module Fleakr
 
       # The user who created this set.
       #
-      def user
-        User.find_by_id(user_id)
+      def user(options = {})
+        with_caching(options) do
+          User.find_by_id(user_id, authentication_options.merge(options))
+        end
       end
 
       def load_info # :nodoc:
         response = Fleakr::Api::MethodRequest.with_response!('photosets.getInfo', :photoset_id => self.id)
         self.populate_from(response.body)
+      end
+
+      def with_caching(options, &block)
+        cache.for(options, &block)
+      end
+
+      def cache
+        @cache ||= Fleakr::Support::Cache.new(self)
       end
 
     end

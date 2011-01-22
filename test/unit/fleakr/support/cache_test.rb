@@ -10,6 +10,14 @@ module Fleakr::Support
         cache.key_for({:user_id => '1', 'auth_token' => 'toke'}).should == 'auth_token_toke_user_id_1'
       end
 
+      should "know the cache key when given an object" do
+        user = Fleakr::Objects::User.new
+        user.stubs(:id).with().returns(1)
+
+        cache = Cache.new(user)
+        cache.key_for({:auth_token => 'toke'}).should == 'fleakr_objects_user_1_auth_token_toke'
+      end
+
       should "return the results of a call" do
         object = stub(:users => ['user'])
         cache = Cache.new
