@@ -61,7 +61,23 @@ module Fleakr::Objects
 
         photo = Photo.new
         photo.stubs(:id).returns('1')
-        photo.expects(:populate_from).with('body')
+        photo.expects(:populate_from).with('body').returns(photo)
+
+        photo.replace_with(filename).should == photo
+      end
+
+      should "pass through authentication options when replacing a photo" do
+        filename = '/path/to/file.jpg'
+        response = stub(:body => 'body')
+
+        params = {:photo_id => '1', :auth_token => 'toke'}
+
+        Fleakr::Api::UploadRequest.expects(:with_response!).with(filename, :update, params).returns(response)
+
+        photo = Photo.new
+        photo.stubs(:id).returns('1')
+        photo.expects(:populate_from).with('body').returns(photo)
+        photo.stubs(:authentication_options).with().returns(:auth_token => 'toke')
 
         photo.replace_with(filename).should == photo
       end
@@ -91,7 +107,6 @@ module Fleakr::Objects
       context "when populating from the photos_getInfo XML data" do
         setup do
           @object = Photo.new(Hpricot.XML(read_fixture('photos.getInfo')))
-
         end
 
         should_have_a_value_for :id               => '1'
@@ -117,11 +132,23 @@ module Fleakr::Objects
           @time  = Time.parse('2009-08-01 00:00:00')
         end
 
-        should "be able to retrieve additional information about the current user" do
+        should "be able to retrieve additional information about the current photo" do
           photo_id = '1'
           photo = Photo.new
           photo.expects(:id).with().returns(photo_id)
           response = mock_request_cycle :for => 'photos.getInfo', :with => {:photo_id => photo_id}
+
+          photo.expects(:populate_from).with(response.body)
+
+          photo.load_info
+        end
+
+        should "pass through authentication information when retrieving additional information" do
+          photo = Photo.new
+          photo.stubs(:id).with().returns('1')
+          photo.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+          response = mock_request_cycle :for => 'photos.getInfo', :with => {:photo_id => '1', :auth_token => 'toke'}
 
           photo.expects(:populate_from).with(response.body)
 
@@ -144,7 +171,14 @@ module Fleakr::Objects
         end
 
         should "be able to retrieve the metadata" do
-          MetadataCollection.expects(:new).with(@photo).returns('metadata')
+          MetadataCollection.expects(:new).with(@photo, {}).returns('metadata')
+          @photo.metadata.should == 'metadata'
+        end
+
+        should "pass authentication options through to the metadata collection" do
+          @photo.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+          MetadataCollection.expects(:new).with(@photo, :auth_token => 'toke').returns('metadata')
+
           @photo.metadata.should == 'metadata'
         end
 
@@ -178,41 +212,34 @@ module Fleakr::Objects
         end
 
         should "be able to retrieve the context for this photo" do
-          id = '1'
-
-          context = stub()
-
           photo = Photo.new
-          photo.stubs(:id).with().returns(id)
+          photo.stubs(:id).with().returns('1')
 
-          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => id}
-          PhotoContext.expects(:new).with(response.body).returns(context)
+          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => '1'}
+          PhotoContext.stubs(:new).with(response.body, {}).returns('context')
 
-          photo.context.should == context
+          photo.context.should == 'context'
         end
 
-        should "memoize the context data" do
-          id = '1'
-
-          context = stub()
-
+        should "pass authentication options through when retrieving the context for this photo" do
           photo = Photo.new
-          photo.stubs(:id).with().returns(id)
+          photo.stubs(:id).with().returns('1')
+          photo.stubs(:authentication_options).with().returns(:auth_token => 'toke')
 
-          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => id}
-          PhotoContext.expects(:new).once.returns(context)
+          response = mock_request_cycle :for => 'photos.getContext', :with => {:photo_id => '1', :auth_token => 'toke'}
+          PhotoContext.stubs(:new).with(response.body, :auth_token => 'toke').returns('context')
 
-          2.times { photo.context }
+          photo.context.should == 'context'
         end
 
         should "be able to retrieve the next photo" do
           next_photo = stub()
           context = mock()
-          context.expects(:next).with().returns(next_photo)
+          context.stubs(:next).with().returns(next_photo)
 
           photo = Photo.new
 
-          photo.expects(:context).with().returns(context)
+          photo.stubs(:context).with().returns(context)
 
           photo.next.should == next_photo
         end
@@ -220,32 +247,40 @@ module Fleakr::Objects
         should "be able to retrieve the previous photo" do
           previous_photo = stub()
           context = mock()
-          context.expects(:previous).with().returns(previous_photo)
+          context.stubs(:previous).with().returns(previous_photo)
 
           photo = Photo.new
-          photo.expects(:context).with().returns(context)
+          photo.stubs(:context).with().returns(context)
 
           photo.previous.should == previous_photo
         end
 
         should "be able to find the owner of the photo" do
-          owner = stub()
-
           photo = Photo.new
           photo.stubs(:owner_id).with().returns('1')
 
-          User.expects(:find_by_id).with('1').returns(owner)
+          User.stubs(:find_by_id).with('1', {}).returns('owner')
 
-          photo.owner.should == owner
+          photo.owner.should == 'owner'
         end
 
-        should "memoize the owner information" do
+        should "be able to pass options through to the owner association" do
           photo = Photo.new
           photo.stubs(:owner_id).with().returns('1')
 
-          User.expects(:find_by_id).with('1').once.returns(stub())
+          User.stubs(:find_by_id).with('1', :key => 'value').returns('owner')
 
-          2.times { photo.owner }
+          photo.owner(:key => 'value').should == 'owner'
+        end
+
+        should "pass authentication options through to the owner association" do
+          photo = Photo.new
+          photo.stubs(:owner_id).with().returns('1')
+          photo.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+          User.stubs(:find_by_id).with('1', :auth_token => 'toke', :key => 'value').returns('owner')
+
+          photo.owner(:key => 'value').should == 'owner'
         end
 
       end

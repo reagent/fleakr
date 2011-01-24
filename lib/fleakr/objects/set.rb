@@ -41,14 +41,14 @@ module Fleakr
         target = "#{path}/#{folder_name}"
         FileUtils.mkdir(target) unless File.exist?(target)
 
-        self.photos.each_with_index do |photo, index|
+        photos.each_with_index do |photo, index|
           image = photo.send(size)
           image.save_to(target, file_prefix(index)) unless image.nil?
         end
       end
 
       def file_prefix(index) # :nodoc:
-        sprintf("%0#{self.count.length}d_", (index + 1))
+        sprintf("%0#{count.length}d_", (index + 1))
       end
 
       def folder_name # :nodoc:
@@ -58,7 +58,7 @@ module Fleakr
       # Primary photo for this set. See Fleakr::Objects::Photo for more details.
       #
       def primary_photo(options = {})
-        with_caching(options) do
+        with_caching(options, 'primary_photo') do
           Photo.find_by_id(primary_photo_id, authentication_options.merge(options))
         end
       end
@@ -72,22 +72,16 @@ module Fleakr
       # The user who created this set.
       #
       def user(options = {})
-        with_caching(options) do
+        with_caching(options, 'user') do
           User.find_by_id(user_id, authentication_options.merge(options))
         end
       end
 
       def load_info # :nodoc:
-        response = Fleakr::Api::MethodRequest.with_response!('photosets.getInfo', :photoset_id => self.id)
-        self.populate_from(response.body)
-      end
+        options  = authentication_options.merge(:photoset_id => id)
+        response = Fleakr::Api::MethodRequest.with_response!('photosets.getInfo', options)
 
-      def with_caching(options, &block)
-        cache.for(options, &block)
-      end
-
-      def cache
-        @cache ||= Fleakr::Support::Cache.new(self)
+        populate_from(response.body)
       end
 
     end

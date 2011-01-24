@@ -102,8 +102,17 @@ module Fleakr
           @document = document
           self.class.attributes.each do |attribute|
             value = attribute.value_from(document)
-            self.send("#{attribute.name}=".to_sym, value) unless value.nil?
+            send("#{attribute.name}=".to_sym, value) unless value.nil?
           end
+          self
+        end
+
+        def with_caching(options, identifier, &block)
+          cache.for(options, identifier, &block)
+        end
+
+        def cache
+          @cache ||= Fleakr::Support::Cache.new
         end
 
         def inspect

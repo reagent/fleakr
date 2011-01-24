@@ -2,31 +2,23 @@ module Fleakr
   module Support
     class Cache
 
-      attr_reader :object
-
-      def initialize(object = nil)
-        @object = object
+      def initialize
         @store  = {}
       end
 
-      def key_for(options)
-        key_prefix + sorted(options).join('_')
+      def key_for(options, identifier = nil)
+        prefix = identifier.nil? ? '' : "#{identifier}_"
+        prefix + sorted(options).join('_')
       end
 
-      def for(options, &block)
-        @store[key_for(options)] ||= block.call
+      def for(options, identifier = nil, &block)
+        key = key_for(options, identifier)
+        @store[key] = block.call if !@store.has_key?(key)
+
+        @store[key]
       end
 
       private
-
-      def key_prefix
-        prefix = ''
-        if object?
-          prefix  = object.class.to_s.downcase.gsub('::', '_')
-          prefix += "_#{object.id}_"
-        end
-        prefix
-      end
 
       def object?
         !object.nil?

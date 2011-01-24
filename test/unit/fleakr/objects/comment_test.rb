@@ -44,19 +44,20 @@ module Fleakr::Objects
         should "be able to find the author of the comment" do
           author = stub()
 
-
           @comment.stubs(:author_id).with().returns('1')
-          User.expects(:find_by_id).with('1').returns(author)
+          User.stubs(:find_by_id).with('1', {}).returns(author)
 
           @comment.author.should == author
         end
 
-        should "memoize the owner information" do
+        should "pass authentication credentials through when finding the author for a comment" do
+          author = stub()
+
           @comment.stubs(:author_id).with().returns('1')
+          @comment.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+          User.expects(:find_by_id).with('1', :key => 'value', :auth_token => 'toke').returns(author)
 
-          User.expects(:find_by_id).with('1').once.returns(stub())
-
-          2.times { @comment.author }
+          @comment.author(:key => 'value').should == author
         end
 
       end

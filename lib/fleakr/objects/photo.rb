@@ -66,10 +66,6 @@ module Fleakr
 
       has_many :images, :tags, :comments
 
-      def metadata
-        @metadata ||= MetadataCollection.new(self)
-      end
-
       # Upload the photo specified by <tt>filename</tt> to the user's Flickr account. When uploading,
       # there are several options available (none are required):
       #
@@ -91,32 +87,43 @@ module Fleakr
         Photo.find_by_id(photo.id)
       end
 
+      def metadata
+        @metadata ||= MetadataCollection.new(self, authentication_options)
+      end
+
       # Replace the current photo's image with the one specified by filename.  This
       # call requires authentication.
       #
       def replace_with(filename)
-        response = Fleakr::Api::UploadRequest.with_response!(filename, :update, :photo_id => self.id)
-        self.populate_from(response.body)
-        self
+        options  = authentication_options.merge(:photo_id => id)
+        response = Fleakr::Api::UploadRequest.with_response!(filename, :update, options)
+
+        populate_from(response.body)
       end
 
       # TODO: Refactor this to remove duplication w/ User#load_info - possibly in the lazily_load class method
       def load_info # :nodoc:
-        response = Fleakr::Api::MethodRequest.with_response!('photos.getInfo', :photo_id => self.id)
-        self.populate_from(response.body)
+        options  = authentication_options.merge(:photo_id => id)
+        response = Fleakr::Api::MethodRequest.with_response!('photos.getInfo', options)
+
+        populate_from(response.body)
       end
 
       def context # :nodoc:
         @context ||= begin
-          response = Fleakr::Api::MethodRequest.with_response!('photos.getContext', :photo_id => self.id)
-          PhotoContext.new(response.body)
+          options  = authentication_options.merge(:photo_id => id)
+          response = Fleakr::Api::MethodRequest.with_response!('photos.getContext', options)
+
+          PhotoContext.new(response.body, authentication_options)
         end
       end
 
       # The user who uploaded this photo.  See Fleakr::Objects::User for additional information.
       #
-      def owner
-        @owner ||= User.find_by_id(owner_id)
+      def owner(options = {})
+        with_caching(options, 'owner') do
+          User.find_by_id(owner_id, authentication_options.merge(options))
+        end
       end
 
       # When was this photo posted?
@@ -147,7 +154,7 @@ module Fleakr
       private
       def images_by_size
         image_sizes = SIZES.inject({}) {|l,o| l.merge(o => nil)}
-        self.images.inject(image_sizes) {|l,o| l.merge!(o.size.downcase.to_sym => o) }
+        images.inject(image_sizes) {|l,o| l.merge!(o.size.downcase.to_sym => o) }
       end
 
     end

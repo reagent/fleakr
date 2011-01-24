@@ -10,12 +10,9 @@ module Fleakr::Support
         cache.key_for({:user_id => '1', 'auth_token' => 'toke'}).should == 'auth_token_toke_user_id_1'
       end
 
-      should "know the cache key when given an object" do
-        user = Fleakr::Objects::User.new
-        user.stubs(:id).with().returns(1)
-
-        cache = Cache.new(user)
-        cache.key_for({:auth_token => 'toke'}).should == 'fleakr_objects_user_1_auth_token_toke'
+      should "know the cache key when given an optional identifier" do
+        cache = Cache.new
+        cache.key_for({:auth_token => 'toke'}, 'identifier').should == 'identifier_auth_token_toke'
       end
 
       should "return the results of a call" do
@@ -32,6 +29,16 @@ module Fleakr::Support
 
         cache.for({}) { object.users }
         cache.for({}) { object.users }
+      end
+
+      should "cache the results of a call even when the result is nil" do
+        object = mock()
+        object.expects(:user).once.returns(nil)
+
+        cache = Cache.new
+
+        cache.for({}) { object.user }
+        cache.for({}) { object.user }
       end
 
       should "not have cached the results for a call with different options" do

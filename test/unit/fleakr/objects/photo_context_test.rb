@@ -19,34 +19,42 @@ module Fleakr::Objects
       end
 
       should "know that there is a previous photo" do
-        @context.expects(:previous_id).with().returns('1')
+        @context.stubs(:previous_id).with().returns('1')
         @context.previous?.should be(true)
       end
 
       should "know that there isn't a previous photo" do
-        @context.expects(:previous_id).with().returns('0')
+        @context.stubs(:previous_id).with().returns('0')
         @context.previous?.should be(false)
       end
 
       should "know that there is a next photo" do
-        @context.expects(:next_id).with().returns('1')
+        @context.stubs(:next_id).with().returns('1')
         @context.next?.should be(true)
       end
 
       should "know that there isn't a next photo" do
-        @context.expects(:next_id).with().returns('0')
+        @context.stubs(:next_id).with().returns('0')
         @context.next?.should be(false)
       end
 
       should "find the previous photo" do
-        photo = stub()
+        @context.stubs(:previous_id).with().returns('1')
+        @context.stubs(:previous?).with().returns(true)
 
-        @context.expects(:previous_id).with().returns('1')
-        @context.expects(:previous?).with().returns(true)
+        Photo.stubs(:find_by_id).with('1', {}).returns('photo')
 
-        Photo.expects(:find_by_id).with('1').returns(photo)
+        @context.previous.should == 'photo'
+      end
 
-        @context.previous.should == photo
+      should "pass authentication options when finding the previous photo" do
+        @context.stubs(:previous_id).with().returns('1')
+        @context.stubs(:previous?).with().returns(true)
+        @context.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+        Photo.stubs(:find_by_id).with('1', :auth_token => 'toke').returns('photo')
+
+        @context.previous.should == 'photo'
       end
 
       should "not try to find the previous photo if it doesn't exist" do
@@ -57,22 +65,30 @@ module Fleakr::Objects
       end
 
       should "find the next photo" do
-        photo = stub()
-        @context.expects(:next_id).with().returns('1')
-        @context.expects(:next?).with().returns(true)
+        @context.stubs(:next_id).with().returns('1')
+        @context.stubs(:next?).with().returns(true)
 
-        Photo.expects(:find_by_id).with('1').returns(photo)
+        Photo.stubs(:find_by_id).with('1', {}).returns('photo')
 
-        @context.next.should == photo
+        @context.next.should == 'photo'
+      end
+
+      should "paass authentication options when finding the next photo" do
+        @context.stubs(:next_id).with().returns('1')
+        @context.stubs(:next?).with().returns(true)
+        @context.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+        Photo.stubs(:find_by_id).with('1', :auth_token => 'toke').returns('photo')
+
+        @context.next.should == 'photo'
       end
 
       should "not try to find the next photo if it doesn't exist" do
-        @context.expects(:next?).with().returns(false)
-        Photo.expects(:find_by_id).never
+        @context.stubs(:next?).with().returns(false)
+        Photo.stubs(:find_by_id).never
 
         @context.next.should be(nil)
       end
-
 
     end
 

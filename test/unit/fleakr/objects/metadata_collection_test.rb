@@ -20,9 +20,18 @@ module Fleakr::Objects
 
         should "be able to fetch the metadata" do
           element = stub(:label => 'Label')
-          Metadata.expects(:find_all_by_photo_id).with(@photo.id).returns([element])
+          Metadata.stubs(:find_all_by_photo_id).with(@photo.id, {}).returns([element])
 
           @collection.data.should == {'Label' => element}
+        end
+
+        should "be able to pass authentication informatin through when finding metadata" do
+          collection = MetadataCollection.new(@photo, :auth_token => 'toke')
+          element = stub(:label => 'Label')
+
+          Metadata.stubs(:find_all_by_photo_id).with(@photo.id, :auth_token => 'toke').returns([element])
+
+          collection.data.should == {'Label' => element}
         end
 
         should "know the keys for the metadata" do

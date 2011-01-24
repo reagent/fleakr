@@ -17,6 +17,30 @@ module Fleakr::Objects
 
     context "An instance of the Set class" do
 
+      context "in general" do
+        setup { @set = Set.new }
+
+        should "be able to retrieve additional information about the current set" do
+          @set.stubs(:id).with().returns('1')
+          response = mock_request_cycle :for => 'photosets.getInfo', :with => {:photoset_id => '1'}
+
+          @set.stubs(:populate_from).with(response.body)
+
+          @set.load_info
+        end
+
+        should "pass through authentication information when retrieving additional information" do
+          @set.stubs(:id).with().returns('1')
+          @set.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+          response = mock_request_cycle :for => 'photosets.getInfo', :with => {:photoset_id => '1', :auth_token => 'toke'}
+
+          @set.stubs(:populate_from).with(response.body)
+
+          @set.load_info
+        end
+      end
+
       context "when populating from photosets.getList" do
         setup do
           @object = Set.new(Hpricot.XML(read_fixture('photosets.getList')).at('rsp/photosets/photoset'))
@@ -37,21 +61,6 @@ module Fleakr::Objects
         end
 
         should_have_a_value_for :user_id => '43955217@N05'
-      end
-
-      should "have a cache" do
-        set = Set.new
-        Fleakr::Support::Cache.stubs(:new).with(set).returns('cache')
-
-        set.cache.should == 'cache'
-      end
-
-      should "be able to cache the results of a method call" do
-        user = mock() {|u| u.expects(:id).once.with().returns('1') }
-        set = Set.new
-
-        set.with_caching({}) { user.id }.should == '1'
-        set.with_caching({}) { user.id }.should == '1'
       end
 
       should "know the URL for the photoset" do

@@ -81,7 +81,10 @@ module Fleakr::Objects
 
       context "in general" do
 
-        setup { @user = User.new }
+        setup do
+          @user = User.new
+          @user.stubs(:id).with().returns('1')
+        end
 
         should "know that it is not authenticated" do
           user = User.new(nil, {:foo => 'bar'})
@@ -109,6 +112,14 @@ module Fleakr::Objects
 
         should "be able to retrieve additional information about the current user" do
           response = mock_request_cycle :for => 'people.getInfo', :with => {:user_id => @user.id}
+          @user.expects(:populate_from).with(response.body)
+
+          @user.load_info
+        end
+
+        should "pass authentication information when retriving information for a user" do
+          @user.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+          response = mock_request_cycle :for => 'people.getInfo', :with => {:user_id => @user.id, :auth_token => 'toke'}
           @user.expects(:populate_from).with(response.body)
 
           @user.load_info

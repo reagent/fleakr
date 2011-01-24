@@ -52,6 +52,13 @@ module Fleakr::Objects
           collection_titles.should == ['Second-Level Collection 1']
         end
 
+        should "pass authentication options to each collection" do
+          @collection.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+          Collection.expects(:new).with(kind_of(Hpricot::Elem), :auth_token => 'toke')
+          @collection.collections
+        end
+
         should "not have any associated sets" do
           @collection.sets.should == []
         end
@@ -77,6 +84,13 @@ module Fleakr::Objects
         should "have associated sets" do
           set_titles = @collection.sets.map {|s| s.title }
           set_titles.should == ['Set 5', 'Set 6']
+        end
+
+        should "pass authentication options to each set" do
+          @collection.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+          Set.expects(:new).with(kind_of(Hpricot::Elem), :auth_token => 'toke').twice
+          @collection.sets
         end
 
       end

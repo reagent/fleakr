@@ -92,24 +92,19 @@ module Fleakr
         object.associated_objects(:per_page => '100').should == 'collection'
       end
 
-      should "cache the results of the association" do
+      should "have a cache" do
         object = FlickrObject.new
-        object.stubs(:id).returns('1')
+        Fleakr::Support::Cache.stubs(:new).with().returns('cache')
 
-        Fleakr::Objects::AssociatedObject.expects(:find_all_by_flickr_object_id).with('1', {}).once.returns('collection')
-
-        2.times { object.associated_objects }
+        object.cache.should == 'cache'
       end
 
-      should "know not to cache the results of the association when there are different parameters" do
+      should "be able to cache the results of a method call" do
+        user   = mock() {|u| u.expects(:id).once.with().returns('1') }
         object = FlickrObject.new
-        object.stubs(:id).returns('1')
 
-        Fleakr::Objects::AssociatedObject.stubs(:find_all_by_flickr_object_id).with('1', {}).returns('collection_1')
-        Fleakr::Objects::AssociatedObject.stubs(:find_all_by_flickr_object_id).with('1', {:per_page => '100'}).returns('collection_2')
-
-        object.associated_objects.should == 'collection_1'
-        object.associated_objects(:per_page => '100').should == 'collection_2'
+        object.with_caching({}, 'user_id') { user.id }.should == '1'
+        object.with_caching({}, 'user_id') { user.id }.should == '1'
       end
 
       context "when populating data from an XML document" do
@@ -158,6 +153,11 @@ module Fleakr
         should "maintain a reference to the original document" do
           @object.document.should == @document
         end
+
+        should "return the object" do
+          @object.populate_from(@document).should == @object
+        end
+
       end
 
       should "populate its data from an XML document when initializing" do

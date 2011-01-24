@@ -28,22 +28,26 @@ module Fleakr::Objects
       end
 
       should "have an author" do
-        user = stub()
+        @tag.stubs(:author_id).at_least_once.with().returns('1')
+        User.expects(:find_by_id).with('1', {}).returns('user')
 
-        @tag.expects(:author_id).at_least_once.with().returns('1')
-
-
-        User.expects(:find_by_id).with('1').returns(user)
-
-        @tag.author.should == user
+        @tag.author.should == 'user'
       end
 
-      should "memoize the author data" do
-        @tag.expects(:author_id).at_least_once.with().returns('1')
+      should "pass options through to the author association" do
+        @tag.stubs(:author_id).at_least_once.with().returns('1')
+        User.expects(:find_by_id).with('1', :key => 'value').returns('user')
 
-        User.expects(:find_by_id).with('1').once.returns(stub())
+        @tag.author(:key => 'value').should == 'user'
+      end
 
-        2.times { @tag.author }
+      should "pass authentication options through when fetching the author" do
+        @tag.stubs(:author_id).at_least_once.with().returns('1')
+        @tag.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+
+        User.expects(:find_by_id).with('1', :key => 'value', :auth_token => 'toke').returns('user')
+
+        @tag.author(:key => 'value').should == 'user'
       end
 
       should "return nil for author if author_id is not present" do
