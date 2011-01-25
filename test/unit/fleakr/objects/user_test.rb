@@ -98,16 +98,30 @@ module Fleakr::Objects
 
         should "retrieve public photos when it's not authenticated" do
           @user.stubs(:authenticated?).with().returns(false)
-          @user.expects(:public_photos).returns('photos')
+          @user.stubs(:public_photos).returns('photos')
 
           @user.photos.should == 'photos'
         end
 
+        should "be able to pass options through to the photos association when not authenticated" do
+          @user.stubs(:authenticated?).with().returns(false)
+          @user.stubs(:public_photos).with(:key => 'value').returns('photos')
+
+          @user.photos(:key => 'value').should == 'photos'
+        end
+
         should "retreive all photos when it's authenticated" do
           @user.stubs(:authenticated?).with().returns(true)
-          @user.expects(:private_photos).returns('photos')
+          @user.stubs(:private_photos).returns('photos')
 
           @user.photos.should == 'photos'
+        end
+
+        should "pass authentication options and additional options through to the private photos" do
+          @user.stubs(:authentication_options).with().returns(:auth_token => 'toke')
+          @user.stubs(:private_photos).with(:key => 'value', :auth_token => 'toke').returns('photos')
+
+          @user.photos(:key => 'value').should == 'photos'
         end
 
         should "be able to retrieve additional information about the current user" do

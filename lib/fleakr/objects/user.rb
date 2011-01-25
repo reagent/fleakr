@@ -83,8 +83,11 @@ module Fleakr
         !authentication_options.empty?
       end
 
-      def photos
-        authenticated? ? private_photos : public_photos
+      def photos(options = {})
+        options     = authentication_options.merge(options)
+        method_name = authenticated? ? :private_photos : :public_photos
+
+        with_caching(options, method_name) { send(method_name, options) }
       end
 
       # Is this a pro account?
