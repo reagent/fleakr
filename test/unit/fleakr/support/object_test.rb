@@ -18,6 +18,10 @@ class FlickrObject
 
   has_many :associated_objects
 
+  def other_things
+    @other_things ||= [nil].map {|t| Fleakr::Objects::AssociatedObject.new(t, authentication_options) }
+  end
+
 end
 
 module Fleakr
@@ -90,6 +94,13 @@ module Fleakr
         Fleakr::Objects::AssociatedObject.expects(:find_all_by_flickr_object_id).with('1', {'key' => 'value', :per_page => '100'}).returns('collection')
 
         object.associated_objects(:per_page => '100').should == 'collection'
+      end
+
+      should "not obliterate the authentication options when accessing an association" do
+        object = FlickrObject.new(nil, :auth_token => 'toke')
+        object.other_things
+
+        object.authentication_options.should == {:auth_token => 'toke'}
       end
 
       should "have a cache" do

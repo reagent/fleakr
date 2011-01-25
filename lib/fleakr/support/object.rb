@@ -94,8 +94,8 @@ module Fleakr
         attr_reader :document, :authentication_options
 
         def initialize(document = nil, options = {})
-          self.populate_from(document) unless document.nil?
-          @authentication_options = options.extract!(:auth_token)
+          populate_from(document) unless document.nil?
+          @authentication_options = extract_authentication_from(options)
         end
 
         def populate_from(document)
@@ -122,6 +122,11 @@ module Fleakr
           "#<#{self.class} #{attributes.join(', ')}>"
         end
 
+        private
+
+        def extract_authentication_from(options)
+          options.has_key?(:auth_token) ? {:auth_token => options[:auth_token]} : {}
+        end
       end
 
       def self.included(other)
