@@ -92,25 +92,25 @@ module Fleakr
 
       # Is this a pro account?
       def pro?
-        (self.pro.to_i == 0) ? false : true
+        (pro.to_i == 0) ? false : true
       end
 
       # Is this user an admin?
       def admin?
-        (self.admin.to_i == 0) ? false : true
+        (admin.to_i == 0) ? false : true
       end
 
       # This user's buddy icon
       def icon_url
-        if self.icon_server.to_i > 0
-          "http://farm#{self.icon_farm}.static.flickr.com/#{self.icon_server}/buddyicons/#{self.id}.jpg"
+        if icon_server.to_i > 0
+          "http://farm#{icon_farm}.static.flickr.com/#{icon_server}/buddyicons/#{id}.jpg"
         else
           'http://www.flickr.com/images/buddyicon.jpg'
         end
       end
 
       def load_info # :nodoc:
-        options  = authentication_options.merge(:user_id => self.id)
+        options  = authentication_options.merge(:user_id => id)
         response = Fleakr::Api::MethodRequest.with_response!('people.getInfo', options)
 
         populate_from(response.body)
