@@ -108,7 +108,13 @@ module Fleakr
       # Hash representation of photo permissions
       #
       def to_hash
-        {:is_public => public?.to_i, :is_friend => friends?.to_i, :is_family => family?.to_i}
+        {:is_public => to_i(public?), :is_friend => to_i(friends?), :is_family => to_i(family?)}
+      end
+
+      private
+
+      def to_i(boolean)
+        boolean ? 1 : 0
       end
 
     end

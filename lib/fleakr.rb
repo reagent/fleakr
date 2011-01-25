@@ -13,7 +13,6 @@ require 'loggable'
 
 require 'fleakr/support'
 require 'fleakr/api'
-require 'fleakr/core_ext'
 require 'fleakr/objects'
 
 # = Fleakr: A small, yet powerful, gem to interface with Flickr photostreams
