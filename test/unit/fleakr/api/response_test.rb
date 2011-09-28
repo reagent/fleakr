@@ -43,6 +43,20 @@ module Fleakr::Api
         response.error.message.should == 'User not found'
       end
 
+      should "provide the attributes present on the root response element" do
+        response_xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp stat=\"ok\"><photos pages=\"385\" per_page=\"100\" total=\"38424\" page=\"1\" /></rsp>"
+        response = Response.new( response_xml )
+
+        response.attributes.should == { :pages => 385, :per_page => 100, :total => 38424, :page => 1 }
+      end
+
+      should "provide empty attributes if there is an error in the response" do
+        response_xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp stat=\"fail\">\n\t<err code=\"1\" msg=\"User not found\" />\n</rsp>\n"
+        response = Response.new(response_xml)
+
+        response.attributes.should be( nil )
+      end
+
     end
 
   end

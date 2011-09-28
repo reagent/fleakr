@@ -20,6 +20,17 @@ module Fleakr
         @body ||= Hpricot.XML(@response_xml)
       end
 
+      # Return all attributes on the root response element unless there was an error
+      def attributes
+        @attributes ||= unless self.error?
+          hpricot_attributes = (self.body/'rsp/photos' ).first.attributes
+          Hash[ hpricot_attributes.to_hash.map do |key,value|
+            value = value.to_i if value =~ /\A[0-9]+\z/
+            [ key.to_sym, value ]
+          end ]
+        end
+      end
+
       # Did the response from the API contain errors?
       def error?
         (self.body/'rsp').attr('stat') != 'ok'
