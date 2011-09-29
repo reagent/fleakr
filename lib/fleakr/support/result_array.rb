@@ -13,6 +13,7 @@ module Fleakr
 
       # Try to lookup the method name in the attributes list
       def method_missing( name, *args )
+        return @attributes if name == :attributes
         return @attributes[ name ] if ( !@attributes.nil? && @attributes.key?( name ) )
         raise NoMethodError
       end
