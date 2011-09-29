@@ -43,7 +43,7 @@ module Fleakr
               response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', options)
               results = (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e, options) }
               results.extend Fleakr::Support::ResultArray
-              results.attributes = (response.body/'rsp/#{options[:path]}').first.attributes
+              results.attributes = (response.body/'rsp/[@*]').first.attributes
               results
 
             end
