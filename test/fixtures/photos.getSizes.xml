@@ -5,6 +5,7 @@
   	<size label="Thumbnail" width="100" height="67" source="http://farm4.static.flickr.com/3093/2409912100_71e14ed08a_t.jpg" url="http://www.flickr.com/photos/the_decapitator/2409912100/sizes/t/" media="photo" />
   	<size label="Small" width="240" height="160" source="http://farm4.static.flickr.com/3093/2409912100_71e14ed08a_m.jpg" url="http://www.flickr.com/photos/the_decapitator/2409912100/sizes/s/" media="photo" />
   	<size label="Medium" width="500" height="334" source="http://farm4.static.flickr.com/3093/2409912100_71e14ed08a.jpg" url="http://www.flickr.com/photos/the_decapitator/2409912100/sizes/m/" media="photo" />
+    <size label="Large 1600" width="1599" height="1600" source="http://farm6.staticflickr.com/5032/2409912100_71e14ed08a_h.jpg" url="http://www.flickr.com/photos/the_decapitator/2409912100/sizes/h/" media="photo" />
   	<size label="Original" width="700" height="467" source="http://farm4.static.flickr.com/3093/2409912100_3305c4a108_o.jpg" url="http://www.flickr.com/photos/the_decapitator/2409912100/sizes/o/" media="photo" />
   </sizes>
 </rsp>

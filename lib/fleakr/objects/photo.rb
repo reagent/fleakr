@@ -33,7 +33,7 @@ module Fleakr
     class Photo
 
       # Available sizes for this photo
-      SIZES = [:square, :thumbnail, :small, :medium, :large, :original]
+      SIZES = [:square, :large_square, :thumbnail, :small, :small_320, :medium, :medium_640, :medium_800, :large, :large_1600, :large_2048, :original]
 
       include Fleakr::Support::Object
       extend Forwardable
@@ -154,7 +154,7 @@ module Fleakr
       private
       def images_by_size
         image_sizes = SIZES.inject({}) {|l,o| l.merge(o => nil)}
-        images.inject(image_sizes) {|l,o| l.merge!(o.size.downcase.to_sym => o) }
+        images.inject(image_sizes) {|l,o| l.merge!(o.size.downcase.gsub(" ", "_").to_sym => o) }
       end
 
     end

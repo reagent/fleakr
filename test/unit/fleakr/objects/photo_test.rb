@@ -185,17 +185,23 @@ module Fleakr::Objects
         should "have a collection of images by size" do
           photo = Photo.new
 
-          small_image, large_image = [stub(:size => 'Small'), stub(:size => 'Large')]
+          small_image, large_image, large_1600_image = [stub(:size => 'Small'), stub(:size => 'Large'), stub(:size => 'Large 1600')]
 
-          photo.stubs(:images).returns([small_image, large_image])
+          photo.stubs(:images).returns([small_image, large_image, large_1600_image])
 
           expected = {
-            :square    => nil,
-            :thumbnail => nil,
-            :small     => small_image,
-            :medium    => nil,
-            :large     => large_image,
-            :original  => nil
+            :square       => nil,
+            :large_square => nil,
+            :thumbnail    => nil,
+            :small        => small_image,
+            :small_320    => nil,
+            :medium       => nil,
+            :medium_640   => nil,
+            :medium_800   => nil,
+            :large        => large_image,
+            :large_1600   => large_1600_image,
+            :large_2048   => nil,
+            :original     => nil
           }
 
           photo.send(:images_by_size).should == expected
