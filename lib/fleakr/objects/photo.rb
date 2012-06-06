@@ -150,6 +150,11 @@ module Fleakr
           images_by_size[size]
         end
       end
+      
+      def fast_url(size)
+        # no extra call making photos much faster
+        "http://farm#{self.farm_id}.staticflickr.com/#{self.server_id}/#{self.id}_#{self.secret}_#{size}.jpg"
+      end
 
       private
       def images_by_size
