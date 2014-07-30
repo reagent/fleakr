@@ -52,12 +52,12 @@ module Fleakr::Api
 
         should "know the endpoint_uri" do
           request = UploadRequest.new('filename')
-          request.__send__(:endpoint_uri).should == URI.parse('http://api.flickr.com/services/upload/')
+          request.__send__(:endpoint_uri).should == URI.parse('https://api.flickr.com/services/upload/')
         end
 
         should "know the endpoint_uri for an :update request" do
           request = UploadRequest.new('filename', :update)
-          request.__send__(:endpoint_uri).should == URI.parse('http://api.flickr.com/services/replace/')
+          request.__send__(:endpoint_uri).should == URI.parse('https://api.flickr.com/services/replace/')
         end
 
         should "only parse the endpoint URI once" do
