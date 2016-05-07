@@ -41,7 +41,11 @@ module Fleakr
               options.merge!(:#{attribute} => value)
 
               response = Fleakr::Api::MethodRequest.with_response!('#{options[:call]}', options)
-              (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e, options) }
+              results = (response.body/'rsp/#{options[:path]}').map {|e| #{target_class}.new(e, options) }
+              results.extend Fleakr::Support::ResultArray
+              results.attributes = (response.body/'rsp/[@*]').first.attributes
+              results
+
             end
           CODE
         end

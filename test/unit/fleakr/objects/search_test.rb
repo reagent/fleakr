@@ -74,6 +74,16 @@ module Fleakr::Objects
         search.results.should == [photo_1, photo_2]
       end
 
+      should "be able to report on result meta information" do
+        response = mock_request_cycle :for => 'photos.search', :with => { :text => 'foo' }
+        search = Search.new( :text => 'foo' )
+
+        [ :pages, :perpage, :total, :page ].each do |attribute|
+          search.results.should.respond_to? attribute
+          search.results.send( attribute ).should == ( response.body/"rsp/photos" ).first.attributes[ attribute.to_s ].to_i
+        end
+      end
+
       should "memoize the search results" do
         response = stub(:body => Hpricot.XML(read_fixture('photos.search')))
         Fleakr::Api::MethodRequest.expects(:with_response!).with(kind_of(String), kind_of(Hash)).once.returns(response)

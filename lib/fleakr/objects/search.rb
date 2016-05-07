@@ -23,7 +23,10 @@ module Fleakr
       def results
         @results ||= begin
           response = Fleakr::Api::MethodRequest.with_response!('photos.search', parameters)
-          (response.body/'rsp/photos/photo').map {|p| Photo.new(p) }
+          photos = (response.body/'rsp/photos/photo').map { |p| Photo.new(p) }
+          photos.extend Fleakr::Support::ResultArray
+          photos.attributes = (response.body/'rsp/photos').first.attributes
+          photos
         end
       end
 

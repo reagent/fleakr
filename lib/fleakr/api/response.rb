@@ -19,7 +19,7 @@ module Fleakr
       def body
         @body ||= Hpricot.XML(@response_xml)
       end
-
+      
       # Did the response from the API contain errors?
       def error?
         (self.body/'rsp').attr('stat') != 'ok'
